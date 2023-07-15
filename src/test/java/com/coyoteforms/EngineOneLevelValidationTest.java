@@ -15,7 +15,7 @@ public class EngineOneLevelValidationTest {
     //  [
     //  {
     //    "inputId": "country",
-    //    "condition": "always",
+    //    "condition": [ "always" ],
     //    "permittedValues": ["United Kingdom", "Hungary"]
     //  }
     //  ]
@@ -27,7 +27,7 @@ public class EngineOneLevelValidationTest {
         List<Rule> rules = List.of(
                 Rule.builder()
                         .inputId("country")
-                        .condition("always")
+                        .condition(List.of("always"))
                         .permittedValues(List.of("United Kingdom", "Hungary"))
                         .build());
         engine = new Engine(rules);

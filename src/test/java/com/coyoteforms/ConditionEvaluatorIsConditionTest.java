@@ -7,24 +7,24 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ConditionEvaluatorTwoLevelInputTest {
+public class ConditionEvaluatorIsConditionTest {
 
     //Planned input:
     //
     //  [
     //  {
     //    "inputId": "country",
-    //    "condition": "always",
+    //    "condition": [ "always" ],
     //    "permittedValues": ["United Kingdom", "Hungary"]
     //  },
     //  {
     //    "inputId": "city",
-    //    "condition": "country is 'Hungary'",
+    //    "condition": [ "country is 'Hungary'" ],
     //    "permittedValues": ["Budapest", "Sopron"]
     //  },
     //  {
     //    "inputId": "city",
-    //    "condition": "country is 'United Kingdom'",
+    //    "condition": [ "country is 'United Kingdom'" ],
     //    "permittedValues": ["London"]
     //  }
     //  ]

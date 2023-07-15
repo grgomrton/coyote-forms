@@ -27,9 +27,16 @@ public class Engine {
     public List<String> queryAllowedValues(String inputId, Map<String, String> inputValues) {
         return rules.stream()
                 .filter(rule -> inputId.equals(rule.getInputId()))
-                .filter(rule -> conditionEvaluator.shouldBeIncluded(rule.getCondition(), inputValues))
+                .filter(rule -> allConditionMatches(rule, inputValues))
                 .flatMap(rule -> rule.getPermittedValues().stream())
                 .collect(Collectors.toList());
+    }
+
+    private boolean allConditionMatches(Rule rule, Map<String, String> inputValues) {
+        return rule.getCondition()
+                .stream()
+                .map(operand -> conditionEvaluator.shouldBeIncluded(operand, inputValues))
+                .reduce(true, (prev, cur) -> prev && cur);
     }
 
     /**
