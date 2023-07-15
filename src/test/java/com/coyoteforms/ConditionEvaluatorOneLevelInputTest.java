@@ -6,10 +6,11 @@ import org.junit.jupiter.api.Test;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 public class ConditionEvaluatorOneLevelInputTest {
 
-    //Imaginary input:
+    //Planned input:
     //
     //  [
     //  {
@@ -33,6 +34,12 @@ public class ConditionEvaluatorOneLevelInputTest {
         boolean shouldBeIncluded = conditionEvaluator.shouldBeIncluded("always", singleInputValue);
 
         assertThat(shouldBeIncluded).isTrue();
+    }
+
+    @Test
+    public void malformedConditionShouldThrow() {
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> conditionEvaluator.shouldBeIncluded("Hello", Map.of()));
     }
 
 }
