@@ -13,7 +13,7 @@ public class Rule {
 
     private String inputId;
 
-    private String condition;
+    private List<String> condition;
 
     private List<String> permittedValues;
 

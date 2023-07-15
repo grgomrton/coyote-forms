@@ -8,14 +8,14 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
-public class ConditionEvaluatorOneLevelInputTest {
+public class ConditionEvaluatorAlwaysConditionTest {
 
     //Planned input:
     //
     //  [
     //  {
     //    "inputId": "country",
-    //    "condition": "always",
+    //    "condition": [ "always" ],
     //    "permittedValues": ["United Kingdom", "Hungary"]
     //  }
     //  ]

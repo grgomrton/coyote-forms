@@ -15,17 +15,17 @@ public class EngineTwoLevelQueryTests {
     //  [
     //  {
     //    "inputId": "country",
-    //    "condition": "always",
+    //    "condition": [ "always" ],
     //    "permittedValues": ["United Kingdom", "Hungary"]
     //  },
     //  {
     //    "inputId": "city",
-    //    "condition": "country is 'Hungary'",
+    //    "condition": [ "country is 'Hungary'" ],
     //    "permittedValues": ["Budapest", "Sopron"]
     //  },
     //  {
     //    "inputId": "city",
-    //    "condition": "country is 'United Kingdom'",
+    //    "condition": [ "country is 'United Kingdom'" ],
     //    "permittedValues": ["London"]
     //  }
     //  ]
@@ -37,17 +37,17 @@ public class EngineTwoLevelQueryTests {
         List<Rule> rules = List.of(
                 Rule.builder()
                         .inputId("country")
-                        .condition("always")
+                        .condition(List.of("always"))
                         .permittedValues(List.of("United Kingdom", "Hungary"))
                         .build(),
                 Rule.builder()
                         .inputId("city")
-                        .condition("country is 'Hungary'")
+                        .condition(List.of("country is 'Hungary'"))
                         .permittedValues(List.of("Budapest", "Sopron"))
                         .build(),
                 Rule.builder()
                         .inputId("city")
-                        .condition("country is 'United Kingdom'")
+                        .condition(List.of("country is 'United Kingdom'"))
                         .permittedValues(List.of("London"))
                         .build());
         engine = new Engine(rules);
