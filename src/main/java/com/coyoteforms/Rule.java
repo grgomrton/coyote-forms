@@ -1,4 +1,4 @@
-package com.xvalid;
+package com.coyoteforms;
 
 import lombok.Builder;
 import lombok.Getter;
