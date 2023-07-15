@@ -2,7 +2,7 @@ package com.coyoteforms;
 
 public class ConditionEvaluatorThreeLevelInputTest {
 
-    //Imaginary input:
+    //Planned input:
     //
     //[
     //{
