@@ -22,7 +22,7 @@ public class LocationDtoValidator implements ConstraintValidator<ValidLocation, 
 
     @Override
     public boolean isValid(LocationDto locationDto, ConstraintValidatorContext constraintValidatorContext) {
-        return validator.validate(locationDto).isEmpty(); // todo we lose useful information, the invalid input ids
+        return validator.validate(locationDto).isEmpty(); // we lose useful information, the invalid input ids
     }
 
     private String loadRuleSet() {
