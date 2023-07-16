@@ -3,10 +3,16 @@ package com.coyoteforms.validator;
 import lombok.Builder;
 import lombok.Data;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CoyoteFormValidatorQueryAdditiveRulesTest {
 
@@ -61,7 +67,7 @@ public class CoyoteFormValidatorQueryAdditiveRulesTest {
             "      ]" +
             "    }";
 
-    private static CoyoteFormValidator<SelectedPossibleDestinationCountries> validator;
+    private static CoyoteFormValidator<SelectedCountriesDto> validator;
 
     @BeforeAll
     public static void init() {
@@ -70,16 +76,16 @@ public class CoyoteFormValidatorQueryAdditiveRulesTest {
 
     @Data
     @Builder
-    public static class SelectedPossibleDestinationCountries {
+    public static class SelectedCountriesDto {
 
         List<String> selectedCountryNames;
 
     }
 
-    public static class EveryValuePassingConnector implements Connector<SelectedPossibleDestinationCountries> {
+    public static class EveryValuePassingConnector implements Connector<SelectedCountriesDto> {
 
         @Override
-        public Map<String, String> collectInputValues(SelectedPossibleDestinationCountries selectedCountriesDto) {
+        public Map<String, String> collectInputValues(SelectedCountriesDto selectedCountriesDto) {
             Map<String, String> result = new HashMap<>();
             List<String> selectedCountryNames = selectedCountriesDto.getSelectedCountryNames();
 
@@ -88,6 +94,26 @@ public class CoyoteFormValidatorQueryAdditiveRulesTest {
 
             return result;
         }
+    }
+
+    @ParameterizedTest
+    @MethodSource("selectedCountries")
+    public void validatorShouldCollectValidInput(SelectedCountriesDto selectedCountries, List<String> possibleDestinationCities) {
+        assertThat(validator.queryAllowedValues("city", selectedCountries)).containsExactlyInAnyOrderElementsOf(possibleDestinationCities);
+    }
+
+    private static Stream<Arguments> selectedCountries() {
+        return Stream.of(
+                Arguments.of(SelectedCountriesDto.builder().selectedCountryNames(
+                        List.of("Germany")).build(),
+                        List.of("Munich", "Berlin", "Hamburg")),
+                Arguments.of(SelectedCountriesDto.builder().selectedCountryNames(
+                        List.of()).build(),
+                        List.of()),
+                Arguments.of(SelectedCountriesDto.builder().selectedCountryNames(
+                        List.of("France", "Germany")).build(),
+                        List.of("Paris", "Marseilles", "Berlin", "Munich", "Hamburg"))
+        );
     }
 
 
