@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CoyoteFormValidatorTest {
+public class CoyoteFormValidatorOnlySelectedValuesTest {
 
     //Planned input:
     //  {
@@ -61,7 +61,7 @@ public class CoyoteFormValidatorTest {
 
     @BeforeAll
     public static void init() {
-        validator = new CoyoteFormValidator<>(RULE_SET, new CountryAndCityConnector());
+        validator = new CoyoteFormValidator<>(RULE_SET, new OnlySelectedValuesPassingConnector());
     }
 
     @Data
@@ -74,13 +74,13 @@ public class CoyoteFormValidatorTest {
 
     }
 
-    public static class CountryAndCityConnector implements Connector<LocationDto> {
+    public static class OnlySelectedValuesPassingConnector implements Connector<LocationDto> {
 
         @Override
         public Map<String, String> collectInputValues(LocationDto locationDto) {
             Map<String, String> result = new HashMap<>();
 
-            if (!locationDto.country.isEmpty()) {
+            if (!locationDto.country.isEmpty()) { // we add the value of the input only if it is set
                 result.put("country", locationDto.country);
             }
             if (!locationDto.city.isEmpty()) {
