@@ -1,4 +1,4 @@
-package com.coyoteforms;
+package com.coyoteforms.validator;
 
 import lombok.*;
 
@@ -9,7 +9,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Rule {
+class Rule {
 
     private String inputId;
 

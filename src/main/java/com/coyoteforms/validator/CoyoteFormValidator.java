@@ -1,4 +1,4 @@
-package com.coyoteforms;
+package com.coyoteforms.validator;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,7 +14,7 @@ public class CoyoteFormValidator<T> {
 
     public CoyoteFormValidator(String ruleSet, Connector<T> connector) {
         RuleSet deserializedRuleSet = parseRuleSet(ruleSet);
-        this.engine = new Engine(deserializedRuleSet.rules);
+        this.engine = new Engine(deserializedRuleSet.getRules());
         this.connector = connector;
     }
 

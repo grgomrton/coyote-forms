@@ -1,4 +1,4 @@
-package com.coyoteforms;
+package com.coyoteforms.validator;
 
 import lombok.Builder;
 import lombok.Data;
