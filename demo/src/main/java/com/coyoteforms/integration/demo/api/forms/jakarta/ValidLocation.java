@@ -9,6 +9,9 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * This is a custom annotation that is used to bind the actual validator to a particular object
+ */
 @Target({ METHOD, FIELD, PARAMETER })
 @Retention(RUNTIME)
 @Constraint(validatedBy = LocationDtoValidator.class)

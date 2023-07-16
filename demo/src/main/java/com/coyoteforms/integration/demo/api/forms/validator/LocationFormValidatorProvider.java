@@ -1,7 +1,6 @@
 package com.coyoteforms.integration.demo.api.forms.validator;
 
 import com.coyoteforms.integration.demo.api.forms.dto.LocationDto;
-import com.coyoteforms.integration.demo.api.forms.validator.Connector;
 import com.coyoteforms.validator.CoyoteFormValidator;
 
 import java.io.IOException;
@@ -9,6 +8,9 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+/**
+ *  Build and provide Coyote Forms validator validating the LocationDto.
+ */
 public class LocationFormValidatorProvider {
 
     private static final String LOCATION_DTO_VALIDATOR_RULE_SET = "LocationFormRuleSet.json";

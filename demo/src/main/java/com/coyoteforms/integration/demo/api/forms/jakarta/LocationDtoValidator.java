@@ -6,6 +6,10 @@ import com.coyoteforms.validator.CoyoteFormValidator;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
+
+/**
+ * This is the custom validator implementation that uses Coyote Forms validator to assert the fields
+ */
 public class LocationDtoValidator implements ConstraintValidator<ValidLocation, LocationDto> {
 
     private CoyoteFormValidator<LocationDto> validator;
@@ -17,7 +21,7 @@ public class LocationDtoValidator implements ConstraintValidator<ValidLocation, 
 
     @Override
     public boolean isValid(LocationDto locationDto, ConstraintValidatorContext constraintValidatorContext) {
-        return validator.validate(locationDto).isEmpty(); // we lose useful information: the invalid input ids
+        return validator.validate(locationDto).isEmpty();
     }
 
 }

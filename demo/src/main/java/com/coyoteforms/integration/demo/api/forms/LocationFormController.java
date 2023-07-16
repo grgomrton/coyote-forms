@@ -19,14 +19,28 @@ public class LocationFormController {
         validator = LocationFormValidatorProvider.get();
     }
 
+    /**
+     * Assist the front-end with list of allowed values for a particular input field.
+     * Here the LocationDto is not validated, therefore input values can be acquired for fields in a
+     * partially filled form state.
+     *
+     * @param inputId
+     * @param inputValues
+     * @return
+     */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{inputId}/allowedValues")
-    // here the LocationDto is not validated, so we can acquire input values for fields in partially filled form state
     public List<String> queryAllowedValues(@PathParam("inputId") String inputId, LocationDto inputValues) {
         return validator.queryAllowedValues(inputId, inputValues);
     }
 
+    /**
+     * Save a selected location. Here, the dto is validated, and 400 is returned on validation failure,
+     * while 201 is returned on successful validation.
+     * @param selectedLocation
+     * @return
+     */
     @POST
     @Path("/save")
     public Response saveLocation(@ValidLocation LocationDto selectedLocation) {
