@@ -1,12 +1,11 @@
 package com.coyoteforms.integration.demo.api.forms.validator;
 
 import com.coyoteforms.integration.demo.api.forms.dto.LocationDto;
-import com.coyoteforms.validator.Connector;
 
 import java.util.Map;
 import java.util.Optional;
 
-public class FormConnector implements Connector<LocationDto> {
+public class Connector implements com.coyoteforms.validator.Connector<LocationDto> {
 
     @Override
     public Map<String, String> collectInputValues(LocationDto obj) {
