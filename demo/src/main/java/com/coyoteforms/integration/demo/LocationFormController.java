@@ -11,12 +11,12 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-@Path("api/validation/location-form")
-public class LocationValidationController {
+@Path("api/forms/location-form")
+public class LocationFormController {
 
     private CoyoteFormValidator<LocationDto> validator;
 
-    public LocationValidationController() {
+    public LocationFormController() {
         String ruleSet = loadRuleSet();
         validator = new CoyoteFormValidator<>(ruleSet, new FormConnector());
     }

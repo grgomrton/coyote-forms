@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class LocationValidationControllerTest {
+public class LocationFormControllerTest {
 
     private HttpServer server;
     private WebTarget target;
