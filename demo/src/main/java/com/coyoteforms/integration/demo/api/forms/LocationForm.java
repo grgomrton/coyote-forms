@@ -13,11 +13,11 @@ import jakarta.ws.rs.core.Response;
 import java.util.List;
 
 @Path("api/forms/location")
-public class FormController {
+public class LocationForm {
 
     private CoyoteFormValidator<Location> validator;
 
-    public FormController() {
+    public LocationForm() {
         validator = ValidatorProvider.get();
     }
 
@@ -32,7 +32,7 @@ public class FormController {
      */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/input/{inputId}/allowedValues")
+    @Path("/inputs/{inputId}/allowedValues")
     public Response queryAllowedValues(@PathParam("inputId") String inputId, Location inputValues) {
         return Response
                 .status(Response.Status.OK)

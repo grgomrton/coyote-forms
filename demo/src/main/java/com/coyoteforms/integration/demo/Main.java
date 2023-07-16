@@ -9,7 +9,7 @@ import java.net.URI;
 
 /**
  * Main class.
- *
+ * Generated using the maven archetype.
  */
 public class Main {
     // Base URI the Grizzly HTTP server will listen on
