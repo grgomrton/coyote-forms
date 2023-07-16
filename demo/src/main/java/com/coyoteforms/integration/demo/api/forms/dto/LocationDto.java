@@ -1,4 +1,4 @@
-package com.coyoteforms.integration.demo.dto;
+package com.coyoteforms.integration.demo.api.forms.dto;
 
 import lombok.Data;
 

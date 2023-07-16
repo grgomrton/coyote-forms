@@ -1,6 +1,6 @@
-package com.coyoteforms.integration.demo;
+package com.coyoteforms.integration.demo.api.forms.validator;
 
-import com.coyoteforms.integration.demo.dto.LocationDto;
+import com.coyoteforms.integration.demo.api.forms.dto.LocationDto;
 import com.coyoteforms.validator.Connector;
 
 import java.util.Map;

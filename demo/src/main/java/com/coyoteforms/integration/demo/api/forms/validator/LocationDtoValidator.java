@@ -1,8 +1,6 @@
-package com.coyoteforms.integration.demo.validator;
+package com.coyoteforms.integration.demo.api.forms.validator;
 
-import com.coyoteforms.integration.demo.FormConnector;
-import com.coyoteforms.integration.demo.ValidLocation;
-import com.coyoteforms.integration.demo.dto.LocationDto;
+import com.coyoteforms.integration.demo.api.forms.dto.LocationDto;
 import com.coyoteforms.validator.CoyoteFormValidator;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
