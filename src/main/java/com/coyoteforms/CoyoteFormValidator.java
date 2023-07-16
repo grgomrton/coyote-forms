@@ -1,5 +1,7 @@
 package com.coyoteforms;
 
+import com.coyoteforms.internal.Engine;
+import com.coyoteforms.internal.RuleSet;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
