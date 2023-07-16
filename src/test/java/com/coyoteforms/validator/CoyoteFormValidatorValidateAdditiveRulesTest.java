@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CoyoteFormValidatorQueryAdditiveRulesTest {
+public class CoyoteFormValidatorValidateAdditiveRulesTest {
 
     //Planned input:
     //{
@@ -67,7 +67,7 @@ public class CoyoteFormValidatorQueryAdditiveRulesTest {
             "      ]" +
             "    }";
 
-    private static CoyoteFormValidator<SelectedCountriesDto> validator;
+    private static CoyoteFormValidator<SelectedCountriesAndCityDto> validator;
 
     @BeforeAll
     public static void init() {
@@ -76,45 +76,76 @@ public class CoyoteFormValidatorQueryAdditiveRulesTest {
 
     @Data
     @Builder
-    public static class SelectedCountriesDto {
+    public static class SelectedCountriesAndCityDto {
 
         private List<String> selectedCountryNames;
 
+        private String city;
+
     }
 
-    public static class EveryValuePassingConnector implements Connector<SelectedCountriesDto> {
+    public static class EveryValuePassingConnector implements Connector<SelectedCountriesAndCityDto> {
 
         @Override
-        public Map<String, String> collectInputValues(SelectedCountriesDto selectedCountriesDto) {
+        public Map<String, String> collectInputValues(SelectedCountriesAndCityDto selectedCountriesAndCityDto) {
             Map<String, String> result = new HashMap<>();
-            List<String> selectedCountryNames = selectedCountriesDto.getSelectedCountryNames();
+            List<String> selectedCountryNames = selectedCountriesAndCityDto.getSelectedCountryNames();
 
             result.put("franceCheckbox", selectedCountryNames.contains("France") ? "checked" : "unchecked");
             result.put("germanyCheckbox", selectedCountryNames.contains("Germany") ? "checked" : "unchecked");
+
+            result.put("city", selectedCountriesAndCityDto.getCity());
 
             return result;
         }
     }
 
     @ParameterizedTest
-    @MethodSource("selectedCountries")
-    public void validatorShouldCollectValidInput(SelectedCountriesDto selectedCountries, List<String> possibleDestinationCities) {
-        assertThat(validator.queryAllowedValues("city", selectedCountries)).containsExactlyInAnyOrderElementsOf(possibleDestinationCities);
+    @MethodSource("invalidSelections")
+    public void validatorShouldCatchInvalidInput(SelectedCountriesAndCityDto selection, List<String> invalidInputIds) {
+        assertThat(validator.validate(selection)).containsExactlyInAnyOrderElementsOf(invalidInputIds);
     }
 
-    private static Stream<Arguments> selectedCountries() {
+    @ParameterizedTest
+    @MethodSource("validSelections")
+    public void validatorShouldPassValidInput(SelectedCountriesAndCityDto selection) {
+        assertThat(validator.validate(selection)).isEmpty();
+    }
+
+    private static Stream<Arguments> invalidSelections() {
         return Stream.of(
-                Arguments.of(SelectedCountriesDto.builder().selectedCountryNames(
-                        List.of("Germany")).build(),
-                        List.of("Munich", "Berlin", "Hamburg")),
-                Arguments.of(SelectedCountriesDto.builder().selectedCountryNames(
-                        List.of()).build(),
-                        List.of()),
-                Arguments.of(SelectedCountriesDto.builder().selectedCountryNames(
-                        List.of("France", "Germany")).build(),
-                        List.of("Paris", "Marseilles", "Berlin", "Munich", "Hamburg"))
+                Arguments.of(SelectedCountriesAndCityDto.builder()
+                                .selectedCountryNames(List.of("France"))
+                                .city("Berlin").build(),
+                        List.of("city")),
+                Arguments.of(SelectedCountriesAndCityDto.builder()
+                                .selectedCountryNames(List.of())
+                                .city("").build(),
+                        List.of("city")),
+                Arguments.of(SelectedCountriesAndCityDto.builder()
+                                .selectedCountryNames(List.of("France", "Germany"))
+                                .city("Budapest")
+                                .build(),
+                        List.of("city"))
         );
     }
 
+    private static Stream<Arguments> validSelections() {
+        return Stream.of(
+                Arguments.of(SelectedCountriesAndCityDto.builder()
+                                .selectedCountryNames(List.of("Germany"))
+                                .city("Munich")
+                                .build()
+                ),
+                Arguments.of(SelectedCountriesAndCityDto.builder()
+                                .selectedCountryNames(List.of("Germany", "France"))
+                                .city("Paris").build()
+                ),
+                Arguments.of(SelectedCountriesAndCityDto.builder()
+                        .selectedCountryNames(List.of("Germany", "France"))
+                        .city("Berlin").build()
+                )
+        );
+    }
 
 }
