@@ -8,6 +8,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -61,22 +62,6 @@ public class CoyoteFormValidatorTest {
     @BeforeAll
     public static void init() {
         validator = new CoyoteFormValidator<>(ruleSet, new CountryAndCityConnector());
-
-    }
-
-    @ParameterizedTest
-    @MethodSource("validSelections")
-    public void validatorShouldAcceptValidInput(LocationDto selectedLocation) {
-        assertThat(validator.validate(selectedLocation)).isEmpty();
-    }
-
-    private static Stream<Arguments> validSelections() {
-        return Stream.of(
-                Arguments.of(LocationDto.builder().country("Hungary").city("Budapest").build()),
-                Arguments.of(LocationDto.builder().country("United Kingdom").city("London").build()),
-                // we assume that the parser during an http call will set empty string into non-present input field
-                Arguments.of(LocationDto.builder().country("United Kingdom").city("").build())
-        );
     }
 
     @Data
@@ -105,4 +90,37 @@ public class CoyoteFormValidatorTest {
             return result;
         }
     }
+
+    @ParameterizedTest
+    @MethodSource("validSelections")
+    public void validatorShouldAcceptValidInput(LocationDto selectedLocation) {
+        assertThat(validator.validate(selectedLocation)).isEmpty();
+    }
+
+    @ParameterizedTest
+    @MethodSource("invalidSelections")
+    public void validatorShouldCatchInvalidInput(LocationDto selectedLocation, List<String> invalidInputIds) {
+
+    }
+
+    private static Stream<Arguments> validSelections() {
+        return Stream.of(
+                Arguments.of(LocationDto.builder().country("Hungary").city("Budapest").build()),
+                Arguments.of(LocationDto.builder().country("United Kingdom").city("London").build()),
+                // we assume that the parser during an http call will set empty string into non-present input field
+                Arguments.of(LocationDto.builder().country("United Kingdom").city("").build()),
+                // we again expect emtpy string in case of missing input by dto parser
+                Arguments.of(LocationDto.builder().country("").city("").build())
+        );
+    }
+
+    private static Stream<Arguments> invalidSelections() {
+        return Stream.of(
+                Arguments.of(LocationDto.builder().country("Hungary").city("Debrecen").build(), List.of("city")),
+                Arguments.of(LocationDto.builder().country("United Kingdom").city("Glasgow").build(), List.of("city")),
+                Arguments.of(LocationDto.builder().country("Abc").city("").build(), List.of("country")),
+                Arguments.of(LocationDto.builder().country("").city("Budapest").build(), List.of("country", "city"))
+        );
+    }
+
 }
