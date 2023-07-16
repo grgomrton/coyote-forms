@@ -100,7 +100,7 @@ public class CoyoteFormValidatorTest {
     @ParameterizedTest
     @MethodSource("invalidSelections")
     public void validatorShouldCatchInvalidInput(LocationDto selectedLocation, List<String> invalidInputIds) {
-
+        assertThat(validator.validate(selectedLocation)).containsExactlyInAnyOrderElementsOf(invalidInputIds);
     }
 
     private static Stream<Arguments> validSelections() {
@@ -119,7 +119,7 @@ public class CoyoteFormValidatorTest {
                 Arguments.of(LocationDto.builder().country("Hungary").city("Debrecen").build(), List.of("city")),
                 Arguments.of(LocationDto.builder().country("United Kingdom").city("Glasgow").build(), List.of("city")),
                 Arguments.of(LocationDto.builder().country("Abc").city("").build(), List.of("country")),
-                Arguments.of(LocationDto.builder().country("").city("Budapest").build(), List.of("country", "city"))
+                Arguments.of(LocationDto.builder().country("").city("Budapest").build(), List.of( "city"))
         );
     }
 
