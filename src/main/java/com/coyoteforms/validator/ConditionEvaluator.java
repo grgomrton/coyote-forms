@@ -1,4 +1,4 @@
-package com.coyoteforms.internal;
+package com.coyoteforms.validator;
 
 import java.util.Map;
 import java.util.regex.Matcher;

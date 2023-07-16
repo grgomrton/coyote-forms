@@ -1,6 +1,5 @@
-package com.coyoteforms.internal;
+package com.coyoteforms.validator;
 
-import com.coyoteforms.internal.ConditionEvaluator;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

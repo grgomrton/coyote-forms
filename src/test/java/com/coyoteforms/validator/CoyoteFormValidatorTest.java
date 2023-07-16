@@ -1,7 +1,5 @@
-package com.coyoteforms.internal;
+package com.coyoteforms.validator;
 
-import com.coyoteforms.internal.Connector;
-import com.coyoteforms.internal.CoyoteFormValidator;
 import lombok.Builder;
 import lombok.Data;
 import org.junit.jupiter.api.BeforeAll;

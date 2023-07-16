@@ -1,4 +1,4 @@
-package com.coyoteforms.internal;
+package com.coyoteforms.validator;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

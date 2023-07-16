@@ -1,4 +1,4 @@
-package com.coyoteforms.internal;
+package com.coyoteforms.validator;
 
 import java.util.List;
 import java.util.Map;
