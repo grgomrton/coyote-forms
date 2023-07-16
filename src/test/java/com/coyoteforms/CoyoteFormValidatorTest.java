@@ -1,11 +1,17 @@
 package com.coyoteforms;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import lombok.Builder;
 import lombok.Data;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CoyoteFormValidatorTest {
 
@@ -50,12 +56,31 @@ public class CoyoteFormValidatorTest {
             "  ]\n" +
             "}\n";
 
-    @Test
-    public void validatorShouldParseInputRuleSet() throws JsonProcessingException {
-        new CoyoteFormValidator<>(ruleSet, new CountryAndCityConnector());
+    private static CoyoteFormValidator<LocationDto> validator;
+
+    @BeforeAll
+    public static void init() {
+        validator = new CoyoteFormValidator<>(ruleSet, new CountryAndCityConnector());
+
+    }
+
+    @ParameterizedTest
+    @MethodSource("validSelections")
+    public void validatorShouldAcceptValidInput(LocationDto selectedLocation) {
+        assertThat(validator.validate(selectedLocation)).isEmpty();
+    }
+
+    private static Stream<Arguments> validSelections() {
+        return Stream.of(
+                Arguments.of(LocationDto.builder().country("Hungary").city("Budapest").build()),
+                Arguments.of(LocationDto.builder().country("United Kingdom").city("London").build()),
+                // we assume that the parser during an http call will set empty string into non-present input field
+                Arguments.of(LocationDto.builder().country("United Kingdom").city("").build())
+        );
     }
 
     @Data
+    @Builder
     public static class LocationDto {
 
         private String country;
