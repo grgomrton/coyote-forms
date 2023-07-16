@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 @Builder
-public class InvalidInputIdListResponse {
+public class InvalidInputIds {
 
     public List<String> invalidInputIds;
 

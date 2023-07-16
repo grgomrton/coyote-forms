@@ -1,9 +1,9 @@
 package com.coyoteforms.integration.demo.api.forms;
 
-import com.coyoteforms.integration.demo.api.forms.model.InvalidInputIdListResponse;
+import com.coyoteforms.integration.demo.api.forms.model.InvalidInputIds;
 import com.coyoteforms.integration.demo.api.forms.model.Location;
 import com.coyoteforms.integration.demo.api.forms.jakarta.ValidLocation;
-import com.coyoteforms.integration.demo.api.forms.validator.LocationFormValidatorProvider;
+import com.coyoteforms.integration.demo.api.forms.validator.ValidatorProvider;
 import com.coyoteforms.validator.CoyoteFormValidator;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -12,12 +12,12 @@ import jakarta.ws.rs.core.Response;
 import java.util.List;
 
 @Path("api/forms/location")
-public class LocationFormController {
+public class FormController {
 
     private CoyoteFormValidator<Location> validator;
 
-    public LocationFormController() {
-        validator = LocationFormValidatorProvider.get();
+    public FormController() {
+        validator = ValidatorProvider.get();
     }
 
     /**
@@ -50,7 +50,7 @@ public class LocationFormController {
         if (!invalidInputIds.isEmpty()) {
             return Response
                     .status(Response.Status.BAD_REQUEST)
-                    .entity(InvalidInputIdListResponse.builder().invalidInputIds(invalidInputIds).build())
+                    .entity(InvalidInputIds.builder().invalidInputIds(invalidInputIds).build())
                     .build();
         } else {
             return Response.status(Response.Status.OK).build();
@@ -67,7 +67,7 @@ public class LocationFormController {
     @POST
     @Path("/save")
     public Response saveLocation(@ValidLocation Location selectedLocation) {
-        return Response.status(Response.Status.CREATED).build(); // send created if passed validation
+        return Response.status(Response.Status.CREATED).build(); // sends created if passed validation
     }
 
 }

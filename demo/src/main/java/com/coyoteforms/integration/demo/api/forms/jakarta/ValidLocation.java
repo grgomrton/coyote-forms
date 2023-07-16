@@ -10,11 +10,11 @@ import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * This is a custom annotation that is used to bind the actual validator to a particular object
+ * This is a custom annotation that is used to bind the actual validator to a particular object.
  */
 @Target({ METHOD, FIELD, PARAMETER })
 @Retention(RUNTIME)
-@Constraint(validatedBy = LocationDtoValidator.class)
+@Constraint(validatedBy = ValidLocationImpl.class)
 public @interface ValidLocation {
 
     String message() default "Invalid value";
