@@ -1,9 +1,9 @@
-package com.coyoteforms.integration.demo.api.forms.dto;
+package com.coyoteforms.integration.demo.api.forms.model;
 
 import lombok.Data;
 
 @Data
-public class LocationDto {
+public class Location {
 
     private String region;
 

@@ -1,6 +1,6 @@
 package com.coyoteforms.integration.demo.api.forms.validator;
 
-import com.coyoteforms.integration.demo.api.forms.dto.LocationDto;
+import com.coyoteforms.integration.demo.api.forms.model.Location;
 
 import java.util.Map;
 import java.util.Optional;
@@ -8,10 +8,10 @@ import java.util.Optional;
 /**
  * This class maps the fields of the dto to the keys and values of the input values Map.
  */
-public class Connector implements com.coyoteforms.validator.Connector<LocationDto> {
+public class Connector implements com.coyoteforms.validator.Connector<Location> {
 
     @Override
-    public Map<String, String> collectInputValues(LocationDto obj) {
+    public Map<String, String> collectInputValues(Location obj) {
         return Map.of(
                 "region", getValueOrEmptyStringIfNull(obj.getRegion()),
                 "country", getValueOrEmptyStringIfNull(obj.getCountry()),

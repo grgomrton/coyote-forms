@@ -1,7 +1,7 @@
 package com.coyoteforms.integration.demo.api.forms.jakarta;
 
 import com.coyoteforms.integration.demo.api.forms.validator.LocationFormValidatorProvider;
-import com.coyoteforms.integration.demo.api.forms.dto.LocationDto;
+import com.coyoteforms.integration.demo.api.forms.model.Location;
 import com.coyoteforms.validator.CoyoteFormValidator;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -10,9 +10,9 @@ import jakarta.validation.ConstraintValidatorContext;
 /**
  * This is the custom validator implementation that uses Coyote Forms validator to assert the fields
  */
-public class LocationDtoValidator implements ConstraintValidator<ValidLocation, LocationDto> {
+public class LocationDtoValidator implements ConstraintValidator<ValidLocation, Location> {
 
-    private CoyoteFormValidator<LocationDto> validator;
+    private CoyoteFormValidator<Location> validator;
 
     @Override
     public void initialize(ValidLocation constraintAnnotation) {
@@ -20,8 +20,8 @@ public class LocationDtoValidator implements ConstraintValidator<ValidLocation, 
     }
 
     @Override
-    public boolean isValid(LocationDto locationDto, ConstraintValidatorContext constraintValidatorContext) {
-        return validator.validate(locationDto).isEmpty();
+    public boolean isValid(Location location, ConstraintValidatorContext constraintValidatorContext) {
+        return validator.validate(location).isEmpty();
     }
 
 }

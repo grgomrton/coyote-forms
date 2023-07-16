@@ -1,6 +1,6 @@
 package com.coyoteforms.integration.demo.api.forms.validator;
 
-import com.coyoteforms.integration.demo.api.forms.dto.LocationDto;
+import com.coyoteforms.integration.demo.api.forms.model.Location;
 import com.coyoteforms.validator.CoyoteFormValidator;
 
 import java.io.IOException;
@@ -13,10 +13,10 @@ import java.nio.file.Paths;
  */
 public class LocationFormValidatorProvider {
 
-    private static final String LOCATION_DTO_VALIDATOR_RULE_SET = "LocationFormRuleSet.json";
-    private static CoyoteFormValidator<LocationDto> LOCATION_DTO_VALIDATOR_INSTANCE;
+    private static final String LOCATION_DTO_VALIDATOR_RULE_SET = "RuleSet.json";
+    private static CoyoteFormValidator<Location> LOCATION_DTO_VALIDATOR_INSTANCE;
 
-    public static CoyoteFormValidator<LocationDto> get() {
+    public static CoyoteFormValidator<Location> get() {
         synchronized (LOCATION_DTO_VALIDATOR_RULE_SET) {
             if (LOCATION_DTO_VALIDATOR_INSTANCE == null) {
                 String ruleSet = loadRuleSet();
