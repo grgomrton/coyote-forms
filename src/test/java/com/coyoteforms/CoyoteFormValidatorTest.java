@@ -37,31 +37,31 @@ public class CoyoteFormValidatorTest {
     //    ]
     //  }
 
-    private static String ruleSet = "  {\n" +
-            "  \"rules\": [\n" +
-            "    {\n" +
-            "    \"inputId\": \"country\",\n" +
-            "    \"condition\": [ \"always\" ],\n" +
-            "    \"permittedValues\": [\"United Kingdom\", \"Hungary\"]\n" +
-            "    },\n" +
-            "    {\n" +
-            "    \"inputId\": \"city\",\n" +
-            "    \"condition\": [ \"country is 'Hungary'\" ],\n" +
-            "    \"permittedValues\": [\"Budapest\", \"Sopron\"]\n" +
-            "    },\n" +
-            "    {\n" +
-            "    \"inputId\": \"city\",\n" +
-            "    \"condition\": [ \"country is 'United Kingdom'\" ],\n" +
-            "    \"permittedValues\": [\"London\"]\n" +
-            "    }\n" +
-            "  ]\n" +
-            "}\n";
+    private static String RULE_SET = "  {" +
+            "  \"rules\": [" +
+            "    {" +
+            "    \"inputId\": \"country\"," +
+            "    \"condition\": [ \"always\" ]," +
+            "    \"permittedValues\": [\"United Kingdom\", \"Hungary\"]" +
+            "    }," +
+            "    {" +
+            "    \"inputId\": \"city\"," +
+            "    \"condition\": [ \"country is 'Hungary'\" ]," +
+            "    \"permittedValues\": [\"Budapest\", \"Sopron\"]" +
+            "    }," +
+            "    {" +
+            "    \"inputId\": \"city\"," +
+            "    \"condition\": [ \"country is 'United Kingdom'\" ]," +
+            "    \"permittedValues\": [\"London\"]" +
+            "    }" +
+            "  ]" +
+            "}";
 
     private static CoyoteFormValidator<LocationDto> validator;
 
     @BeforeAll
     public static void init() {
-        validator = new CoyoteFormValidator<>(ruleSet, new CountryAndCityConnector());
+        validator = new CoyoteFormValidator<>(RULE_SET, new CountryAndCityConnector());
     }
 
     @Data
