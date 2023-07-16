@@ -33,7 +33,7 @@ public class EngineTwoLevelValidationTest {
     private static Engine engine;
 
     @BeforeAll
-    private static void init() {
+    public static void init() {
         List<Rule> rules = List.of(
                 Rule.builder()
                         .inputId("country")
