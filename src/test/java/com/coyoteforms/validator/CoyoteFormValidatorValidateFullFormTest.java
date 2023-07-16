@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CoyoteFormValidatorFullFormTest {
+public class CoyoteFormValidatorValidateFullFormTest {
 
     private static String RULE_SET = "  {" +
             "  \"rules\": [" +
