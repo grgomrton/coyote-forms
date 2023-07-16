@@ -3,6 +3,7 @@ package com.coyoteforms.integration.demo.api.forms;
 import com.coyoteforms.integration.demo.api.forms.model.InvalidInputIds;
 import com.coyoteforms.integration.demo.api.forms.model.Location;
 import com.coyoteforms.integration.demo.api.forms.jakarta.ValidLocation;
+import com.coyoteforms.integration.demo.api.forms.model.AllowedValues;
 import com.coyoteforms.integration.demo.api.forms.validator.ValidatorProvider;
 import com.coyoteforms.validator.CoyoteFormValidator;
 import jakarta.ws.rs.*;
@@ -32,8 +33,13 @@ public class FormController {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/input/{inputId}/allowedValues")
-    public List<String> queryAllowedValues(@PathParam("inputId") String inputId, Location inputValues) {
-        return validator.queryAllowedValues(inputId, inputValues);
+    public Response queryAllowedValues(@PathParam("inputId") String inputId, Location inputValues) {
+        return Response
+                .status(Response.Status.OK)
+                .entity(AllowedValues.builder()
+                        .allowedValues(validator.queryAllowedValues(inputId, inputValues))
+                        .build())
+                .build();
     }
 
     /**
