@@ -2,6 +2,7 @@ package com.coyoteforms.example.dto;
 
 import com.coyoteforms.example.validation.ValidLocation;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 @Data
 @ValidLocation
@@ -11,6 +12,7 @@ public class LocationDto {
 
     private String country;
 
+    @Length(min = 5, max = 255)
     private String city;
 
 }

@@ -2,9 +2,7 @@ package com.coyoteforms.example.validation;
 
 import com.coyoteforms.example.dto.LocationDto;
 import com.coyoteforms.validator.CoyoteFormValidator;
-import org.hibernate.validator.constraintvalidation.HibernateConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -20,13 +18,13 @@ public class LocationDtoValidator implements ConstraintValidator<ValidLocation, 
     }
 
     @Override
-    public void initialize(ValidLocation constraintAnnotation) { }
-
-    @Override
     public boolean isValid(LocationDto location, ConstraintValidatorContext context) {
         List<String> invalidInputIds = validator.validate(location);
-        HibernateConstraintValidatorContext hibernateContext = context.unwrap(HibernateConstraintValidatorContext.class);
-        invalidInputIds.forEach(inputId -> hibernateContext.addMessageParameter("inputId", inputId));
+        context.disableDefaultConstraintViolation();
+        invalidInputIds.forEach(inputId -> context.buildConstraintViolationWithTemplate("Invalid value")
+                .addPropertyNode(inputId)
+                .addConstraintViolation()
+        );
         return invalidInputIds.isEmpty();
     }
 
