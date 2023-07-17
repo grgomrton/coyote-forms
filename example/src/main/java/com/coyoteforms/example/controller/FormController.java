@@ -3,11 +3,12 @@ package com.coyoteforms.example.controller;
 import com.coyoteforms.example.dto.LocationDto;
 import com.coyoteforms.validator.CoyoteFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Service
+@RestController
+@RequestMapping("/api/forms/location-form")
 public class FormController {
 
     private CoyoteFormValidator<LocationDto> validator;
@@ -17,8 +18,9 @@ public class FormController {
         this.validator = validator;
     }
 
-//    public List<String> queryAllowedValues(String inputId, LocationDto inputValues) {
-//
-//    }
+    @PostMapping(path = "/inputs/{inputId}/allowed-values")
+    public List<String> queryAllowedValues(@PathVariable String inputId, LocationDto inputValues) {
+        return validator.queryAllowedValues(inputId, inputValues);
+    }
 
 }
