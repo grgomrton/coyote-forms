@@ -50,12 +50,9 @@
         if (alertConfiguration.isOpen) {
           if (alertConfiguration.success) {
             return (<Alert severity="success">Location saved</Alert>);
-          } else {
-            return alertConfiguration.errors.map((error) => <Alert severity="error">{error.reason} {error.fieldId}</Alert>)
           }
-         } else {
-          return (<div></div>);
-         }
+        }
+        return (<div></div>);
       }
 
       function App() {
@@ -84,31 +81,27 @@
              .catch(function (error) { console.error(error) }
            )}, [selectedRegion, selectedCountry]);
 
-        const handleChangeOfRegion = (event) => {
-          setSelectedRegion(event.target.value);
-          console.log(event);
-        }
+        const handleChangeOfRegion = (event) => setSelectedRegion(event.target.value);
+        const handleChangeOfCountry = (event) => setSelectedCountry(event.target.value);
+        const handleChangeOfCity = (event) => setSelectedCity(event.target.value);
 
-        const handleChangeOfCountry = (event) => {
-          setSelectedCountry(event.target.value);
-          console.log(event);
-        }
-
-        const handleChangeOfCity = (event) => {
-          setSelectedCity(event.target.value);
-          console.log(event);
-        }
+        const isValid = (testedFieldId) =>
+            alertConfiguration.errors.filter((error) => error.fieldId === testedFieldId).length === 0;
 
         const saveLocation = (event) => {
           axios.post('http://localhost:8080/api/forms/location-form', collectInputValues())
-              .then(function (response) { setAlertConfiguration({isOpen: true, success: true, errors: []}) })
-              .catch(function(error) { console.log(error); setAlertConfiguration({isOpen: true, success: false, errors: error.response.data.invalidFields }); })
+              .then(function (response) {
+                  setAlertConfiguration({isOpen: true, success: true, errors: []})
+              })
+              .catch(function(error) {
+                  setAlertConfiguration({isOpen: false, success: false, errors: error.response.data.invalidFields });
+              })
         }
 
         return (
           <div>
             <AlertBar {...alertConfiguration} />
-            <FormControl sx={{ m: 1, minWidth: 150 }}>
+            <FormControl sx={{ m: 1, minWidth: 150 }} error={!isValid("region")}>
               <InputLabel id="region">Region</InputLabel>
               <Select
                 labelId="region-label"
@@ -120,7 +113,7 @@
                 { allowedRegions.map((region) => <MenuItem key={region} value={region}>{region}</MenuItem>) }
               </Select>
             </FormControl>
-            <FormControl sx={{ m: 1, minWidth: 150 }}>
+            <FormControl sx={{ m: 1, minWidth: 150 }} error={!isValid("country")}>
               <InputLabel id="country">Country</InputLabel>
               <Select
                 labelId="country-label"
@@ -132,7 +125,7 @@
                 { allowedCountries.map((country) => <MenuItem key={country} value={country}>{country}</MenuItem>) }
               </Select>
             </FormControl>
-            <FormControl sx={{ m: 1, minWidth: 150 }}>
+            <FormControl sx={{ m: 1, minWidth: 150 }} error={!isValid("city")}>
               <InputLabel id="city">City</InputLabel>
               <Select
                 labelId="city-label"
@@ -144,7 +137,7 @@
                 { allowedCities.map((city) => <MenuItem key={city} value={city}>{city}</MenuItem>) }
               </Select>
             </FormControl>
-            <Button variant="contained" onClick={saveLocation}>Save</Button>
+            <Button sx={{ m: 2, minWidth: 100 }} variant="contained" onClick={saveLocation}>Save</Button>
           </div>
         );
       }
