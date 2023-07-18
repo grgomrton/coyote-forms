@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/forms/location-form")
+@CrossOrigin(originPatterns = "http://localhost:[*]")
 public class FormController {
 
     private CoyoteFormValidator<LocationDto> validator;
