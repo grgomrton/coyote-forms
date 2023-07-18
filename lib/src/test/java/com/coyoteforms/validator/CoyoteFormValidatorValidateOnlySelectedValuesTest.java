@@ -38,7 +38,7 @@ public class CoyoteFormValidatorValidateOnlySelectedValuesTest {
     //  }
 
     private static String RULE_SET = "  {" +
-            "  \"rules\": [" +
+            "  \"discreteValueRules\": [" +
             "    {" +
             "    \"inputId\": \"country\"," +
             "    \"condition\": [ \"always\" ]," +

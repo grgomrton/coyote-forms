@@ -9,7 +9,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-class Rule {
+class DiscreteRule {
 
     private String inputId;
 

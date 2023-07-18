@@ -43,7 +43,7 @@ public class CoyoteFormValidatorValidateAdditiveRulesTest {
     //}
 
     private static String RULE_SET = "    {" +
-            "      \"rules\": [" +
+            "      \"discreteValueRules\": [" +
             "        {" +
             "          \"inputId\": \"franceCheckbox\"," +
             "          \"condition\": [ \"always\" ]," +

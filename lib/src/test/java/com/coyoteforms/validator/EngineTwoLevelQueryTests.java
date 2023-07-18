@@ -34,23 +34,23 @@ public class EngineTwoLevelQueryTests {
 
     @BeforeAll
     public static void init() {
-        List<Rule> rules = List.of(
-                Rule.builder()
+        List<DiscreteRule> rules = List.of(
+                DiscreteRule.builder()
                         .inputId("country")
                         .condition(List.of("always"))
                         .permittedValues(List.of("United Kingdom", "Hungary"))
                         .build(),
-                Rule.builder()
+                DiscreteRule.builder()
                         .inputId("city")
                         .condition(List.of("country is 'Hungary'"))
                         .permittedValues(List.of("Budapest", "Sopron"))
                         .build(),
-                Rule.builder()
+                DiscreteRule.builder()
                         .inputId("city")
                         .condition(List.of("country is 'United Kingdom'"))
                         .permittedValues(List.of("London"))
                         .build());
-        engine = new Engine(rules);
+        engine = new Engine(RuleSet.builder().discreteValueRules(rules).build());
     }
 
     @Test
