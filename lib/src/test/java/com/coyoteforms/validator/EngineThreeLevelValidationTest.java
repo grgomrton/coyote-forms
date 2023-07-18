@@ -15,6 +15,7 @@ public class EngineThreeLevelValidationTest {
 
     //Planned input:
     //
+    //{ "rules":
     //[
     //{
     //  "inputId": "region",
@@ -64,6 +65,7 @@ public class EngineThreeLevelValidationTest {
     //  "permittedValues": [ "Toluca de Lerdo" ]
     //}
     //]
+    //}
 
     private static Engine engine;
 
