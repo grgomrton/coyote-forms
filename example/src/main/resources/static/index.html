@@ -21,12 +21,7 @@
         colors,
         CssBaseline,
         ThemeProvider,
-        Typography,
-        Container,
         createTheme,
-        Box,
-        SvgIcon,
-        Link,
         FormControl,
         InputLabel,
         Select,
@@ -64,22 +59,23 @@
         const [selectedCity, setSelectedCity] = useState("");
         const [alertConfiguration, setAlertConfiguration] = useState({ isOpen: false, success: false, errors: [] })
 
+        // using this connector (the next line of code) we bind the validator to the three state variables
         const collectInputValues = () => { return { "region": selectedRegion, "country": selectedCountry, "city": selectedCity } }
 
         useEffect(() => { axios.post('http://localhost:8080/api/forms/location-form/inputs/region/allowed-values', collectInputValues())
-             .then(function (response) { setAllowedRegions(response.data) })
-             .catch(function (error) { console.error(error) }
-           )}, []);
+             .then((response) => setAllowedRegions(response.data))
+             .catch((error) => console.error(error))
+          }, []);
 
         useEffect(() => { axios.post('http://localhost:8080/api/forms/location-form/inputs/country/allowed-values', collectInputValues())
-             .then(function (response) { setAllowedCountries(response.data) })
-             .catch(function (error) { console.error(error) }
-           )}, [selectedRegion]);
+             .then((response) => setAllowedCountries(response.data))
+             .catch((error) => console.error(error))
+          }, [selectedRegion]);
 
-         useEffect(() => { axios.post('http://localhost:8080/api/forms/location-form/inputs/city/allowed-values', collectInputValues())
-             .then(function (response) { setAllowedCities(response.data) })
-             .catch(function (error) { console.error(error) }
-           )}, [selectedRegion, selectedCountry]);
+        useEffect(() => { axios.post('http://localhost:8080/api/forms/location-form/inputs/city/allowed-values', collectInputValues())
+             .then((response) => setAllowedCities(response.data))
+             .catch((error) => console.error(error))
+          }, [selectedRegion, selectedCountry]);
 
         const handleChangeOfRegion = (event) => setSelectedRegion(event.target.value);
         const handleChangeOfCountry = (event) => setSelectedCountry(event.target.value);
@@ -90,12 +86,10 @@
 
         const saveLocation = (event) => {
           axios.post('http://localhost:8080/api/forms/location-form', collectInputValues())
-              .then(function (response) {
-                  setAlertConfiguration({isOpen: true, success: true, errors: []})
-              })
-              .catch(function(error) {
-                  setAlertConfiguration({isOpen: false, success: false, errors: error.response.data.invalidFields });
-              })
+              .then((response) =>
+                  setAlertConfiguration({isOpen: true, success: true, errors: []}))
+              .catch((error) =>
+                  setAlertConfiguration({isOpen: false, success: false, errors: error.response.data.invalidFields }))
         }
 
         return (
