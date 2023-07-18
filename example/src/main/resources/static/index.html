@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>My page</title>
+    <title>Coyote Forms</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1, width=device-width" />
     <script src="https://unpkg.com/react@latest/umd/react.development.js" crossorigin="anonymous"></script>
@@ -96,7 +96,7 @@
           <div>
             <AlertBar {...alertConfiguration} />
             <FormControl sx={{ m: 1, minWidth: 150 }} error={!isValid("region")}>
-              <InputLabel id="region">Region</InputLabel>
+              <InputLabel id="region-label">Region</InputLabel>
               <Select
                 labelId="region-label"
                 id="region-select"
@@ -108,7 +108,7 @@
               </Select>
             </FormControl>
             <FormControl sx={{ m: 1, minWidth: 150 }} error={!isValid("country")}>
-              <InputLabel id="country">Country</InputLabel>
+              <InputLabel id="country-label">Country</InputLabel>
               <Select
                 labelId="country-label"
                 id="country-select"
@@ -120,7 +120,7 @@
               </Select>
             </FormControl>
             <FormControl sx={{ m: 1, minWidth: 150 }} error={!isValid("city")}>
-              <InputLabel id="city">City</InputLabel>
+              <InputLabel id="city-label">City</InputLabel>
               <Select
                 labelId="city-label"
                 id="city-select"
