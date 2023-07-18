@@ -38,40 +38,91 @@
       // Create a theme instance.
       const theme = createTheme({
         palette: {
-          primary: {
-            main: '#556cd6',
-          },
-          secondary: {
-            main: '#19857b',
-          },
-          error: {
-            main: colors.red.A400,
-          },
+          primary: { main: '#556cd6' },
+          secondary: { main: '#19857b' },
+          error: { main: colors.red.A400 },
         },
       });
 
       function App() {
         const [allowedRegions, setAllowedRegions] = useState([]);
         const [selectedRegion, setSelectedRegion] = useState("");
+        const [allowedCountries, setAllowedCountries] = useState([]);
+        const [selectedCountry, setSelectedCountry] = useState("");
+        const [allowedCities, setAllowedCities] = useState([]);
+        const [selectedCity, setSelectedCity] = useState("");
 
-        useEffect(() => { axios.post('http://localhost:8080/api/forms/location-form/inputs/region/allowed-values', { "region": selectedRegion })
+        const collectInputValues = () => { return { "region": selectedRegion, "country": selectedCountry, "city": selectedCity } }
+
+        useEffect(() => { axios.post('http://localhost:8080/api/forms/location-form/inputs/region/allowed-values', collectInputValues())
              .then(function (response) { setAllowedRegions(response.data) })
              .catch(function (error) { console.error(error) }
            )}, []);
 
+        useEffect(() => { axios.post('http://localhost:8080/api/forms/location-form/inputs/country/allowed-values', collectInputValues())
+             .then(function (response) { setAllowedCountries(response.data) })
+             .catch(function (error) { console.error(error) }
+           )}, [selectedRegion]);
+
+         useEffect(() => { axios.post('http://localhost:8080/api/forms/location-form/inputs/city/allowed-values', collectInputValues())
+             .then(function (response) { setAllowedCities(response.data) })
+             .catch(function (error) { console.error(error) }
+           )}, [selectedRegion, selectedCountry]);
+
+        const handleChangeOfRegion = (event) => {
+          setSelectedRegion(event.target.value);
+          console.log(event);
+        }
+
+        const handleChangeOfCountry = (event) => {
+          setSelectedCountry(event.target.value);
+          console.log(event);
+        }
+
+        const handleChangeOfCity = (event) => {
+          setSelectedCity(event.target.value);
+          console.log(event);
+        }
+
         return (
-          <FormControl fullWidth>
-            <InputLabel id="region">Region</InputLabel>
-            <Select
-              labelId="region-label"
-              id="region-select"
-              value={selectedRegion}
-              label="Region"
-              //onChange={handleChange}
-            >
-              { allowedRegions.map((region) => <MenuItem key={region} value={region}>{region}</MenuItem>) }
-            </Select>
-          </FormControl>
+          <div>
+            <FormControl sx={{ m: 1, minWidth: 150 }}>
+              <InputLabel id="region">Region</InputLabel>
+              <Select
+                labelId="region-label"
+                id="region-select"
+                value={selectedRegion}
+                label="Region"
+                onChange={handleChangeOfRegion}
+              >
+                { allowedRegions.map((region) => <MenuItem key={region} value={region}>{region}</MenuItem>) }
+              </Select>
+            </FormControl>
+            <FormControl sx={{ m: 1, minWidth: 150 }}>
+              <InputLabel id="country">Country</InputLabel>
+              <Select
+                labelId="country-label"
+                id="country-select"
+                value={selectedCountry}
+                label="Country"
+                onChange={handleChangeOfCountry}
+              >
+                { allowedCountries.map((country) => <MenuItem key={country} value={country}>{country}</MenuItem>) }
+              </Select>
+            </FormControl>
+            <FormControl sx={{ m: 1, minWidth: 150 }}>
+              <InputLabel id="city">City</InputLabel>
+              <Select
+                labelId="city-label"
+                id="city-select"
+                value={selectedCity}
+                label="City"
+                onChange={handleChangeOfCity}
+              >
+                { allowedCities.map((city) => <MenuItem key={city} value={city}>{city}</MenuItem>) }
+              </Select>
+            </FormControl>
+          </div>
         );
       }
 
