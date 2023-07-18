@@ -30,7 +30,9 @@
         FormControl,
         InputLabel,
         Select,
-        MenuItem
+        MenuItem,
+        Button,
+        Alert
       } = MaterialUI;
 
       const { useState, useEffect } = React;
@@ -44,6 +46,18 @@
         },
       });
 
+      function AlertBar(alertConfiguration) {
+        if (alertConfiguration.isOpen) {
+          if (alertConfiguration.success) {
+            return (<Alert severity="success">Location saved</Alert>);
+          } else {
+            return alertConfiguration.errors.map((error) => <Alert severity="error">{error.reason} {error.fieldId}</Alert>)
+          }
+         } else {
+          return (<div></div>);
+         }
+      }
+
       function App() {
         const [allowedRegions, setAllowedRegions] = useState([]);
         const [selectedRegion, setSelectedRegion] = useState("");
@@ -51,6 +65,7 @@
         const [selectedCountry, setSelectedCountry] = useState("");
         const [allowedCities, setAllowedCities] = useState([]);
         const [selectedCity, setSelectedCity] = useState("");
+        const [alertConfiguration, setAlertConfiguration] = useState({ isOpen: false, success: false, errors: [] })
 
         const collectInputValues = () => { return { "region": selectedRegion, "country": selectedCountry, "city": selectedCity } }
 
@@ -84,8 +99,15 @@
           console.log(event);
         }
 
+        const saveLocation = (event) => {
+          axios.post('http://localhost:8080/api/forms/location-form', collectInputValues())
+              .then(function (response) { setAlertConfiguration({isOpen: true, success: true, errors: []}) })
+              .catch(function(error) { console.log(error); setAlertConfiguration({isOpen: true, success: false, errors: error.response.data.invalidFields }); })
+        }
+
         return (
           <div>
+            <AlertBar {...alertConfiguration} />
             <FormControl sx={{ m: 1, minWidth: 150 }}>
               <InputLabel id="region">Region</InputLabel>
               <Select
@@ -122,6 +144,7 @@
                 { allowedCities.map((city) => <MenuItem key={city} value={city}>{city}</MenuItem>) }
               </Select>
             </FormControl>
+            <Button variant="contained" onClick={saveLocation}>Save</Button>
           </div>
         );
       }
