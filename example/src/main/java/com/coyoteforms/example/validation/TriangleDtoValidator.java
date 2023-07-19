@@ -27,5 +27,6 @@ public class TriangleDtoValidator implements ConstraintValidator<ValidTriangle, 
                 .addPropertyNode(inputId)
                 .addConstraintViolation()
         );
-        return invalidInputIds.isEmpty();    }
+        return invalidInputIds.isEmpty();
+    }
 }
