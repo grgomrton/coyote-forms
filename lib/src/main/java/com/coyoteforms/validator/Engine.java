@@ -3,10 +3,7 @@ package com.coyoteforms.validator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 // note: the engine code is something we need to implement in javascript too,
 // it is important to stick with language tools that exists in both Java and javascript.
@@ -21,7 +18,7 @@ class Engine {
     }
 
     List<String> queryAllowedValues(String inputId, Map<String, String> inputValues) {
-        return Optional.ofNullable(rules.getDiscreteValueRules()).orElseGet(List::of).stream()
+        return Optional.ofNullable(rules.getRules()).orElseGet(List::of).stream()
                 .filter(rule -> inputId.equals(rule.getInputId()))
                 .filter(rule -> allConditionMatches(rule.getCondition(), inputValues))
                 .flatMap(rule -> rule.getPermittedValues().stream())
@@ -32,7 +29,8 @@ class Engine {
         return inputValues.entrySet()
                 .stream()
                 .filter(inputEntry ->
-                        !queryAllowedValues(inputEntry.getKey(), inputValues).stream().anyMatch(item -> inputEntry.getValue().matches(item)))
+                        !queryAllowedValues(inputEntry.getKey(), inputValues).stream()
+                                .anyMatch(item -> inputEntry.getValue().matches(item)))
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
     }

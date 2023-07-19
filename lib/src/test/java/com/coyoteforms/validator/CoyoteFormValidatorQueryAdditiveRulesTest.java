@@ -16,34 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class CoyoteFormValidatorQueryAdditiveRulesTest {
 
-    //Planned input:
-    //{
-    //	"rules": [
-    //	  {
-    //		"inputId": "franceCheckbox",
-    //		"condition": [ "always" ],
-    //		"permittedValues": [ "checked", "unchecked" ]
-    //	  },
-    //	  {
-    //		"inputId": "germanyCheckbox",
-    //		"condition": [ "always" ],
-    //		"permittedValues": [ "checked", "unchecked" ]
-    //	  },
-    //	  {
-    //		"inputId": "city",
-    //		"condition": [ "franceCheckbox is 'checked'" ],
-    //		"permittedValues": [ "Paris", "Marseilles" ]
-    //	  },
-    //	  {
-    //		"inputId": "city",
-    //		"condition": [ "germanyCheckbox is 'checked'" ],
-    //		"permittedValues": [ "Munich", "Berlin", "Hamburg" ]
-    //	  }
-    //	]
-    //}
-
     private static String RULE_SET = "    {" +
-            "      \"discreteValueRules\": [" +
+            "      \"rules\": [" +
             "        {" +
             "          \"inputId\": \"franceCheckbox\"," +
             "          \"condition\": [ \"always\" ]," +

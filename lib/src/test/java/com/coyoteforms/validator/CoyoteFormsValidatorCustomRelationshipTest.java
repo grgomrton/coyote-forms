@@ -10,24 +10,10 @@ import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CoyoteFormsValidatorCustomRelationshipÍTest {
-
-    // Planned input
-    //  {
-    //	"passThroughRules": [
-    //		{
-    //			"inputId": "startDate",
-    //			"condition": [ "intervalBeginsTomorrow is 'true'", "intervalLengthDays is '14'" ]
-    //		},
-    //		{
-    //			"inputId": "endDate",
-    //			"condition": [ "intervalLengthDays is '14'" ]
-    //		}
-    //	]
-    // }
+public class CoyoteFormsValidatorCustomRelationshipTest {
 
     private static String ruleSet = " {" +
-            "  \"discreteValueRules\": [" +
+            "  \"rules\": [" +
             "    {" +
             "      \"inputId\": \"intervalBeginsTomorrow\"," +
             "      \"condition\": [ \"always\" ]," +
@@ -49,13 +35,17 @@ public class CoyoteFormsValidatorCustomRelationshipÍTest {
             "      \"permittedValues\": [ \".*\" ]" +
             "    }" +
             "  ]" +
-            " };";
+            " }";
 
     public static class IntervalConnector implements Connector<Interval> {
 
         @Override
         public Map<String, String> collectInputValues(Interval interval) {
             Map<String, String> inputValues = new HashMap<>();
+
+            inputValues.put("startDate", interval.getStartDate() != null ? interval.getStartDate().toString() : "");
+            inputValues.put("endDate", interval.getEndDate() != null ? interval.getEndDate().toString() : "");
+
             if (interval.getStartDate() != null) {
                 inputValues.put(
                         "intervalBeginsTomorrow",
@@ -89,6 +79,39 @@ public class CoyoteFormsValidatorCustomRelationshipÍTest {
                 .build();
         List<String> invalidInputIds = validator.validate(interval);
         assertThat(invalidInputIds).isEmpty();
+    }
+
+    @Test
+    public void validatorShouldCatchIfIntervalStartsBeforeToday() {
+        CoyoteFormValidator<Interval> validator = new CoyoteFormValidator<>(ruleSet, new IntervalConnector());
+        Interval interval = Interval.builder()
+                .startDate(LocalDate.now().minusDays(1))
+                .endDate(LocalDate.now().plusDays(13))
+                .build();
+        List<String> invalidInputIds = validator.validate(interval);
+        assertThat(invalidInputIds).containsExactlyInAnyOrder("startDate");
+    }
+
+    @Test
+    public void validatorShouldCatchIfIntervalLengthIsNotTwoWeeks() {
+        CoyoteFormValidator<Interval> validator = new CoyoteFormValidator<>(ruleSet, new IntervalConnector());
+        Interval interval = Interval.builder()
+                .startDate(LocalDate.now().plusDays(1))
+                .endDate(LocalDate.now().plusDays(13))
+                .build();
+        List<String> invalidInputIds = validator.validate(interval);
+        assertThat(invalidInputIds).containsExactlyInAnyOrder("startDate", "endDate");
+    }
+
+    @Test
+    public void validatorShouldCatchIfStartDateIsBeforeTodayAndIntervalLengthIsNotTwoWeeks() {
+        CoyoteFormValidator<Interval> validator = new CoyoteFormValidator<>(ruleSet, new IntervalConnector());
+        Interval interval = Interval.builder()
+                .startDate(LocalDate.now().minusDays(3))
+                .endDate(LocalDate.now().plusDays(13))
+                .build();
+        List<String> invalidInputIds = validator.validate(interval);
+        assertThat(invalidInputIds).containsExactlyInAnyOrder("startDate", "endDate");
     }
 
 }

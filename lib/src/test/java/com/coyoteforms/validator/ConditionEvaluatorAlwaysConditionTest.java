@@ -10,16 +10,6 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 
 public class ConditionEvaluatorAlwaysConditionTest {
 
-    //Planned input:
-    //
-    //  [
-    //  {
-    //    "inputId": "country",
-    //    "condition": [ "always" ],
-    //    "permittedValues": ["United Kingdom", "Hungary"]
-    //  }
-    //  ]
-
     private static ConditionEvaluator conditionEvaluator;
 
     @BeforeAll

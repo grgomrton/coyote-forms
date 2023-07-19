@@ -10,26 +10,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class EngineTwoLevelValidationTest {
 
-    //Planned input:
-    //
-    //  [
-    //  {
-    //    "inputId": "country",
-    //    "condition": [ "always" ],
-    //    "permittedValues": ["United Kingdom", "Hungary"]
-    //  },
-    //  {
-    //    "inputId": "city",
-    //    "condition": [ "country is 'Hungary'" ],
-    //    "permittedValues": ["Budapest", "Sopron"]
-    //  },
-    //  {
-    //    "inputId": "city",
-    //    "condition": [ "country is 'United Kingdom'" ],
-    //    "permittedValues": ["London"]
-    //  }
-    //  ]
-
     private static Engine engine;
 
     @BeforeAll
@@ -50,7 +30,7 @@ public class EngineTwoLevelValidationTest {
                         .condition(List.of("country is 'United Kingdom'"))
                         .permittedValues(List.of("London"))
                         .build());
-        engine = new Engine(RuleSet.builder().discreteValueRules(rules).build());
+        engine = new Engine(RuleSet.builder().rules(rules).build());
     }
 
     @Test

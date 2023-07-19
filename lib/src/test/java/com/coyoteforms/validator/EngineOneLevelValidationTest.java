@@ -10,16 +10,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class EngineOneLevelValidationTest {
 
-    //Planned input:
-    //
-    //  [
-    //  {
-    //    "inputId": "country",
-    //    "condition": [ "always" ],
-    //    "permittedValues": ["United Kingdom", "Hungary"]
-    //  }
-    //  ]
-
     private static Engine engine;
 
     @BeforeAll
@@ -30,7 +20,7 @@ public class EngineOneLevelValidationTest {
                         .condition(List.of("always"))
                         .permittedValues(List.of("United Kingdom", "Hungary"))
                         .build());
-        engine = new Engine(RuleSet.builder().discreteValueRules(rules).build());
+        engine = new Engine(RuleSet.builder().rules(rules).build());
     }
 
     @Test

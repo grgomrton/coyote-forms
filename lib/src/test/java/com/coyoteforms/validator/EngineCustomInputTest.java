@@ -9,32 +9,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class EngineCustomInputTest {
 
-    // Planned input
-    // {
-    //	"discreteValueRules": [
-    //		{
-    //			"inputId": "sumOfArcsIs180",
-    //			"allowedValues": [ "true", "false" ]
-    //		}
-    //	],
-    //	"passThroughRules": [
-    //		{
-    //			"inputId": "arc1",
-    //			"condition": "sumOfArcsIs180 is 'true'"
-    //		},
-    //		{
-    //			"inputId": "arc2",
-    //			"condition": "sumOfArcsIs180 is 'true'"
-    //		},
-    //		{
-    //			"inputId": "arc3",
-    //			"condition": "sumOfArcsIs180 is 'true'"
-    //		}
-    //	]
-    // }
-
     private static RuleSet onlyRelationshipRules = RuleSet.builder()
-            .discreteValueRules(
+            .rules(
                     List.of(
                             DiscreteRule.builder()
                                     .inputId("sumOfArcsIs180")
@@ -60,7 +36,7 @@ public class EngineCustomInputTest {
             ).build();
 
     private static RuleSet relationshipAndIndividualConstraintsRuleSet = RuleSet.builder()
-            .discreteValueRules(
+            .rules(
                     List.of(
                             DiscreteRule.builder()
                                     .inputId("sumOfArcsIs180")

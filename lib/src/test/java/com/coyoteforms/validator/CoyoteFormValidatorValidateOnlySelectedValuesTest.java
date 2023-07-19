@@ -16,29 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class CoyoteFormValidatorValidateOnlySelectedValuesTest {
 
-    //Planned input:
-    //  {
-    //    "rules": [
-    //      {
-    //        "inputId": "country",
-    //        "condition": [ "always" ],
-    //        "permittedValues": ["United Kingdom", "Hungary"]
-    //      },
-    //      {
-    //        "inputId": "city",
-    //        "condition": [ "country is 'Hungary'" ],
-    //        "permittedValues": ["Budapest", "Sopron"]
-    //      },
-    //      {
-    //        "inputId": "city",
-    //        "condition": [ "country is 'United Kingdom'" ],
-    //        "permittedValues": ["London"]
-    //      }
-    //    ]
-    //  }
-
     private static String RULE_SET = "  {" +
-            "  \"discreteValueRules\": [" +
+            "  \"rules\": [" +
             "    {" +
             "    \"inputId\": \"country\"," +
             "    \"condition\": [ \"always\" ]," +

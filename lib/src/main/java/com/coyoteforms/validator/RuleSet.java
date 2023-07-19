@@ -11,6 +11,6 @@ import java.util.List;
 @AllArgsConstructor
 class RuleSet {
 
-    private List<DiscreteRule> discreteValueRules;
+    private List<DiscreteRule> rules;
 
 }
