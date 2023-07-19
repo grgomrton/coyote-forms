@@ -9,16 +9,16 @@ import java.util.stream.Collectors;
 // it is important to stick with language tools that exists in both Java and javascript.
 class Engine {
 
-    private RuleSet rules;
+    private List<Rule> rules;
     private ConditionEvaluator conditionEvaluator;
 
-    Engine(RuleSet rules) {
+    Engine(List<Rule> rules) {
         this.rules = rules;
         this.conditionEvaluator = new ConditionEvaluator();
     }
 
     List<String> queryAllowedValues(String inputId, Map<String, String> inputValues) {
-        return Optional.ofNullable(rules.getRules()).orElseGet(List::of).stream()
+        return rules.stream()
                 .filter(rule -> inputId.equals(rule.getInputId()))
                 .filter(rule -> allConditionMatches(rule.getCondition(), inputValues))
                 .flatMap(rule -> rule.getPermittedValues().stream())

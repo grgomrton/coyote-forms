@@ -14,13 +14,13 @@ public class EngineOneLevelValidationTest {
 
     @BeforeAll
     public static void init() {
-        List<DiscreteRule> rules = List.of(
-                DiscreteRule.builder()
+        List<Rule> rules = List.of(
+                Rule.builder()
                         .inputId("country")
                         .condition(List.of("always"))
                         .permittedValues(List.of("United Kingdom", "Hungary"))
                         .build());
-        engine = new Engine(RuleSet.builder().rules(rules).build());
+        engine = new Engine(rules);
     }
 
     @Test

@@ -14,7 +14,7 @@ public class CoyoteFormValidator<T> {
 
     public CoyoteFormValidator(String ruleSet, Connector<T> connector) {
         RuleSet deserializedRuleSet = parseRuleSet(ruleSet);
-        this.engine = new Engine(deserializedRuleSet);
+        this.engine = new Engine(deserializedRuleSet.getRules());
         this.connector = connector;
     }
 

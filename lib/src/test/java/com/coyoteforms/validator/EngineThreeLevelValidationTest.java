@@ -17,43 +17,43 @@ public class EngineThreeLevelValidationTest {
 
     @BeforeAll
     public static void init() {
-        List<DiscreteRule> rules = List.of(
-                DiscreteRule.builder()
+        List<Rule> rules = List.of(
+                Rule.builder()
                         .inputId("region")
                         .condition(List.of("always"))
                         .permittedValues(List.of("Americas", "EMEA"))
                         .build(),
-                DiscreteRule.builder()
+                Rule.builder()
                         .inputId("country")
                         .condition(List.of("region is 'Americas'"))
                         .permittedValues(List.of("U.S.A.", "Mexico"))
                         .build(),
-                DiscreteRule.builder()
+                Rule.builder()
                         .inputId("country")
                         .condition(List.of("region is 'EMEA'"))
                         .permittedValues(List.of("United Kingdom", "Hungary"))
                         .build(),
-                DiscreteRule.builder()
+                Rule.builder()
                         .inputId("city")
                         .condition(List.of("region is 'Americas'", "country is 'U.S.A.'"))
                         .permittedValues(List.of("New York", "Washington"))
                         .build(),
-                DiscreteRule.builder()
+                Rule.builder()
                         .inputId("city")
                         .condition(List.of("region is 'Americas'", "country is 'Mexico'"))
                         .permittedValues(List.of("Toluca de Lerdo"))
                         .build(),
-                DiscreteRule.builder()
+                Rule.builder()
                         .inputId("city")
                         .condition(List.of("region is 'EMEA'", "country is 'Hungary'"))
                         .permittedValues(List.of("Budapest", "Sopron"))
                         .build(),
-                DiscreteRule.builder()
+                Rule.builder()
                         .inputId("city")
                         .condition(List.of("region is 'EMEA'", "country is 'United Kingdom'"))
                         .permittedValues(List.of("London"))
                         .build());
-        engine = new Engine(RuleSet.builder().rules(rules).build());
+        engine = new Engine(rules);
     }
 
     @ParameterizedTest

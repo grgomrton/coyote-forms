@@ -12,22 +12,22 @@ public class EngineCustomInputTest {
     private static RuleSet onlyRelationshipRules = RuleSet.builder()
             .rules(
                     List.of(
-                            DiscreteRule.builder()
+                            Rule.builder()
                                     .inputId("sumOfArcsIs180")
                                     .condition(List.of("always"))
                                     .permittedValues(List.of("true", "false"))
                                     .build(),
-                            DiscreteRule.builder()
+                            Rule.builder()
                                     .inputId("arc1")
                                     .condition(List.of("sumOfArcsIs180 is 'true'"))
                                     .permittedValues(List.of(".*"))
                                     .build(),
-                            DiscreteRule.builder()
+                            Rule.builder()
                                     .inputId("arc2")
                                     .condition(List.of("sumOfArcsIs180 is 'true'"))
                                     .permittedValues(List.of(".*"))
                                     .build(),
-                            DiscreteRule.builder()
+                            Rule.builder()
                                     .inputId("arc3")
                                     .condition(List.of("sumOfArcsIs180 is 'true'"))
                                     .permittedValues(List.of(".*"))
@@ -38,37 +38,37 @@ public class EngineCustomInputTest {
     private static RuleSet relationshipAndIndividualConstraintsRuleSet = RuleSet.builder()
             .rules(
                     List.of(
-                            DiscreteRule.builder()
+                            Rule.builder()
                                     .inputId("sumOfArcsIs180")
                                     .condition(List.of("always"))
                                     .permittedValues(List.of("true", "false"))
                                     .build(),
-                            DiscreteRule.builder()
+                            Rule.builder()
                                     .inputId("arc1IsPositive")
                                     .condition(List.of("always"))
                                     .permittedValues(List.of("true", "false"))
                                     .build(),
-                            DiscreteRule.builder()
+                            Rule.builder()
                                     .inputId("arc2IsPositive")
                                     .condition(List.of("always"))
                                     .permittedValues(List.of("true", "false"))
                                     .build(),
-                            DiscreteRule.builder()
+                            Rule.builder()
                                     .inputId("arc3IsPositive")
                                     .condition(List.of("always"))
                                     .permittedValues(List.of("true", "false"))
                                     .build(),
-                            DiscreteRule.builder()
+                            Rule.builder()
                                     .inputId("arc1")
                                     .condition(List.of("arc1IsPositive is 'true'", "sumOfArcsIs180 is 'true'"))
                                     .permittedValues(List.of(".*"))
                                     .build(),
-                            DiscreteRule.builder()
+                            Rule.builder()
                                     .inputId("arc2")
                                     .condition(List.of("arc2IsPositive is 'true'", "sumOfArcsIs180 is 'true'"))
                                     .permittedValues(List.of(".*"))
                                     .build(),
-                            DiscreteRule.builder()
+                            Rule.builder()
                                     .inputId("arc3")
                                     .condition(List.of("arc3IsPositive is 'true'", "sumOfArcsIs180 is 'true'"))
                                     .permittedValues(List.of(".*"))
@@ -78,7 +78,7 @@ public class EngineCustomInputTest {
 
     @Test
     public void allInputShouldBeInvalidIfSumOfArcsIsFalse() {
-        Engine engine = new Engine(onlyRelationshipRules);
+        Engine engine = new Engine(onlyRelationshipRules.getRules());
         Map<String, String> inputValues = Map.of("sumOfArcsIs180", "false", "arc1", "60", "arc2", "30", "arc3", "50");
         List<String> invalidInputIds = engine.validateInput(inputValues);
         assertThat(invalidInputIds).containsExactlyInAnyOrder("arc1", "arc2", "arc3");
@@ -86,7 +86,7 @@ public class EngineCustomInputTest {
 
     @Test
     public void allInputShouldBeValidIfSumOfArcsIsTrue() {
-        Engine engine = new Engine(onlyRelationshipRules);
+        Engine engine = new Engine(onlyRelationshipRules.getRules());
         Map<String, String> inputValues = Map.of("sumOfArcsIs180", "true", "arc1", "60", "arc2", "30", "arc3", "90");
         List<String> invalidInputIds = engine.validateInput(inputValues);
         assertThat(invalidInputIds).isEmpty();
@@ -94,7 +94,7 @@ public class EngineCustomInputTest {
 
     @Test
     public void validationCanBeHackedWithoutIndividualValidators() {
-        Engine engine = new Engine(onlyRelationshipRules);
+        Engine engine = new Engine(onlyRelationshipRules.getRules());
         Map<String, String> inputValues = Map.of("sumOfArcsIs180", "true", "arc1", "130", "arc2", "60", "arc3", "-10");
         List<String> invalidInputIds = engine.validateInput(inputValues);
         assertThat(invalidInputIds).isEmpty();
@@ -102,7 +102,7 @@ public class EngineCustomInputTest {
 
     @Test
     public void engineShouldCatchInvalidFieldIfIndividualValidatorsArePresent() {
-        Engine engine = new Engine(relationshipAndIndividualConstraintsRuleSet);
+        Engine engine = new Engine(relationshipAndIndividualConstraintsRuleSet.getRules());
         Map<String, String> inputValues = Map.of(
                 "sumOfArcsIs180", "true",
                 "arc1", "130", "arc2", "60", "arc3", "-10",
@@ -113,7 +113,7 @@ public class EngineCustomInputTest {
 
     @Test
     public void ifRelevantCustomInputIsMissingValidationShouldNotPass() {
-        Engine engine = new Engine(relationshipAndIndividualConstraintsRuleSet);
+        Engine engine = new Engine(relationshipAndIndividualConstraintsRuleSet.getRules());
         Map<String, String> inputValues = Map.of(
                 //"sumOfArcsIs180", "true",
                 "arc1", "30", "arc2", "60", "arc3", "90",
