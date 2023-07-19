@@ -6,33 +6,18 @@
       "permittedValues": [ ".*" ]
     },
     {
-      "inputId": "angleAlphaIsPositive",
-      "condition": [ "always" ],
-      "permittedValues": [ "true", "false" ]
-    },
-    {
-      "inputId": "angleBetaIsPositive",
-      "condition": [ "always" ],
-      "permittedValues": [ "true", "false" ]
-    },
-    {
-      "inputId": "angleGammaIsPositive",
-      "condition": [ "always" ],
-      "permittedValues": [ "true", "false" ]
-    },
-    {
       "inputId": "alpha",
-      "condition": [ "angleAlphaIsPositive is 'true'", "sumOfAngles is '180'" ],
+      "condition": [ "sumOfAngles is '180'" ],
       "permittedValues": [ ".*" ]
     },
     {
       "inputId": "beta",
-      "condition": [ "angleBetaIsPositive is 'true'", "sumOfAngles is '180'" ],
+      "condition": [ "sumOfAngles is '180'" ],
       "permittedValues": [ ".*" ]
     },
     {
       "inputId": "gamma",
-      "condition": [ "angleGammaIsPositive is 'true'", "sumOfAngles is '180'" ],
+      "condition": [ "sumOfAngles is '180'" ],
       "permittedValues": [ ".*" ]
     }
   ]

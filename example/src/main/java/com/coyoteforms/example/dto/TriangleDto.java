@@ -9,11 +9,13 @@ import javax.validation.constraints.Min;
 @ValidTriangle
 public class TriangleDto {
 
-    //@Min(0) // alternatively
+    @Min(1)
     private Integer alpha;
 
+    @Min(1)
     private Integer beta;
 
+    @Min(1)
     private Integer gamma;
 
 }

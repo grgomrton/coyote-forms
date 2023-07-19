@@ -17,10 +17,6 @@ public class TriangletoConnector implements Connector<TriangleDto> {
 
         result.put("sumOfAngles", Integer.toString(obj.getAlpha() + obj.getBeta() + obj.getGamma()));
 
-        result.put("angleAlphaIsPositive", Boolean.toString(obj.getAlpha() > 0));
-        result.put("angleBetaIsPositive", Boolean.toString(obj.getBeta() > 0));
-        result.put("angleGammaIsPositive", Boolean.toString(obj.getGamma() > 0));
-
         return result;
     }
 
