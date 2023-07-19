@@ -7,7 +7,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class EngineShouldValidateCustomInputs {
+public class EngineCustomInputTest {
 
     // Planned input
     // {
@@ -51,7 +51,7 @@ public class EngineShouldValidateCustomInputs {
                     )
             ).build();
 
-    private static RuleSet relationshipAndIndividualRuleSet = RuleSet.builder()
+    private static RuleSet relationshipAndIndividualConstraintsRuleSet = RuleSet.builder()
             .discreteValueRules(
                     List.of(
                             DiscreteRule.builder()
@@ -119,13 +119,24 @@ public class EngineShouldValidateCustomInputs {
 
     @Test
     public void engineShouldCatchInvalidFieldIfIndividualValidatorsArePresent() {
-        Engine engine = new Engine(relationshipAndIndividualRuleSet);
+        Engine engine = new Engine(relationshipAndIndividualConstraintsRuleSet);
         Map<String, String> inputValues = Map.of(
                 "sumOfArcsIs180", "true",
                 "arc1", "130", "arc2", "60", "arc3", "-10",
                 "arc1IsPositive", "true", "arc2IsPositive", "true", "arc3IsPositive", "false");
         List<String> invalidInputIds = engine.validateInput(inputValues);
         assertThat(invalidInputIds).containsExactlyInAnyOrder("arc3");
+    }
+
+    @Test
+    public void ifRelevantCustomInputIsMissingValidationShouldNotPass() {
+        Engine engine = new Engine(relationshipAndIndividualConstraintsRuleSet);
+        Map<String, String> inputValues = Map.of(
+                //"sumOfArcsIs180", "true",
+                "arc1", "30", "arc2", "60", "arc3", "90",
+                "arc1IsPositive", "true", "arc2IsPositive", "true", "arc3IsPositive", "true");
+        List<String> invalidInputIds = engine.validateInput(inputValues);
+        assertThat(invalidInputIds).containsExactlyInAnyOrder("arc1", "arc2", "arc3");;
     }
 
 }

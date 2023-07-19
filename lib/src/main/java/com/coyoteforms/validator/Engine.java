@@ -23,34 +23,34 @@ class Engine {
     List<String> queryAllowedValues(String inputId, Map<String, String> inputValues) {
         return Optional.ofNullable(rules.getDiscreteValueRules()).orElseGet(List::of).stream()
                 .filter(rule -> inputId.equals(rule.getInputId()))
-                .filter(rule -> allConditionMatches(rule, inputValues))
+                .filter(rule -> allConditionMatches(rule.getCondition(), inputValues))
                 .flatMap(rule -> rule.getPermittedValues().stream())
                 .collect(Collectors.toList());
-    }
-
-    private boolean allConditionMatches(DiscreteRule rule, Map<String, String> inputValues) {
-        return rule.getCondition()
-                .stream()
-                .map(operand -> conditionEvaluator.shouldBeIncluded(operand, inputValues))
-                .reduce(true, (prev, cur) -> prev && cur);
     }
 
     List<String> validateInput(Map<String, String> inputValues) {
         return inputValues.entrySet()
                 .stream()
-                .filter(entry ->
-                        !queryAllowedValues(entry.getKey(), inputValues).contains(entry.getValue()) &&
-                        !passesPassThroughValidation(entry.getKey(), inputValues))
+                .filter(inputEntry ->
+                        !(queryAllowedValues(inputEntry.getKey(), inputValues).contains(inputEntry.getValue()) ||
+                          passesPassThroughValidation(inputEntry.getKey(), inputValues)))
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
     }
 
     private boolean passesPassThroughValidation(String inputId, Map<String, String> inputValues) {
-        return Optional.ofNullable(rules.getPassThroughRules()).orElseGet(List::of).stream()
-                .filter(entry -> inputId.equals(entry.getInputId()))
-                .anyMatch(entry -> entry.getCondition().stream()
-                        .map(condition -> conditionEvaluator.shouldBeIncluded(condition, inputValues))
-                        .reduce(true, (prev, cur) -> prev && cur)); // todo rule parent
+        List<PassThroughRule> inputConstraints = Optional.ofNullable(rules.getPassThroughRules()).orElseGet(List::of).stream()
+                .filter(rule -> inputId.equals(rule.getInputId()))
+                .collect(Collectors.toList());
+        return inputConstraints.size() > 0 ?
+                inputConstraints.stream().anyMatch(rule -> allConditionMatches(rule.getCondition(), inputValues)) :
+                true;
+    }
+
+    private boolean allConditionMatches(List<String> condition, Map<String, String> inputValues) {
+        return condition.stream()
+                .map(operand -> conditionEvaluator.shouldBeIncluded(operand, inputValues))
+                .reduce(true, (prev, cur) -> prev && cur);
     }
 
 }

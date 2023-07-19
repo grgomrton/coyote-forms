@@ -1,5 +1,5 @@
 { 
-  "rules": [
+  "discreteValueRules": [
     {
       "inputId": "region",
       "condition": [ "always" ],
