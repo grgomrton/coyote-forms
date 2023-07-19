@@ -1,5 +1,5 @@
 { 
-  "rules": [
+  "constraints": [
     {
       "inputId": "region",
       "condition": [ "always" ],

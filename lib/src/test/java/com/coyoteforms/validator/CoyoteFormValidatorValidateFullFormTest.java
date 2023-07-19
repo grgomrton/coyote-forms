@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class CoyoteFormValidatorValidateFullFormTest {
 
     private static String RULE_SET = "  {" +
-            "  \"rules\": [" +
+            "  \"constraints\": [" +
             "    {" +
             "    \"inputId\": \"country\"," +
             "    \"condition\": [ \"always\" ]," +

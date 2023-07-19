@@ -16,7 +16,7 @@ import java.nio.file.Path;
 @Configuration
 public class ValidatorProvider {
 
-    @Value("classpath:RuleSet.json")
+    @Value("classpath:LocationRuleSet.json")
     private Resource ruleSetFile;
 
     @Bean

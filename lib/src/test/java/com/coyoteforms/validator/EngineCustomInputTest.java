@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class EngineCustomInputTest {
 
     private static RuleSet onlyRelationshipRules = RuleSet.builder()
-            .rules(
+            .constraints(
                     List.of(
                             Rule.builder()
                                     .inputId("sumOfArcsIs180")
@@ -36,7 +36,7 @@ public class EngineCustomInputTest {
             ).build();
 
     private static RuleSet relationshipAndIndividualConstraintsRuleSet = RuleSet.builder()
-            .rules(
+            .constraints(
                     List.of(
                             Rule.builder()
                                     .inputId("sumOfArcsIs180")
@@ -78,7 +78,7 @@ public class EngineCustomInputTest {
 
     @Test
     public void allInputShouldBeInvalidIfSumOfArcsIsFalse() {
-        Engine engine = new Engine(onlyRelationshipRules.getRules());
+        Engine engine = new Engine(onlyRelationshipRules.getConstraints());
         Map<String, String> inputValues = Map.of("sumOfArcsIs180", "false", "arc1", "60", "arc2", "30", "arc3", "50");
         List<String> invalidInputIds = engine.validateInput(inputValues);
         assertThat(invalidInputIds).containsExactlyInAnyOrder("arc1", "arc2", "arc3");
@@ -86,7 +86,7 @@ public class EngineCustomInputTest {
 
     @Test
     public void allInputShouldBeValidIfSumOfArcsIsTrue() {
-        Engine engine = new Engine(onlyRelationshipRules.getRules());
+        Engine engine = new Engine(onlyRelationshipRules.getConstraints());
         Map<String, String> inputValues = Map.of("sumOfArcsIs180", "true", "arc1", "60", "arc2", "30", "arc3", "90");
         List<String> invalidInputIds = engine.validateInput(inputValues);
         assertThat(invalidInputIds).isEmpty();
@@ -94,7 +94,7 @@ public class EngineCustomInputTest {
 
     @Test
     public void validationCanBeHackedWithoutIndividualValidators() {
-        Engine engine = new Engine(onlyRelationshipRules.getRules());
+        Engine engine = new Engine(onlyRelationshipRules.getConstraints());
         Map<String, String> inputValues = Map.of("sumOfArcsIs180", "true", "arc1", "130", "arc2", "60", "arc3", "-10");
         List<String> invalidInputIds = engine.validateInput(inputValues);
         assertThat(invalidInputIds).isEmpty();
@@ -102,7 +102,7 @@ public class EngineCustomInputTest {
 
     @Test
     public void engineShouldCatchInvalidFieldIfIndividualValidatorsArePresent() {
-        Engine engine = new Engine(relationshipAndIndividualConstraintsRuleSet.getRules());
+        Engine engine = new Engine(relationshipAndIndividualConstraintsRuleSet.getConstraints());
         Map<String, String> inputValues = Map.of(
                 "sumOfArcsIs180", "true",
                 "arc1", "130", "arc2", "60", "arc3", "-10",
@@ -113,7 +113,7 @@ public class EngineCustomInputTest {
 
     @Test
     public void ifRelevantCustomInputIsMissingValidationShouldNotPass() {
-        Engine engine = new Engine(relationshipAndIndividualConstraintsRuleSet.getRules());
+        Engine engine = new Engine(relationshipAndIndividualConstraintsRuleSet.getConstraints());
         Map<String, String> inputValues = Map.of(
                 //"sumOfArcsIs180", "true",
                 "arc1", "30", "arc2", "60", "arc3", "90",

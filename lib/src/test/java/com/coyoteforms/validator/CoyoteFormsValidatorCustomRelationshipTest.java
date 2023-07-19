@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class CoyoteFormsValidatorCustomRelationshipTest {
 
     private static String ruleSet = " {" +
-            "  \"rules\": [" +
+            "  \"constraints\": [" +
             "    {" +
             "      \"inputId\": \"intervalBeginsTomorrow\"," +
             "      \"condition\": [ \"always\" ]," +

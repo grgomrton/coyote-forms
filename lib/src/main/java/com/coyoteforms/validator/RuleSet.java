@@ -11,6 +11,6 @@ import java.util.List;
 @AllArgsConstructor
 class RuleSet {
 
-    private List<Rule> rules;
+    private List<Rule> constraints;
 
 }
