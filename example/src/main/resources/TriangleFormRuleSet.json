@@ -6,11 +6,6 @@
       "permittedValues": [ ".*" ]
     },
     {
-      "inputId": "angleAIsPositive",
-      "condition": [ "always" ],
-      "permittedValues": [ "true", "false" ]
-    },
-    {
       "inputId": "angleAlphaIsPositive",
       "condition": [ "always" ],
       "permittedValues": [ "true", "false" ]

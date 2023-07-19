@@ -13,23 +13,23 @@ public class EngineCustomInputTest {
             .constraints(
                     List.of(
                             Rule.builder()
-                                    .inputId("sumOfArcsIs180")
+                                    .inputId("sumOfAnglesIs180")
                                     .condition(List.of("always"))
                                     .permittedValues(List.of("true", "false"))
                                     .build(),
                             Rule.builder()
-                                    .inputId("arc1")
-                                    .condition(List.of("sumOfArcsIs180 is 'true'"))
+                                    .inputId("angle1")
+                                    .condition(List.of("sumOfAnglesIs180 is 'true'"))
                                     .permittedValues(List.of(".*"))
                                     .build(),
                             Rule.builder()
-                                    .inputId("arc2")
-                                    .condition(List.of("sumOfArcsIs180 is 'true'"))
+                                    .inputId("angle2")
+                                    .condition(List.of("sumOfAnglesIs180 is 'true'"))
                                     .permittedValues(List.of(".*"))
                                     .build(),
                             Rule.builder()
-                                    .inputId("arc3")
-                                    .condition(List.of("sumOfArcsIs180 is 'true'"))
+                                    .inputId("angle3")
+                                    .condition(List.of("sumOfAnglesIs180 is 'true'"))
                                     .permittedValues(List.of(".*"))
                                     .build()
                     )
@@ -39,55 +39,55 @@ public class EngineCustomInputTest {
             .constraints(
                     List.of(
                             Rule.builder()
-                                    .inputId("sumOfArcsIs180")
+                                    .inputId("sumOfAnglesIs180")
                                     .condition(List.of("always"))
                                     .permittedValues(List.of("true", "false"))
                                     .build(),
                             Rule.builder()
-                                    .inputId("arc1IsPositive")
+                                    .inputId("angle1IsPositive")
                                     .condition(List.of("always"))
                                     .permittedValues(List.of("true", "false"))
                                     .build(),
                             Rule.builder()
-                                    .inputId("arc2IsPositive")
+                                    .inputId("angle2IsPositive")
                                     .condition(List.of("always"))
                                     .permittedValues(List.of("true", "false"))
                                     .build(),
                             Rule.builder()
-                                    .inputId("arc3IsPositive")
+                                    .inputId("angle3IsPositive")
                                     .condition(List.of("always"))
                                     .permittedValues(List.of("true", "false"))
                                     .build(),
                             Rule.builder()
-                                    .inputId("arc1")
-                                    .condition(List.of("arc1IsPositive is 'true'", "sumOfArcsIs180 is 'true'"))
+                                    .inputId("angle1")
+                                    .condition(List.of("angle1IsPositive is 'true'", "sumOfAnglesIs180 is 'true'"))
                                     .permittedValues(List.of(".*"))
                                     .build(),
                             Rule.builder()
-                                    .inputId("arc2")
-                                    .condition(List.of("arc2IsPositive is 'true'", "sumOfArcsIs180 is 'true'"))
+                                    .inputId("angle2")
+                                    .condition(List.of("angle2IsPositive is 'true'", "sumOfAnglesIs180 is 'true'"))
                                     .permittedValues(List.of(".*"))
                                     .build(),
                             Rule.builder()
-                                    .inputId("arc3")
-                                    .condition(List.of("arc3IsPositive is 'true'", "sumOfArcsIs180 is 'true'"))
+                                    .inputId("angle3")
+                                    .condition(List.of("angle3IsPositive is 'true'", "sumOfAnglesIs180 is 'true'"))
                                     .permittedValues(List.of(".*"))
                                     .build()
                     )
             ).build();
 
     @Test
-    public void allInputShouldBeInvalidIfSumOfArcsIsFalse() {
+    public void allInputShouldBeInvalidIfSumOfAnglesIsFalse() {
         Engine engine = new Engine(onlyRelationshipRules.getConstraints());
-        Map<String, String> inputValues = Map.of("sumOfArcsIs180", "false", "arc1", "60", "arc2", "30", "arc3", "50");
+        Map<String, String> inputValues = Map.of("sumOfAnglesIs180", "false", "angle1", "60", "angle2", "30", "angle3", "50");
         List<String> invalidInputIds = engine.validateInput(inputValues);
-        assertThat(invalidInputIds).containsExactlyInAnyOrder("arc1", "arc2", "arc3");
+        assertThat(invalidInputIds).containsExactlyInAnyOrder("angle1", "angle2", "angle3");
     }
 
     @Test
-    public void allInputShouldBeValidIfSumOfArcsIsTrue() {
+    public void allInputShouldBeValidIfSumOfAnglesIsTrue() {
         Engine engine = new Engine(onlyRelationshipRules.getConstraints());
-        Map<String, String> inputValues = Map.of("sumOfArcsIs180", "true", "arc1", "60", "arc2", "30", "arc3", "90");
+        Map<String, String> inputValues = Map.of("sumOfAnglesIs180", "true", "angle1", "60", "angle2", "30", "angle3", "90");
         List<String> invalidInputIds = engine.validateInput(inputValues);
         assertThat(invalidInputIds).isEmpty();
     }
@@ -95,7 +95,7 @@ public class EngineCustomInputTest {
     @Test
     public void validationCanBeHackedWithoutIndividualValidators() {
         Engine engine = new Engine(onlyRelationshipRules.getConstraints());
-        Map<String, String> inputValues = Map.of("sumOfArcsIs180", "true", "arc1", "130", "arc2", "60", "arc3", "-10");
+        Map<String, String> inputValues = Map.of("sumOfAnglesIs180", "true", "angle1", "130", "angle2", "60", "angle3", "-10");
         List<String> invalidInputIds = engine.validateInput(inputValues);
         assertThat(invalidInputIds).isEmpty();
     }
@@ -104,22 +104,22 @@ public class EngineCustomInputTest {
     public void engineShouldCatchInvalidFieldIfIndividualValidatorsArePresent() {
         Engine engine = new Engine(relationshipAndIndividualConstraintsRuleSet.getConstraints());
         Map<String, String> inputValues = Map.of(
-                "sumOfArcsIs180", "true",
-                "arc1", "130", "arc2", "60", "arc3", "-10",
-                "arc1IsPositive", "true", "arc2IsPositive", "true", "arc3IsPositive", "false");
+                "sumOfAnglesIs180", "true",
+                "angle1", "130", "angle2", "60", "angle3", "-10",
+                "angle1IsPositive", "true", "angle2IsPositive", "true", "angle3IsPositive", "false");
         List<String> invalidInputIds = engine.validateInput(inputValues);
-        assertThat(invalidInputIds).containsExactlyInAnyOrder("arc3");
+        assertThat(invalidInputIds).containsExactlyInAnyOrder("angle3");
     }
 
     @Test
     public void ifRelevantCustomInputIsMissingValidationShouldNotPass() {
         Engine engine = new Engine(relationshipAndIndividualConstraintsRuleSet.getConstraints());
         Map<String, String> inputValues = Map.of(
-                //"sumOfArcsIs180", "true",
-                "arc1", "30", "arc2", "60", "arc3", "90",
-                "arc1IsPositive", "true", "arc2IsPositive", "true", "arc3IsPositive", "true");
+                //"sumOfAnglesIs180", "true",
+                "angle1", "30", "angle2", "60", "angle3", "90",
+                "angle1IsPositive", "true", "angle2IsPositive", "true", "angle3IsPositive", "true");
         List<String> invalidInputIds = engine.validateInput(inputValues);
-        assertThat(invalidInputIds).containsExactlyInAnyOrder("arc1", "arc2", "arc3");;
+        assertThat(invalidInputIds).containsExactlyInAnyOrder("angle1", "angle2", "angle3");;
     }
 
 }
