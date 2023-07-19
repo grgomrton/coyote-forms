@@ -1,0 +1,24 @@
+{
+  "constraints": [
+    {
+      "inputId": "sumOfAngles",
+      "condition": [ "always" ],
+      "permittedValues": [ ".*" ]
+    },
+    {
+      "inputId": "alpha",
+      "condition": [ "sumOfAngles is '180'" ],
+      "permittedValues": [ ".*" ]
+    },
+    {
+      "inputId": "beta",
+      "condition": [ "sumOfAngles is '180'" ],
+      "permittedValues": [ ".*" ]
+    },
+    {
+      "inputId": "gamma",
+      "condition": [ "sumOfAngles is '180'" ],
+      "permittedValues": [ ".*" ]
+    }
+  ]
+}

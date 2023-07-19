@@ -10,26 +10,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class EngineTwoLevelQueryTests {
 
-    //Planned input:
-    //
-    //  [
-    //  {
-    //    "inputId": "country",
-    //    "condition": [ "always" ],
-    //    "permittedValues": ["United Kingdom", "Hungary"]
-    //  },
-    //  {
-    //    "inputId": "city",
-    //    "condition": [ "country is 'Hungary'" ],
-    //    "permittedValues": ["Budapest", "Sopron"]
-    //  },
-    //  {
-    //    "inputId": "city",
-    //    "condition": [ "country is 'United Kingdom'" ],
-    //    "permittedValues": ["London"]
-    //  }
-    //  ]
-
     private static Engine engine;
 
     @BeforeAll

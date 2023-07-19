@@ -8,16 +8,16 @@ import java.util.stream.Collectors;
 // it is important to stick with language tools that exists in both Java and javascript.
 class Engine {
 
-    private List<Rule> rules;
+    private List<Rule> constraints;
     private ConditionEvaluator conditionEvaluator;
 
-    Engine(List<Rule> rules) {
-        this.rules = rules;
+    Engine(List<Rule> constraints) {
+        this.constraints = constraints;
         this.conditionEvaluator = new ConditionEvaluator();
     }
 
     List<String> queryAllowedValues(String inputId, Map<String, String> inputValues) {
-        return rules.stream()
+        return constraints.stream()
                 .filter(rule -> inputId.equals(rule.getInputId()))
                 .filter(rule -> allConditionMatches(rule, inputValues))
                 .flatMap(rule -> rule.getPermittedValues().stream())
@@ -34,7 +34,9 @@ class Engine {
     List<String> validateInput(Map<String, String> inputValues) {
         return inputValues.entrySet()
                 .stream()
-                .filter(entry -> !queryAllowedValues(entry.getKey(), inputValues).contains(entry.getValue()))
+                .filter(inputEntry ->
+                        !queryAllowedValues(inputEntry.getKey(), inputValues).stream()
+                                .anyMatch(item -> inputEntry.getValue().matches(item)))
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
     }

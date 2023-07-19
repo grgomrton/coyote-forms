@@ -10,16 +10,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class EngineOneLevelValidationTest {
 
-    //Planned input:
-    //
-    //  [
-    //  {
-    //    "inputId": "country",
-    //    "condition": [ "always" ],
-    //    "permittedValues": ["United Kingdom", "Hungary"]
-    //  }
-    //  ]
-
     private static Engine engine;
 
     @BeforeAll
