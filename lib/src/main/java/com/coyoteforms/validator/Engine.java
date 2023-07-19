@@ -32,19 +32,9 @@ class Engine {
         return inputValues.entrySet()
                 .stream()
                 .filter(inputEntry ->
-                        !(queryAllowedValues(inputEntry.getKey(), inputValues).contains(inputEntry.getValue()) ||
-                          passesPassThroughValidation(inputEntry.getKey(), inputValues)))
+                        !queryAllowedValues(inputEntry.getKey(), inputValues).stream().anyMatch(item -> inputEntry.getValue().matches(item)))
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
-    }
-
-    private boolean passesPassThroughValidation(String inputId, Map<String, String> inputValues) {
-        List<PassThroughRule> inputConstraints = Optional.ofNullable(rules.getPassThroughRules()).orElseGet(List::of).stream()
-                .filter(rule -> inputId.equals(rule.getInputId()))
-                .collect(Collectors.toList());
-        return inputConstraints.size() > 0 ?
-                inputConstraints.stream().anyMatch(rule -> allConditionMatches(rule.getCondition(), inputValues)) :
-                true;
     }
 
     private boolean allConditionMatches(List<String> condition, Map<String, String> inputValues) {

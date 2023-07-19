@@ -40,14 +40,22 @@ public class EngineCustomInputTest {
                                     .inputId("sumOfArcsIs180")
                                     .condition(List.of("always"))
                                     .permittedValues(List.of("true", "false"))
+                                    .build(),
+                            DiscreteRule.builder()
+                                    .inputId("arc1")
+                                    .condition(List.of("sumOfArcsIs180 is 'true'"))
+                                    .permittedValues(List.of(".*"))
+                                    .build(),
+                            DiscreteRule.builder()
+                                    .inputId("arc2")
+                                    .condition(List.of("sumOfArcsIs180 is 'true'"))
+                                    .permittedValues(List.of(".*"))
+                                    .build(),
+                            DiscreteRule.builder()
+                                    .inputId("arc3")
+                                    .condition(List.of("sumOfArcsIs180 is 'true'"))
+                                    .permittedValues(List.of(".*"))
                                     .build()
-                    )
-            )
-            .passThroughRules(
-                    List.of(
-                            PassThroughRule.builder().inputId("arc1").condition(List.of("sumOfArcsIs180 is 'true'")).build(),
-                            PassThroughRule.builder().inputId("arc2").condition(List.of("sumOfArcsIs180 is 'true'")).build(),
-                            PassThroughRule.builder().inputId("arc3").condition(List.of("sumOfArcsIs180 is 'true'")).build()
                     )
             ).build();
 
@@ -73,22 +81,21 @@ public class EngineCustomInputTest {
                                     .inputId("arc3IsPositive")
                                     .condition(List.of("always"))
                                     .permittedValues(List.of("true", "false"))
-                                    .build()
-                    )
-            )
-            .passThroughRules(
-                    List.of(
-                            PassThroughRule.builder()
+                                    .build(),
+                            DiscreteRule.builder()
                                     .inputId("arc1")
                                     .condition(List.of("arc1IsPositive is 'true'", "sumOfArcsIs180 is 'true'"))
+                                    .permittedValues(List.of(".*"))
                                     .build(),
-                            PassThroughRule.builder()
+                            DiscreteRule.builder()
                                     .inputId("arc2")
                                     .condition(List.of("arc2IsPositive is 'true'", "sumOfArcsIs180 is 'true'"))
+                                    .permittedValues(List.of(".*"))
                                     .build(),
-                            PassThroughRule.builder()
+                            DiscreteRule.builder()
                                     .inputId("arc3")
                                     .condition(List.of("arc3IsPositive is 'true'", "sumOfArcsIs180 is 'true'"))
+                                    .permittedValues(List.of(".*"))
                                     .build()
                     )
             ).build();

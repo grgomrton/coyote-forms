@@ -13,6 +13,4 @@ class RuleSet {
 
     private List<DiscreteRule> discreteValueRules;
 
-    private List<PassThroughRule> passThroughRules;
-
 }

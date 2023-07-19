@@ -2,14 +2,10 @@ package com.coyoteforms.validator;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import org.junit.jupiter.api.Test;
 
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Period;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,14 +27,26 @@ public class CoyoteFormsValidatorCustomRelationshipÍTest {
     // }
 
     private static String ruleSet = " {" +
-            "  \"passThroughRules\": [" +
+            "  \"discreteValueRules\": [" +
+            "    {" +
+            "      \"inputId\": \"intervalBeginsTomorrow\"," +
+            "      \"condition\": [ \"always\" ]," +
+            "      \"permittedValues\": [ \"true\", \"false\" ]" +
+            "    }," +
+            "    {" +
+            "      \"inputId\": \"intervalLengthDays\"," +
+            "      \"condition\": [ \"always\" ]," +
+            "      \"permittedValues\": [ \".*\" ]" +
+            "    }," +
             "    {" +
             "      \"inputId\": \"startDate\"," +
-            "      \"condition\": [ \"intervalBeginsTomorrow is 'true'\", \"intervalLengthDays is '14'\" ]" +
+            "      \"condition\": [ \"intervalBeginsTomorrow is 'true'\", \"intervalLengthDays is '14'\" ]," +
+            "      \"permittedValues\": [ \".*\" ]" +
             "    }," +
             "    {" +
             "      \"inputId\": \"endDate\"," +
-            "      \"condition\": [ \"intervalLengthDays is '14'\" ]" +
+            "      \"condition\": [ \"intervalLengthDays is '14'\" ]," +
+            "      \"permittedValues\": [ \".*\" ]" +
             "    }" +
             "  ]" +
             " };";
