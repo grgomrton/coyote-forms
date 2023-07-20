@@ -12,10 +12,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class CoyoteFormsValidatorCustomRelationshipTest {
 
-    private static String ruleSet = " {" +
+    private static String RULE_SET = " {" +
             "  \"constraints\": [" +
             "    {" +
-            "      \"inputId\": \"intervalBeginsTomorrow\"," +
+            "      \"inputId\": \"intervalBeginsEarliestTomorrow\"," +
             "      \"condition\": [ \"always\" ]," +
             "      \"permittedValues\": [ \"true\", \"false\" ]" +
             "    }," +
@@ -26,7 +26,7 @@ public class CoyoteFormsValidatorCustomRelationshipTest {
             "    }," +
             "    {" +
             "      \"inputId\": \"startDate\"," +
-            "      \"condition\": [ \"intervalBeginsTomorrow is 'true'\", \"intervalLengthDays is '14'\" ]," +
+            "      \"condition\": [ \"intervalBeginsEarliestTomorrow is 'true'\", \"intervalLengthDays is '14'\" ]," +
             "      \"permittedValues\": [ \".*\" ]" +
             "    }," +
             "    {" +
@@ -48,7 +48,7 @@ public class CoyoteFormsValidatorCustomRelationshipTest {
 
             if (interval.getStartDate() != null) {
                 inputValues.put(
-                        "intervalBeginsTomorrow",
+                        "intervalBeginsEarliestTomorrow",
                         Boolean.toString(interval.getStartDate().isAfter(LocalDate.now())));
             }
             if (interval.getStartDate() != null && interval.getEndDate() != null) {
@@ -72,7 +72,7 @@ public class CoyoteFormsValidatorCustomRelationshipTest {
 
     @Test
     public void validatorShouldLetTwoWeeksLongIntervalAfterTodayThrough() {
-        CoyoteFormValidator<Interval> validator = new CoyoteFormValidator<>(ruleSet, new IntervalConnector());
+        CoyoteFormValidator<Interval> validator = new CoyoteFormValidator<>(RULE_SET, new IntervalConnector());
         Interval interval = Interval.builder()
                 .startDate(LocalDate.now().plusDays(2))
                 .endDate(LocalDate.now().plusDays(16))
@@ -83,7 +83,7 @@ public class CoyoteFormsValidatorCustomRelationshipTest {
 
     @Test
     public void validatorShouldCatchIfIntervalStartsBeforeToday() {
-        CoyoteFormValidator<Interval> validator = new CoyoteFormValidator<>(ruleSet, new IntervalConnector());
+        CoyoteFormValidator<Interval> validator = new CoyoteFormValidator<>(RULE_SET, new IntervalConnector());
         Interval interval = Interval.builder()
                 .startDate(LocalDate.now().minusDays(1))
                 .endDate(LocalDate.now().plusDays(13))
@@ -94,7 +94,7 @@ public class CoyoteFormsValidatorCustomRelationshipTest {
 
     @Test
     public void validatorShouldCatchIfIntervalLengthIsNotTwoWeeks() {
-        CoyoteFormValidator<Interval> validator = new CoyoteFormValidator<>(ruleSet, new IntervalConnector());
+        CoyoteFormValidator<Interval> validator = new CoyoteFormValidator<>(RULE_SET, new IntervalConnector());
         Interval interval = Interval.builder()
                 .startDate(LocalDate.now().plusDays(1))
                 .endDate(LocalDate.now().plusDays(13))
@@ -105,7 +105,7 @@ public class CoyoteFormsValidatorCustomRelationshipTest {
 
     @Test
     public void validatorShouldCatchIfStartDateIsBeforeTodayAndIntervalLengthIsNotTwoWeeks() {
-        CoyoteFormValidator<Interval> validator = new CoyoteFormValidator<>(ruleSet, new IntervalConnector());
+        CoyoteFormValidator<Interval> validator = new CoyoteFormValidator<>(RULE_SET, new IntervalConnector());
         Interval interval = Interval.builder()
                 .startDate(LocalDate.now().minusDays(3))
                 .endDate(LocalDate.now().plusDays(13))

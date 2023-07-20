@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class EngineCustomInputTest {
 
-    private static RuleSet onlyRelationshipRules = RuleSet.builder()
+    private static RuleSet ONLY_RELATIONSHIP_RULES = RuleSet.builder()
             .constraints(
                     List.of(
                             Rule.builder()
@@ -35,7 +35,7 @@ public class EngineCustomInputTest {
                     )
             ).build();
 
-    private static RuleSet relationshipAndIndividualConstraintsRuleSet = RuleSet.builder()
+    private static RuleSet RELATIONSHIP_AND_INDIVIDUAL_RULES_RULE_SET = RuleSet.builder()
             .constraints(
                     List.of(
                             Rule.builder()
@@ -78,7 +78,7 @@ public class EngineCustomInputTest {
 
     @Test
     public void allInputShouldBeInvalidIfSumOfAnglesIsFalse() {
-        Engine engine = new Engine(onlyRelationshipRules.getConstraints());
+        Engine engine = new Engine(ONLY_RELATIONSHIP_RULES.getConstraints());
         Map<String, String> inputValues = Map.of("sumOfAnglesIs180", "false", "angle1", "60", "angle2", "30", "angle3", "50");
         List<String> invalidInputIds = engine.validateInput(inputValues);
         assertThat(invalidInputIds).containsExactlyInAnyOrder("angle1", "angle2", "angle3");
@@ -86,7 +86,7 @@ public class EngineCustomInputTest {
 
     @Test
     public void allInputShouldBeValidIfSumOfAnglesIsTrue() {
-        Engine engine = new Engine(onlyRelationshipRules.getConstraints());
+        Engine engine = new Engine(ONLY_RELATIONSHIP_RULES.getConstraints());
         Map<String, String> inputValues = Map.of("sumOfAnglesIs180", "true", "angle1", "60", "angle2", "30", "angle3", "90");
         List<String> invalidInputIds = engine.validateInput(inputValues);
         assertThat(invalidInputIds).isEmpty();
@@ -94,7 +94,7 @@ public class EngineCustomInputTest {
 
     @Test
     public void validationCanBeHackedWithoutIndividualValidators() {
-        Engine engine = new Engine(onlyRelationshipRules.getConstraints());
+        Engine engine = new Engine(ONLY_RELATIONSHIP_RULES.getConstraints());
         Map<String, String> inputValues = Map.of("sumOfAnglesIs180", "true", "angle1", "130", "angle2", "60", "angle3", "-10");
         List<String> invalidInputIds = engine.validateInput(inputValues);
         assertThat(invalidInputIds).isEmpty();
@@ -102,7 +102,7 @@ public class EngineCustomInputTest {
 
     @Test
     public void engineShouldCatchInvalidFieldIfIndividualValidatorsArePresent() {
-        Engine engine = new Engine(relationshipAndIndividualConstraintsRuleSet.getConstraints());
+        Engine engine = new Engine(RELATIONSHIP_AND_INDIVIDUAL_RULES_RULE_SET.getConstraints());
         Map<String, String> inputValues = Map.of(
                 "sumOfAnglesIs180", "true",
                 "angle1", "130", "angle2", "60", "angle3", "-10",
@@ -113,7 +113,7 @@ public class EngineCustomInputTest {
 
     @Test
     public void ifRelevantCustomInputIsMissingValidationShouldNotPass() {
-        Engine engine = new Engine(relationshipAndIndividualConstraintsRuleSet.getConstraints());
+        Engine engine = new Engine(RELATIONSHIP_AND_INDIVIDUAL_RULES_RULE_SET.getConstraints());
         Map<String, String> inputValues = Map.of(
                 //"sumOfAnglesIs180", "true",
                 "angle1", "30", "angle2", "60", "angle3", "90",
