@@ -26,12 +26,12 @@ public class CoyoteFormsValidatorCustomRelationshipTest {
             "    }," +
             "    {" +
             "      \"inputId\": \"startDate\"," +
-            "      \"condition\": [ \"intervalBeginsEarliestTomorrow is 'true'\", \"intervalLengthDays is '14'\" ]," +
+            "      \"condition\": [ \"intervalBeginsEarliestTomorrow is true\", \"intervalLengthDays is 14\" ]," +
             "      \"permittedValues\": [ \".*\" ]" +
             "    }," +
             "    {" +
             "      \"inputId\": \"endDate\"," +
-            "      \"condition\": [ \"intervalLengthDays is '14'\" ]," +
+            "      \"condition\": [ \"intervalLengthDays is 14\" ]," +
             "      \"permittedValues\": [ \".*\" ]" +
             "    }" +
             "  ]" +

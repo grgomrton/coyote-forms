@@ -18,7 +18,7 @@ import java.nio.file.Path;
 @Configuration
 public class ValidatorProvider {
 
-    @Value("classpath:LocationRuleSet.json")
+    @Value("classpath:LocationFormRuleSet.json")
     private Resource ruleSetFile;
 
     @Value("classpath:TriangleFormRuleSet.json")

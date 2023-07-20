@@ -20,7 +20,7 @@ public class ConditionEvaluatorIsConditionTest {
     public void evaluatorShouldIncludeValueIfOneLevelConditionIsSatisfiedByInput() {
         Map<String, String> sameCountrySelected = Map.of("country", "Hungary");
 
-        boolean shouldBeIncluded = conditionEvaluator.shouldBeIncluded("country is 'Hungary'", sameCountrySelected);
+        boolean shouldBeIncluded = conditionEvaluator.shouldBeIncluded("country is Hungary", sameCountrySelected);
 
         assertThat(shouldBeIncluded).isTrue();
     }
@@ -29,7 +29,7 @@ public class ConditionEvaluatorIsConditionTest {
     public void evaluatorShouldNotIncludeValueIfOneLevelConditionIsNotSatisfiedByInput() {
         Map<String, String> differentCountrySelected = Map.of("country", "United Kingdom");
 
-        boolean shouldBeIncluded = conditionEvaluator.shouldBeIncluded("country is 'Hungary'", differentCountrySelected);
+        boolean shouldBeIncluded = conditionEvaluator.shouldBeIncluded("country is Hungary", differentCountrySelected);
 
         assertThat(shouldBeIncluded).isFalse();
     }
@@ -38,9 +38,16 @@ public class ConditionEvaluatorIsConditionTest {
     public void ifInputIdIsNotPresentInInputValuesThenEvaluatorMustNotPermit() {
         Map<String, String> noInput = Map.of();
 
-        boolean shouldBeIncluded = conditionEvaluator.shouldBeIncluded("country is 'Hungary'", noInput);
+        boolean shouldBeIncluded = conditionEvaluator.shouldBeIncluded("country is Hungary", noInput);
 
         assertThat(shouldBeIncluded).isFalse();
+    }
+
+    @Test
+    public void evaluatorShouldPermitWordIsInConditionRegex() {
+        Map<String, String> inputWithIs = Map.of("text", "ez is az is");
+        boolean shouldBeIncluded = conditionEvaluator.shouldBeIncluded("text is ez is az is", inputWithIs);
+        assertThat(shouldBeIncluded).isTrue();
     }
 
 

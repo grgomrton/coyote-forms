@@ -22,12 +22,12 @@ public class EngineTwoLevelQueryTests {
                         .build(),
                 Rule.builder()
                         .inputId("city")
-                        .condition(List.of("country is 'Hungary'"))
+                        .condition(List.of("country is Hungary"))
                         .permittedValues(List.of("Budapest", "Sopron"))
                         .build(),
                 Rule.builder()
                         .inputId("city")
-                        .condition(List.of("country is 'United Kingdom'"))
+                        .condition(List.of("country is United Kingdom"))
                         .permittedValues(List.of("London"))
                         .build());
         engine = new Engine(rules);
