@@ -27,7 +27,7 @@ public class CoyoteFormValidator<T> {
         }
     }
 
-    public List<String> validate(T input) {
+    public Map<String, List<String>> validate(T input) {
         Map<String, String> inputKeyValuePairs = connector.collectInputValues(input);
         return engine.validateInput(inputKeyValuePairs);
     }

@@ -17,4 +17,6 @@ class Rule {
 
     private List<String> permittedValues;
 
+    private String errorMessage;
+
 }

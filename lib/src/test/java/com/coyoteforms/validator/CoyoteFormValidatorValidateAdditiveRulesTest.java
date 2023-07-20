@@ -77,7 +77,7 @@ public class CoyoteFormValidatorValidateAdditiveRulesTest {
     @ParameterizedTest
     @MethodSource("invalidSelections")
     public void validatorShouldCatchInvalidInput(SelectedCountriesAndCityDto selection, List<String> invalidInputIds) {
-        assertThat(validator.validate(selection)).containsExactlyInAnyOrderElementsOf(invalidInputIds);
+        assertThat(validator.validate(selection).keySet()).containsExactlyInAnyOrderElementsOf(invalidInputIds);
     }
 
     @ParameterizedTest

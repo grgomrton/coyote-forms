@@ -75,7 +75,7 @@ public class CoyoteFormValidatorValidateFullFormTest {
     @ParameterizedTest
     @MethodSource("invalidSelections")
     public void validatorShouldCatchInvalidInput(LocationDto selectedLocation, List<String> invalidInputIds) {
-        assertThat(validator.validate(selectedLocation)).containsExactlyInAnyOrderElementsOf(invalidInputIds);
+        assertThat(validator.validate(selectedLocation).keySet()).containsExactlyInAnyOrderElementsOf(invalidInputIds);
     }
 
     private static Stream<Arguments> validSelections() {

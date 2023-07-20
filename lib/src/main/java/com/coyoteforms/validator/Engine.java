@@ -31,13 +31,21 @@ class Engine {
                 .reduce(true, (prev, cur) -> prev && cur);
     }
 
-    List<String> validateInput(Map<String, String> inputValues) {
+    Map<String, List<String>> validateInput(Map<String, String> inputValues) {
         return inputValues.entrySet()
                 .stream()
                 .filter(inputEntry ->
                         !queryAllowedValues(inputEntry.getKey(), inputValues).stream()
                                 .anyMatch(item -> inputEntry.getValue().matches(item)))
                 .map(Map.Entry::getKey)
+                .map(inputId -> Map.entry(inputId, collectErrorMessage(inputId)))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    private List<String> collectErrorMessage(String inputId) {
+        return constraints.stream()
+                .filter(item -> item.getInputId().equals(inputId))
+                .map(Rule::getErrorMessage)
                 .collect(Collectors.toList());
     }
 
