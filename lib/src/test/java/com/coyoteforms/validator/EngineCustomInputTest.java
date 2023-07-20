@@ -19,17 +19,17 @@ public class EngineCustomInputTest {
                                     .build(),
                             Rule.builder()
                                     .inputId("angle1")
-                                    .condition(List.of("sumOfAnglesIs180 is 'true'"))
+                                    .condition(List.of("sumOfAnglesIs180 is true"))
                                     .permittedValues(List.of(".*"))
                                     .build(),
                             Rule.builder()
                                     .inputId("angle2")
-                                    .condition(List.of("sumOfAnglesIs180 is 'true'"))
+                                    .condition(List.of("sumOfAnglesIs180 is true"))
                                     .permittedValues(List.of(".*"))
                                     .build(),
                             Rule.builder()
                                     .inputId("angle3")
-                                    .condition(List.of("sumOfAnglesIs180 is 'true'"))
+                                    .condition(List.of("sumOfAnglesIs180 is true"))
                                     .permittedValues(List.of(".*"))
                                     .build()
                     )
@@ -60,17 +60,17 @@ public class EngineCustomInputTest {
                                     .build(),
                             Rule.builder()
                                     .inputId("angle1")
-                                    .condition(List.of("angle1IsPositive is 'true'", "sumOfAnglesIs180 is 'true'"))
+                                    .condition(List.of("angle1IsPositive is true", "sumOfAnglesIs180 is true"))
                                     .permittedValues(List.of(".*"))
                                     .build(),
                             Rule.builder()
                                     .inputId("angle2")
-                                    .condition(List.of("angle2IsPositive is 'true'", "sumOfAnglesIs180 is 'true'"))
+                                    .condition(List.of("angle2IsPositive is true", "sumOfAnglesIs180 is true"))
                                     .permittedValues(List.of(".*"))
                                     .build(),
                             Rule.builder()
                                     .inputId("angle3")
-                                    .condition(List.of("angle3IsPositive is 'true'", "sumOfAnglesIs180 is 'true'"))
+                                    .condition(List.of("angle3IsPositive is true", "sumOfAnglesIs180 is true"))
                                     .permittedValues(List.of(".*"))
                                     .build()
                     )
@@ -119,7 +119,18 @@ public class EngineCustomInputTest {
                 "angle1", "30", "angle2", "60", "angle3", "90",
                 "angle1IsPositive", "true", "angle2IsPositive", "true", "angle3IsPositive", "true");
         List<String> invalidInputIds = engine.validateInput(inputValues);
-        assertThat(invalidInputIds).containsExactlyInAnyOrder("angle1", "angle2", "angle3");;
+        assertThat(invalidInputIds).containsExactlyInAnyOrder("angle1", "angle2", "angle3");
+    }
+
+    @Test
+    public void forContinuousInputsQueryAllowedValuesShouldNotThrow() {
+        Engine engine = new Engine(RELATIONSHIP_AND_INDIVIDUAL_RULES_RULE_SET.getConstraints());
+        Map<String, String> inputValues = Map.of(
+                "sumOfAnglesIs180", "true",
+                "angle1", "30", "angle2", "60", "angle3", "90",
+                "angle1IsPositive", "true", "angle2IsPositive", "true", "angle3IsPositive", "true");
+        List<String> allowedValuesAngle1 = engine.queryAllowedValues("angle1", inputValues);
+        assertThat(allowedValuesAngle1).containsExactlyInAnyOrder(".*");
     }
 
 }

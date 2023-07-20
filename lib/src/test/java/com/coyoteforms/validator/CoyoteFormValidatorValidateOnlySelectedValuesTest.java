@@ -25,12 +25,12 @@ public class CoyoteFormValidatorValidateOnlySelectedValuesTest {
             "    }," +
             "    {" +
             "    \"inputId\": \"city\"," +
-            "    \"condition\": [ \"country is 'Hungary'\" ]," +
+            "    \"condition\": [ \"country is Hungary\" ]," +
             "    \"permittedValues\": [\"Budapest\", \"Sopron\"]" +
             "    }," +
             "    {" +
             "    \"inputId\": \"city\"," +
-            "    \"condition\": [ \"country is 'United Kingdom'\" ]," +
+            "    \"condition\": [ \"country is United Kingdom\" ]," +
             "    \"permittedValues\": [\"London\"]" +
             "    }" +
             "  ]" +

@@ -25,32 +25,32 @@ public class EngineThreeLevelValidationTest {
                         .build(),
                 Rule.builder()
                         .inputId("country")
-                        .condition(List.of("region is 'Americas'"))
+                        .condition(List.of("region is Americas"))
                         .permittedValues(List.of("U.S.A.", "Mexico"))
                         .build(),
                 Rule.builder()
                         .inputId("country")
-                        .condition(List.of("region is 'EMEA'"))
+                        .condition(List.of("region is EMEA"))
                         .permittedValues(List.of("United Kingdom", "Hungary"))
                         .build(),
                 Rule.builder()
                         .inputId("city")
-                        .condition(List.of("region is 'Americas'", "country is 'U.S.A.'"))
+                        .condition(List.of("region is Americas", "country is U.S.A."))
                         .permittedValues(List.of("New York", "Washington"))
                         .build(),
                 Rule.builder()
                         .inputId("city")
-                        .condition(List.of("region is 'Americas'", "country is 'Mexico'"))
+                        .condition(List.of("region is Americas", "country is Mexico"))
                         .permittedValues(List.of("Toluca de Lerdo"))
                         .build(),
                 Rule.builder()
                         .inputId("city")
-                        .condition(List.of("region is 'EMEA'", "country is 'Hungary'"))
+                        .condition(List.of("region is EMEA", "country is Hungary"))
                         .permittedValues(List.of("Budapest", "Sopron"))
                         .build(),
                 Rule.builder()
                         .inputId("city")
-                        .condition(List.of("region is 'EMEA'", "country is 'United Kingdom'"))
+                        .condition(List.of("region is EMEA", "country is United Kingdom"))
                         .permittedValues(List.of("London"))
                         .build());
         engine = new Engine(rules);

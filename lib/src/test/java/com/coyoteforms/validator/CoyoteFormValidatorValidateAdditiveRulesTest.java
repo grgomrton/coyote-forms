@@ -30,12 +30,12 @@ public class CoyoteFormValidatorValidateAdditiveRulesTest {
             "        }," +
             "        {" +
             "          \"inputId\": \"city\"," +
-            "          \"condition\": [ \"franceCheckbox is 'checked'\" ]," +
+            "          \"condition\": [ \"franceCheckbox is checked\" ]," +
             "          \"permittedValues\": [ \"Paris\", \"Marseilles\" ]" +
             "        }," +
             "        {" +
             "          \"inputId\": \"city\"," +
-            "          \"condition\": [ \"germanyCheckbox is 'checked'\" ]," +
+            "          \"condition\": [ \"germanyCheckbox is checked\" ]," +
             "          \"permittedValues\": [ \"Munich\", \"Berlin\", \"Hamburg\" ]" +
             "        }" +
             "      ]" +
