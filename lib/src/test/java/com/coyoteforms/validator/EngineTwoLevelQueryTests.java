@@ -16,17 +16,17 @@ public class EngineTwoLevelQueryTests {
     public static void init() {
         List<Rule> rules = List.of(
                 Rule.builder()
-                        .inputId("country")
+                        .inputIds(List.of("country"))
                         .condition(List.of("always"))
                         .permittedValues(List.of("United Kingdom", "Hungary"))
                         .build(),
                 Rule.builder()
-                        .inputId("city")
+                        .inputIds(List.of("city"))
                         .condition(List.of("country is Hungary"))
                         .permittedValues(List.of("Budapest", "Sopron"))
                         .build(),
                 Rule.builder()
-                        .inputId("city")
+                        .inputIds(List.of("city"))
                         .condition(List.of("country is United Kingdom"))
                         .permittedValues(List.of("London"))
                         .build());

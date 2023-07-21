@@ -14,24 +14,24 @@ public class EngineCustomInputTest {
             .constraints(
                     List.of(
                             Rule.builder()
-                                    .inputId("sumOfAnglesIs180")
+                                    .inputIds(List.of("sumOfAnglesIs180"))
                                     .condition(List.of("always"))
                                     .permittedValues(List.of("true", "false"))
                                     .build(),
                             Rule.builder()
-                                    .inputId("angle1")
+                                    .inputIds(List.of("angle1"))
                                     .condition(List.of("sumOfAnglesIs180 is true"))
                                     .permittedValues(List.of(".*"))
                                     .helperText("The sum of the angles must be 180")
                                     .build(),
                             Rule.builder()
-                                    .inputId("angle2")
+                                    .inputIds(List.of("angle2"))
                                     .condition(List.of("sumOfAnglesIs180 is true"))
                                     .permittedValues(List.of(".*"))
                                     .helperText("The sum of the angles must be 180")
                                     .build(),
                             Rule.builder()
-                                    .inputId("angle3")
+                                    .inputIds(List.of("angle3"))
                                     .condition(List.of("sumOfAnglesIs180 is true"))
                                     .permittedValues(List.of(".*"))
                                     .helperText("The sum of the angles must be 180")
@@ -43,39 +43,39 @@ public class EngineCustomInputTest {
             .constraints(
                     List.of(
                             Rule.builder()
-                                    .inputId("sumOfAnglesIs180")
+                                    .inputIds(List.of("sumOfAnglesIs180"))
                                     .condition(List.of("always"))
                                     .permittedValues(List.of("true", "false"))
                                     .build(),
                             Rule.builder()
-                                    .inputId("angle1IsPositive")
+                                    .inputIds(List.of("angle1IsPositive"))
                                     .condition(List.of("always"))
                                     .permittedValues(List.of("true", "false"))
                                     .build(),
                             Rule.builder()
-                                    .inputId("angle2IsPositive")
+                                    .inputIds(List.of("angle2IsPositive"))
                                     .condition(List.of("always"))
                                     .permittedValues(List.of("true", "false"))
                                     .build(),
                             Rule.builder()
-                                    .inputId("angle3IsPositive")
+                                    .inputIds(List.of("angle3IsPositive"))
                                     .condition(List.of("always"))
                                     .permittedValues(List.of("true", "false"))
                                     .build(),
                             Rule.builder()
-                                    .inputId("angle1")
+                                    .inputIds(List.of("angle1"))
                                     .condition(List.of("angle1IsPositive is true", "sumOfAnglesIs180 is true"))
                                     .permittedValues(List.of(".*"))
                                     .helperText("Angle must be positive and sum of the angles must be 180")
                                     .build(),
                             Rule.builder()
-                                    .inputId("angle2")
+                                    .inputIds(List.of("angle2"))
                                     .condition(List.of("angle2IsPositive is true", "sumOfAnglesIs180 is true"))
                                     .permittedValues(List.of(".*"))
                                     .helperText("Angle must be positive and sum of the angles must be 180")
                                     .build(),
                             Rule.builder()
-                                    .inputId("angle3")
+                                    .inputIds(List.of("angle3"))
                                     .condition(List.of("angle3IsPositive is true", "sumOfAnglesIs180 is true"))
                                     .permittedValues(List.of(".*"))
                                     .helperText("Angle must be positive and sum of the angles must be 180")
@@ -88,7 +88,7 @@ public class EngineCustomInputTest {
         Engine engine = new Engine(ONLY_RELATIONSHIP_RULES.getConstraints());
         Map<String, String> inputValues = Map.of("sumOfAnglesIs180", "false", "angle1", "60", "angle2", "30", "angle3", "50");
 
-        Map<String, List<String>> validationErrors = engine.validateInput(inputValues);
+        Map<String, Set<String>> validationErrors = engine.validateInput(inputValues);
 
         assertThat(collectInputIds(validationErrors)).containsExactlyInAnyOrder("angle1", "angle2", "angle3");
         assertThat(validationErrors.get("angle1")).containsExactlyInAnyOrder("The sum of the angles must be 180");
@@ -100,7 +100,7 @@ public class EngineCustomInputTest {
         Engine engine = new Engine(ONLY_RELATIONSHIP_RULES.getConstraints());
         Map<String, String> inputValues = Map.of("sumOfAnglesIs180", "true", "angle1", "60", "angle2", "30", "angle3", "90");
 
-        Map<String, List<String>> validationErrors = engine.validateInput(inputValues);
+        Map<String, Set<String>> validationErrors = engine.validateInput(inputValues);
 
         assertThat(collectInputIds(validationErrors)).isEmpty();
     }
@@ -110,7 +110,7 @@ public class EngineCustomInputTest {
         Engine engine = new Engine(ONLY_RELATIONSHIP_RULES.getConstraints());
         Map<String, String> inputValues = Map.of("sumOfAnglesIs180", "true", "angle1", "130", "angle2", "60", "angle3", "-10");
 
-        Map<String, List<String>> validationErrors = engine.validateInput(inputValues);
+        Map<String, Set<String>> validationErrors = engine.validateInput(inputValues);
 
         assertThat(collectInputIds(validationErrors)).isEmpty();
     }
@@ -123,7 +123,7 @@ public class EngineCustomInputTest {
                 "angle1", "130", "angle2", "60", "angle3", "-10",
                 "angle1IsPositive", "true", "angle2IsPositive", "true", "angle3IsPositive", "false");
 
-        Map<String, List<String>> validationErrors = engine.validateInput(inputValues);
+        Map<String, Set<String>> validationErrors = engine.validateInput(inputValues);
 
         assertThat(collectInputIds(validationErrors)).containsExactlyInAnyOrder("angle3");
         assertThat(validationErrors.get("angle3")).containsExactlyInAnyOrder("Angle must be positive and sum of the angles must be 180");
@@ -137,7 +137,7 @@ public class EngineCustomInputTest {
                 "angle1", "30", "angle2", "60", "angle3", "90",
                 "angle1IsPositive", "true", "angle2IsPositive", "true", "angle3IsPositive", "true");
 
-        Map<String, List<String>> validationErrors = engine.validateInput(inputValues);
+        Map<String, Set<String>> validationErrors = engine.validateInput(inputValues);
 
         assertThat(collectInputIds(validationErrors)).containsExactlyInAnyOrder("angle1", "angle2", "angle3");
         assertThat(validationErrors.get("angle2")).containsExactlyInAnyOrder("Angle must be positive and sum of the angles must be 180");
@@ -156,7 +156,7 @@ public class EngineCustomInputTest {
         assertThat(allowedValuesAngle1).containsExactlyInAnyOrder(".*"); // fine by me :)
     }
 
-    private static Set<String> collectInputIds(Map<String, List<String>> validationErrors) {
+    private static Set<String> collectInputIds(Map<String, Set<String>> validationErrors) {
         return validationErrors.keySet();
     }
 
