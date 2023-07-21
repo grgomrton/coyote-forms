@@ -17,50 +17,35 @@ public class CoyoteFormValidatorComplexDateConstraintsTest {
     private static String RULE_SET = "{" +
             "  \"constraints\": [" +
             "    {" +
-            "      \"inputId\": \"intervalLength\"," +
-            "      \"condition\": [ \"always\" ]," +
-            "      \"permittedValues\": [ \".*\" ]" +
-            "    }," +
-            "  {" +
-            "    \"inputId\": \"intervalLengthIsMoreThan3Days\"," +
-            "    \"condition\": [ \"always\" ]," +
-            "    \"permittedValues\": [ \".*\" ]" +
-            "  }," +
-            "  {" +
-            "    \"inputId\": \"daysInAdvanceAtLeastOneWeek\"," +
-            "    \"condition\": [ \"always\" ]," +
-            "    \"permittedValues\": [ \".*\" ]" +
-            "  }," +
-            "  {" +
-            "    \"inputId\": \"daysInAdvanceAtLeasTwoWeeks\"," +
-            "    \"condition\": [ \"always\" ]," +
-            "    \"permittedValues\": [ \".*\" ]" +
-            "  }," +
-            "    {" +
-            "      \"inputId\": \"endDateIsAfterStart\"," +
+            "      \"inputIds\": [ " +
+            "         \"intervalLength\", " +
+            "         \"intervalLengthIsMoreThan3Days\", " +
+            "         \"daysInAdvanceAtLeastOneWeek\", " +
+            "         \"daysInAdvanceAtLeasTwoWeeks\", " +
+            "         \"endDateIsAfterStart\" ]," +
             "      \"condition\": [ \"always\" ]," +
             "      \"permittedValues\": [ \".*\" ]" +
             "    }," +
             "    {" +
-            "      \"inputId\": \"startDate\"," +
+            "      \"inputIds\": [ \"startDate\", \"endDate\" ]," +
             "      \"condition\": [ \"intervalLength is 1\", \"daysInAdvanceAtLeastOneWeek is true\", \"endDateIsAfterStart is true\" ]," +
             "      \"permittedValues\": [ \".*\" ]," +
             "      \"helperText\": \"Up to 3 days the notification period is one week\"" +
             "    }," +
             "    {" +
-            "      \"inputId\": \"startDate\"," +
+            "      \"inputIds\": [ \"startDate\", \"endDate\" ]," +
             "      \"condition\": [ \"intervalLength is 2\", \"daysInAdvanceAtLeastOneWeek is true\", \"endDateIsAfterStart is true\" ]," +
             "      \"permittedValues\": [ \".*\" ]," +
             "      \"helperText\": \"Up to 3 days the notification period is one week\"" +
             "    }," +
             "  {" +
-            "      \"inputId\": \"startDate\"," +
-            "      \"condition\": [ \"intervalLength is 3\", \"daysInAdvanceAtLeastOneWeek is true\", \"endDateIsAfterStart is true\" ]," + // todo move to enddate rule
+            "      \"inputIds\": [ \"startDate\", \"endDate\" ]," +
+            "      \"condition\": [ \"intervalLength is 3\", \"daysInAdvanceAtLeastOneWeek is true\", \"endDateIsAfterStart is true\" ]," +
             "      \"permittedValues\": [ \".*\" ]," +
             "      \"helperText\": \"Up to 3 days the notification period is one week\"" +
             "    }," +
             "  {" +
-            "      \"inputId\": \"startDate\"," +
+            "      \"inputIds\": [ \"startDate\", \"endDate\" ]," +
             "      \"condition\": [ \"intervalLengthIsMoreThan3Days is true\", \"daysInAdvanceAtLeasTwoWeeks is true\", \"endDateIsAfterStart is true\" ]," +
             "      \"permittedValues\": [ \".*\" ]," +
             "      \"helperText\": \"More than 3 days leave must be entered two weeks prior\"" +
@@ -102,6 +87,10 @@ public class CoyoteFormValidatorComplexDateConstraintsTest {
         @Override
         public Map<String, String> collectInputValues(Interval interval) {
             Map<String, String> inputValues = new HashMap<>();
+
+            inputValues.put("startDate", interval.getStartDate() == null ? "" : interval.getStartDate().toString());
+            inputValues.put("endDate", interval.getEndDate() == null ? "" : interval.getEndDate().toString());
+
             if (interval.getStartDate() != null) {
                 if (LocalDate.now(testClock).plusDays(6).isBefore(interval.getStartDate())) {
                     inputValues.put("daysInAdvanceAtLeastOneWeek", "true");
@@ -144,7 +133,7 @@ public class CoyoteFormValidatorComplexDateConstraintsTest {
     }
 
     @Test
-    public void longerVacatioForTheNextWeekCannotBeAdded() {
+    public void fourDaysVacatioForTheNextWeekCannotBeAdded() {
         LocalDate startDate = LocalDate.parse("2023-07-28");
         LocalDate endDate = LocalDate.parse("2023-08-02");
         Interval request = Interval.builder().startDate(startDate).endDate(endDate).build();

@@ -2,6 +2,7 @@ package com.coyoteforms.validator;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -20,7 +21,7 @@ class Engine {
 
     List<String> queryAllowedValues(String inputId, Map<String, String> inputValues) {
         return constraints.stream()
-                .filter(rule -> inputId.equals(rule.getInputId()))
+                .filter(rule -> Optional.ofNullable(rule.getInputIds()).orElseGet(List::of).contains(inputId))
                 .filter(rule -> allConditionMatches(rule, inputValues))
                 .flatMap(rule -> rule.getPermittedValues().stream())
                 .collect(Collectors.toList());
@@ -45,7 +46,7 @@ class Engine {
 
     private Set<String> collectHelperTexts(String inputId) {
         return constraints.stream()
-                .filter(item -> item.getInputId().equals(inputId))
+                .filter(rule -> Optional.ofNullable(rule.getInputIds()).orElseGet(List::of).contains(inputId))
                 .map(Rule::getHelperText)
                 .collect(Collectors.toSet());
     }

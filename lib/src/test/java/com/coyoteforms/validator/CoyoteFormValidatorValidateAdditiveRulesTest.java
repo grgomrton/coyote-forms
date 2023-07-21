@@ -19,22 +19,22 @@ public class CoyoteFormValidatorValidateAdditiveRulesTest {
     private static String RULE_SET = "    {" +
             "      \"constraints\": [" +
             "        {" +
-            "          \"inputId\": \"franceCheckbox\"," +
+            "          \"inputIds\": [ \"franceCheckbox\" ]," +
             "          \"condition\": [ \"always\" ]," +
             "          \"permittedValues\": [ \"checked\", \"unchecked\" ]" +
             "        }," +
             "        {" +
-            "          \"inputId\": \"germanyCheckbox\"," +
+            "          \"inputIds\": [ \"germanyCheckbox\" ]," +
             "          \"condition\": [ \"always\" ]," +
             "          \"permittedValues\": [ \"checked\", \"unchecked\" ]" +
             "        }," +
             "        {" +
-            "          \"inputId\": \"city\"," +
+            "          \"inputIds\": [ \"city\" ]," +
             "          \"condition\": [ \"franceCheckbox is checked\" ]," +
             "          \"permittedValues\": [ \"Paris\", \"Marseilles\" ]" +
             "        }," +
             "        {" +
-            "          \"inputId\": \"city\"," +
+            "          \"inputIds\": [ \"city\" ]," +
             "          \"condition\": [ \"germanyCheckbox is checked\" ]," +
             "          \"permittedValues\": [ \"Munich\", \"Berlin\", \"Hamburg\" ]" +
             "        }" +

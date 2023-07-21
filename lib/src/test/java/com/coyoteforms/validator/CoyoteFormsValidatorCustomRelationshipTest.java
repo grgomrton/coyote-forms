@@ -15,23 +15,23 @@ public class CoyoteFormsValidatorCustomRelationshipTest {
     private static String RULE_SET = " {" +
             "  \"constraints\": [" +
             "    {" +
-            "      \"inputId\": \"intervalBeginsEarliestTomorrow\"," +
+            "      \"inputIds\": [ \"intervalBeginsEarliestTomorrow\" ]," +
             "      \"condition\": [ \"always\" ]," +
             "      \"permittedValues\": [ \"true\", \"false\" ]" +
             "    }," +
             "    {" +
-            "      \"inputId\": \"intervalLengthDays\"," +
+            "      \"inputIds\": [ \"intervalLengthDays\" ]," +
             "      \"condition\": [ \"always\" ]," +
             "      \"permittedValues\": [ \".*\" ]" +
             "    }," +
             "    {" +
-            "      \"inputId\": \"startDate\"," +
+            "      \"inputIds\": [ \"startDate\" ]," +
             "      \"condition\": [ \"intervalBeginsEarliestTomorrow is true\", \"intervalLengthDays is 14\" ]," +
             "      \"permittedValues\": [ \".*\" ]," +
             "      \"helperText\": \"Interval must be two weeks long. Start date must be earliest tomorrow.\"" +
             "    }," +
             "    {" +
-            "      \"inputId\": \"endDate\"," +
+            "      \"inputIds\": [ \"endDate\" ]," +
             "      \"condition\": [ \"intervalLengthDays is 14\" ]," +
             "      \"permittedValues\": [ \".*\" ]," +
             "      \"helperText\": \"Interval must be two weeks long.\"" +
