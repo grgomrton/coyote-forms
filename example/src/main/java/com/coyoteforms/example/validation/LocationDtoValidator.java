@@ -1,12 +1,16 @@
 package com.coyoteforms.example.validation;
 
 import com.coyoteforms.example.dto.LocationDto;
+import com.coyoteforms.example.dto.TriangleDto;
 import com.coyoteforms.validator.CoyoteFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class LocationDtoValidator implements ConstraintValidator<ValidLocation, LocationDto> {
 
@@ -19,13 +23,18 @@ public class LocationDtoValidator implements ConstraintValidator<ValidLocation, 
 
     @Override
     public boolean isValid(LocationDto location, ConstraintValidatorContext context) {
-        List<String> invalidInputIds = validator.validate(location);
+        Map<String, Set<String>> validationResult = validator.validate(location);
         context.disableDefaultConstraintViolation();
-        invalidInputIds.forEach(inputId -> context.buildConstraintViolationWithTemplate("Invalid value")
-                .addPropertyNode(inputId)
-                .addConstraintViolation()
-        );
-        return invalidInputIds.isEmpty();
+        validationResult.keySet().forEach(invalidInput -> addHelperTextOrDefaultValue(invalidInput, validationResult, context));
+        return validationResult.isEmpty();
+    }
+
+    private void addHelperTextOrDefaultValue(String invalidInputId, Map<String, Set<String>> validationResult, ConstraintValidatorContext context) {
+        Set<String> helperTexts = validationResult.get(invalidInputId);
+        Set<String> responseTexts = helperTexts.isEmpty() ? Set.of("Invalid value") : helperTexts;
+        responseTexts.forEach(helperText -> context.buildConstraintViolationWithTemplate(helperText)
+                .addPropertyNode(invalidInputId)
+                .addConstraintViolation());
     }
 
 }

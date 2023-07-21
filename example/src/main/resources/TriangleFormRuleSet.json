@@ -1,22 +1,22 @@
 {
   "constraints": [
     {
-      "inputId": "sumOfAngles",
+      "inputIds": [ "sumOfAngles" ],
       "condition": [ "always" ],
       "permittedValues": [ ".*" ]
     },
     {
-      "inputId": "alpha",
+      "inputIds": [ "alpha" ],
       "condition": [ "sumOfAngles is 180" ],
       "permittedValues": [ ".*" ]
     },
     {
-      "inputId": "beta",
+      "inputIds": [ "beta" ],
       "condition": [ "sumOfAngles is 180" ],
       "permittedValues": [ ".*" ]
     },
     {
-      "inputId": "gamma",
+      "inputIds": [ "gamma" ],
       "condition": [ "sumOfAngles is 180" ],
       "permittedValues": [ ".*" ]
     }
