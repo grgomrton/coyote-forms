@@ -81,7 +81,7 @@ public class CoyoteFormValidatorComplexDateConstraintsTest {
         private Clock testClock;
 
         public IntervalConnector(Clock testClock) {
-            this.testClock = testClock; // so we can freeze time in the test
+            this.testClock = testClock; // so we can freeze time in the tests
         }
 
         @Override
@@ -122,25 +122,60 @@ public class CoyoteFormValidatorComplexDateConstraintsTest {
     }
 
     @Test
-    public void twoDaysVacatioForTheNextWeekCanBeAdded() {
+    public void twoDaysVacationForTheNextWeekCanBeAdded() {
         LocalDate startDate = LocalDate.parse("2023-07-28");
         LocalDate endDate = LocalDate.parse("2023-07-31");
         Interval request = Interval.builder().startDate(startDate).endDate(endDate).build();
 
-        Map<String, Set<String>> invalidInputs = validator.validate(request);
+        Map<String, Set<String>> validationResult = validator.validate(request);
 
-        assertThat(invalidInputs).isEmpty();
+        assertThat(validationResult).isEmpty();
     }
 
     @Test
-    public void fourDaysVacatioForTheNextWeekCannotBeAdded() {
+    public void fourDaysVacationForTheNextWeekCannotBeAdded() {
         LocalDate startDate = LocalDate.parse("2023-07-28");
         LocalDate endDate = LocalDate.parse("2023-08-02");
         Interval request = Interval.builder().startDate(startDate).endDate(endDate).build();
 
-        Map<String, Set<String>> invalidInputs = validator.validate(request);
+        Map<String, Set<String>> validationResult = validator.validate(request);
 
-        assertThat(invalidInputs.keySet()).containsExactlyInAnyOrder("startDate", "endDate");
+        assertThat(validationResult.keySet()).containsExactlyInAnyOrder("startDate", "endDate");
+        assertThatHelperTextContainsBothValueOnce("startDate", validationResult);
+        assertThatHelperTextContainsBothValueOnce("endDate", validationResult);
+    }
+
+    @Test
+    public void fourDaysVacationTwoWeeksInAdvanceCanBeAdded() {
+        LocalDate startDate = LocalDate.parse("2023-08-07");
+        LocalDate endDate = LocalDate.parse("2023-08-10");
+        Interval request = Interval.builder().startDate(startDate).endDate(endDate).build();
+
+        Map<String, Set<String>> validationResult = validator.validate(request);
+
+        assertThat(validationResult).isEmpty();
+    }
+
+    @Test
+    public void vacationCannotBeAddedInThePast() {
+        LocalDate startDate = LocalDate.parse("2023-07-11");
+        LocalDate endDate = LocalDate.parse("2023-07-13");
+        Interval request = Interval.builder().startDate(startDate).endDate(endDate).build();
+
+        Map<String, Set<String>> validationResult = validator.validate(request);
+
+        assertThat(validationResult.keySet()).containsExactlyInAnyOrder("startDate", "endDate");
+        assertThatHelperTextContainsBothValueOnce("startDate", validationResult);
+        assertThatHelperTextContainsBothValueOnce("endDate", validationResult);
+    }
+
+
+    private static void assertThatHelperTextContainsBothValueOnce(String inputId, Map<String, Set<String>> validationResult) {
+        assertThat(validationResult.get(inputId))
+                .containsExactlyInAnyOrder(
+                        "Up to 3 days the notification period is one week",
+                        "More than 3 days leave must be entered two weeks prior"
+                );
     }
 
 }
