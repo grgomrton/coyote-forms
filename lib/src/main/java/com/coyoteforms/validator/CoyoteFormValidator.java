@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class CoyoteFormValidator<T> {
 
@@ -27,7 +28,7 @@ public class CoyoteFormValidator<T> {
         }
     }
 
-    public Map<String, List<String>> validate(T input) {
+    public Map<String, Set<String>> validate(T input) {
         Map<String, String> inputKeyValuePairs = connector.collectInputValues(input);
         return engine.validateInput(inputKeyValuePairs);
     }

@@ -2,6 +2,8 @@ package com.coyoteforms.validator;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 // note: the engine code is something we need to implement in javascript too,
@@ -31,22 +33,21 @@ class Engine {
                 .reduce(true, (prev, cur) -> prev && cur);
     }
 
-    Map<String, List<String>> validateInput(Map<String, String> inputValues) {
+    Map<String, Set<String>> validateInput(Map<String, String> inputValues) {
         return inputValues.entrySet()
                 .stream()
                 .filter(inputEntry ->
                         !queryAllowedValues(inputEntry.getKey(), inputValues).stream()
                                 .anyMatch(item -> inputEntry.getValue().matches(item)))
                 .map(Map.Entry::getKey)
-                .map(inputId -> Map.entry(inputId, collectErrorMessage(inputId)))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                .collect(Collectors.toMap(Function.identity(), this::collectHelperTexts));
     }
 
-    private List<String> collectErrorMessage(String inputId) {
+    private Set<String> collectHelperTexts(String inputId) {
         return constraints.stream()
                 .filter(item -> item.getInputId().equals(inputId))
-                .map(Rule::getErrorMessage)
-                .collect(Collectors.toList());
+                .map(Rule::getHelperText)
+                .collect(Collectors.toSet());
     }
 
 }
