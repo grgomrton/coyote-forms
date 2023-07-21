@@ -1,22 +1,22 @@
-{ 
+{
   "constraints": [
     {
-      "inputId": "region",
+      "inputIds": ["region"],
       "condition": [ "always" ],
       "permittedValues": [ "Americas", "EMEA" ]
     },
     {
-      "inputId": "country",
+      "inputIds": ["country"],
       "condition": [ "region is Americas" ],
       "permittedValues": [ "U.S.A.", "Mexico" ]
     },
     {
-      "inputId": "country",
+      "inputIds": ["country"],
       "condition": [ "region is EMEA" ],
       "permittedValues": [ "United Kingdom", "Hungary" ]
     },
     {
-      "inputId": "city",
+      "inputIds": ["city"],
       "condition": [
         "region is EMEA",
         "country is Hungary"
@@ -24,15 +24,15 @@
       "permittedValues": [ "Budapest", "Sopron" ]
     },
     {
-      "inputId": "city",
+      "inputIds": ["city"],
       "condition": [
         "region is EMEA",
         "country is United Kingdom"
-       ],
+      ],
       "permittedValues": [ "London" ]
     },
     {
-      "inputId": "city",
+      "inputIds": ["city"],
       "condition": [
         "region is Americas",
         "country is U.S.A."
@@ -40,7 +40,7 @@
       "permittedValues": [ "New York", "Washington" ]
     },
     {
-      "inputId": "city",
+      "inputIds": ["city"],
       "condition": [
         "region is Americas",
         "country is Mexico"

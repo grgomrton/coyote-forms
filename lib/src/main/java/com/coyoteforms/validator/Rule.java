@@ -11,10 +11,12 @@ import java.util.List;
 @AllArgsConstructor
 class Rule {
 
-    private String inputId;
+    private List<String> inputIds;
 
     private List<String> condition;
 
     private List<String> permittedValues;
+
+    private String helperText;
 
 }

@@ -10,6 +10,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -19,17 +20,17 @@ public class CoyoteFormValidatorValidateFullFormTest {
     private static String RULE_SET = "  {" +
             "  \"constraints\": [" +
             "    {" +
-            "    \"inputId\": \"country\"," +
+            "    \"inputIds\": [ \"country\" ]," +
             "    \"condition\": [ \"always\" ]," +
             "    \"permittedValues\": [\"United Kingdom\", \"Hungary\"]" +
             "    }," +
             "    {" +
-            "    \"inputId\": \"city\"," +
+            "    \"inputIds\": [ \"city\" ]," +
             "    \"condition\": [ \"country is Hungary\" ]," +
             "    \"permittedValues\": [\"Budapest\", \"Sopron\"]" +
             "    }," +
             "    {" +
-            "    \"inputId\": \"city\"," +
+            "    \"inputIds\": [ \"city\" ]," +
             "    \"condition\": [ \"country is United Kingdom\" ]," +
             "    \"permittedValues\": [\"London\"]" +
             "    }" +
@@ -75,7 +76,9 @@ public class CoyoteFormValidatorValidateFullFormTest {
     @ParameterizedTest
     @MethodSource("invalidSelections")
     public void validatorShouldCatchInvalidInput(LocationDto selectedLocation, List<String> invalidInputIds) {
-        assertThat(validator.validate(selectedLocation)).containsExactlyInAnyOrderElementsOf(invalidInputIds);
+        Map<String, Set<String>> validationResult = validator.validate(selectedLocation);
+        assertThat(validationResult.keySet()).containsExactlyInAnyOrderElementsOf(invalidInputIds);
+        assertThat(validationResult.values().stream()).allMatch(Set::isEmpty);
     }
 
     private static Stream<Arguments> validSelections() {

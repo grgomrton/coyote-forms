@@ -15,24 +15,26 @@ public class CoyoteFormsValidatorCustomRelationshipTest {
     private static String RULE_SET = " {" +
             "  \"constraints\": [" +
             "    {" +
-            "      \"inputId\": \"intervalBeginsEarliestTomorrow\"," +
+            "      \"inputIds\": [ \"intervalBeginsEarliestTomorrow\" ]," +
             "      \"condition\": [ \"always\" ]," +
             "      \"permittedValues\": [ \"true\", \"false\" ]" +
             "    }," +
             "    {" +
-            "      \"inputId\": \"intervalLengthDays\"," +
+            "      \"inputIds\": [ \"intervalLengthDays\" ]," +
             "      \"condition\": [ \"always\" ]," +
             "      \"permittedValues\": [ \".*\" ]" +
             "    }," +
             "    {" +
-            "      \"inputId\": \"startDate\"," +
+            "      \"inputIds\": [ \"startDate\" ]," +
             "      \"condition\": [ \"intervalBeginsEarliestTomorrow is true\", \"intervalLengthDays is 14\" ]," +
-            "      \"permittedValues\": [ \".*\" ]" +
+            "      \"permittedValues\": [ \".*\" ]," +
+            "      \"helperText\": \"Interval must be two weeks long. Start date must be earliest tomorrow.\"" +
             "    }," +
             "    {" +
-            "      \"inputId\": \"endDate\"," +
+            "      \"inputIds\": [ \"endDate\" ]," +
             "      \"condition\": [ \"intervalLengthDays is 14\" ]," +
-            "      \"permittedValues\": [ \".*\" ]" +
+            "      \"permittedValues\": [ \".*\" ]," +
+            "      \"helperText\": \"Interval must be two weeks long.\"" +
             "    }" +
             "  ]" +
             " }";
@@ -77,8 +79,10 @@ public class CoyoteFormsValidatorCustomRelationshipTest {
                 .startDate(LocalDate.now().plusDays(2))
                 .endDate(LocalDate.now().plusDays(16))
                 .build();
-        List<String> invalidInputIds = validator.validate(interval);
-        assertThat(invalidInputIds).isEmpty();
+
+        Map<String, Set<String>> invalidInputs = validator.validate(interval);
+
+        assertThat(invalidInputs).isEmpty();
     }
 
     @Test
@@ -88,8 +92,10 @@ public class CoyoteFormsValidatorCustomRelationshipTest {
                 .startDate(LocalDate.now().minusDays(1))
                 .endDate(LocalDate.now().plusDays(13))
                 .build();
-        List<String> invalidInputIds = validator.validate(interval);
-        assertThat(invalidInputIds).containsExactlyInAnyOrder("startDate");
+        Map<String, Set<String>> invalidInputs = validator.validate(interval);
+        assertThat(invalidInputs.keySet()).containsExactlyInAnyOrder("startDate");
+        assertThat(invalidInputs.get("startDate"))
+                .containsExactlyInAnyOrder("Interval must be two weeks long. Start date must be earliest tomorrow.");
     }
 
     @Test
@@ -99,8 +105,14 @@ public class CoyoteFormsValidatorCustomRelationshipTest {
                 .startDate(LocalDate.now().plusDays(1))
                 .endDate(LocalDate.now().plusDays(13))
                 .build();
-        List<String> invalidInputIds = validator.validate(interval);
-        assertThat(invalidInputIds).containsExactlyInAnyOrder("startDate", "endDate");
+
+        Map<String, Set<String>> invalidInputs = validator.validate(interval);
+
+        assertThat(invalidInputs.keySet()).containsExactlyInAnyOrder("startDate", "endDate");
+        assertThat(invalidInputs.get("startDate"))
+                .containsExactlyInAnyOrder("Interval must be two weeks long. Start date must be earliest tomorrow.");
+        assertThat(invalidInputs.get("endDate"))
+                .containsExactlyInAnyOrder("Interval must be two weeks long.");
     }
 
     @Test
@@ -110,8 +122,14 @@ public class CoyoteFormsValidatorCustomRelationshipTest {
                 .startDate(LocalDate.now().minusDays(3))
                 .endDate(LocalDate.now().plusDays(13))
                 .build();
-        List<String> invalidInputIds = validator.validate(interval);
-        assertThat(invalidInputIds).containsExactlyInAnyOrder("startDate", "endDate");
+
+        Map<String, Set<String>> invalidInputs = validator.validate(interval);
+
+        assertThat(invalidInputs.keySet()).containsExactlyInAnyOrder("startDate", "endDate");
+        assertThat(invalidInputs.get("startDate"))
+                .containsExactlyInAnyOrder("Interval must be two weeks long. Start date must be earliest tomorrow.");
+        assertThat(invalidInputs.get("endDate"))
+                .containsExactlyInAnyOrder("Interval must be two weeks long.");
     }
 
 }

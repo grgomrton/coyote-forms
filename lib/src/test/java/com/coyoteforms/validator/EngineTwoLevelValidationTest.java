@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -16,17 +17,17 @@ public class EngineTwoLevelValidationTest {
     public static void init() {
         List<Rule> rules = List.of(
                 Rule.builder()
-                        .inputId("country")
+                        .inputIds(List.of("country"))
                         .condition(List.of("always"))
                         .permittedValues(List.of("United Kingdom", "Hungary"))
                         .build(),
                 Rule.builder()
-                        .inputId("city")
+                        .inputIds(List.of("city"))
                         .condition(List.of("country is Hungary"))
                         .permittedValues(List.of("Budapest", "Sopron"))
                         .build(),
                 Rule.builder()
-                        .inputId("city")
+                        .inputIds(List.of("city"))
                         .condition(List.of("country is United Kingdom"))
                         .permittedValues(List.of("London"))
                         .build());
@@ -37,27 +38,27 @@ public class EngineTwoLevelValidationTest {
     public void engineShouldValidateSubsetOfValuesDefinedByRules() {
         Map<String, String> validSelection = Map.of("country", "United Kingdom");
 
-        List<String> invalidIds = engine.validateInput(validSelection);
+        Map<String, Set<String>> validationResult = engine.validateInput(validSelection);
 
-        assertThat(invalidIds).isEmpty();
+        assertThat(validationResult).isEmpty();
     }
 
     @Test
     public void engineShouldPermitValidSelection() {
         Map<String, String> validSelection = Map.of("country", "United Kingdom", "city", "London");
 
-        List<String> invalidIds = engine.validateInput(validSelection);
+        Map<String, Set<String>> validationResult = engine.validateInput(validSelection);
 
-        assertThat(invalidIds).isEmpty();
+        assertThat(validationResult).isEmpty();
     }
 
     @Test
     public void engineShouldMarkBothLevelInvalidInCaseInvalidSelectionOnFirstLevel() {
         Map<String, String> validSelection = Map.of("country", "France", "city", "Paris");
 
-        List<String> invalidIds = engine.validateInput(validSelection);
+        Map<String, Set<String>> validationResult = engine.validateInput(validSelection);
 
-        assertThat(invalidIds).containsExactlyInAnyOrder("country", "city");
+        assertThat(collectInputIds(validationResult)).containsExactlyInAnyOrder("country", "city");
     }
 
 
@@ -65,9 +66,13 @@ public class EngineTwoLevelValidationTest {
     public void engineShouldMarkSecondLevelInvalidInCaseInvalidSelectionOnSecondLevel() {
         Map<String, String> validSelection = Map.of("country", "United Kingdom", "city", "Paris");
 
-        List<String> invalidIds = engine.validateInput(validSelection);
+        Map<String, Set<String>> validationResult = engine.validateInput(validSelection);
 
-        assertThat(invalidIds).containsExactlyInAnyOrder("city");
+        assertThat(collectInputIds(validationResult)).containsExactlyInAnyOrder("city");
+    }
+
+    private static Set<String> collectInputIds(Map<String, Set<String>> validationResult) {
+        return validationResult.keySet();
     }
 
 }

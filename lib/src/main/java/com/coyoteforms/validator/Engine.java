@@ -1,7 +1,7 @@
 package com.coyoteforms.validator;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 // note: the engine code is something we need to implement in javascript too,
@@ -18,7 +18,7 @@ class Engine {
 
     List<String> queryAllowedValues(String inputId, Map<String, String> inputValues) {
         return constraints.stream()
-                .filter(rule -> inputId.equals(rule.getInputId()))
+                .filter(rule -> Optional.ofNullable(rule.getInputIds()).orElseGet(List::of).contains(inputId))
                 .filter(rule -> allConditionMatches(rule, inputValues))
                 .flatMap(rule -> rule.getPermittedValues().stream())
                 .collect(Collectors.toList());
@@ -31,14 +31,22 @@ class Engine {
                 .reduce(true, (prev, cur) -> prev && cur);
     }
 
-    List<String> validateInput(Map<String, String> inputValues) {
+    Map<String, Set<String>> validateInput(Map<String, String> inputValues) {
         return inputValues.entrySet()
                 .stream()
                 .filter(inputEntry ->
                         !queryAllowedValues(inputEntry.getKey(), inputValues).stream()
                                 .anyMatch(item -> inputEntry.getValue().matches(item)))
                 .map(Map.Entry::getKey)
-                .collect(Collectors.toList());
+                .collect(Collectors.toMap(Function.identity(), this::collectHelperTexts));
+    }
+
+    private Set<String> collectHelperTexts(String inputId) {
+        return constraints.stream()
+                .filter(rule -> Optional.ofNullable(rule.getInputIds()).orElseGet(List::of).contains(inputId))
+                .map(Rule::getHelperText)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
     }
 
 }

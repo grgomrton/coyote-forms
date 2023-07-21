@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -16,7 +17,7 @@ public class EngineOneLevelValidationTest {
     public static void init() {
         List<Rule> rules = List.of(
                 Rule.builder()
-                        .inputId("country")
+                        .inputIds(List.of("country"))
                         .condition(List.of("always"))
                         .permittedValues(List.of("United Kingdom", "Hungary"))
                         .build());
@@ -27,18 +28,18 @@ public class EngineOneLevelValidationTest {
     public void engineShouldAllowPermittedValueOfAlwaysConditionRule() {
         Map<String, String> validSelection = Map.of("country", "United Kingdom");
 
-        List<String> invalidIds = engine.validateInput(validSelection);
+        Map<String, Set<String>> invalidIds = engine.validateInput(validSelection);
 
         assertThat(invalidIds).isEmpty();
     }
 
     @Test
     public void engineShouldMarkNonPermittedValueOfAlwaysConditionRule() {
-        Map<String, String> validSelection = Map.of("country", "France");
+        Map<String, String> invalidSelection = Map.of("country", "France");
 
-        List<String> invalidIds = engine.validateInput(validSelection);
+        Map<String, Set<String>> invalidIds = engine.validateInput(invalidSelection);
 
-        assertThat(invalidIds).containsExactlyInAnyOrder("country");
+        assertThat(invalidIds.keySet()).containsExactlyInAnyOrder("country");
     }
 
 }
