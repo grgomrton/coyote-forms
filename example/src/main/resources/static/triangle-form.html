@@ -24,7 +24,9 @@
         createTheme,
         Button,
         Alert,
-        TextField
+        TextField,
+        Box,
+        Link
       } = MaterialUI;
 
       const { useState } = React;
@@ -68,6 +70,12 @@
 
         return (
           <div>
+            <Box sx={{ p: 2, border: '1px solid primary.dark' }}  variant="button">
+              Examples:
+              <Link sx={{ m: 1 }} variant="button" href="/">Location</Link>
+              <Link sx={{ m: 1 }} variant="button" href="/triangle-form.html">Triangle</Link>
+            </Box>
+
             <AlertBar {...alertConfiguration} />
 
             <TextField
@@ -99,6 +107,8 @@
             />
 
             <Button sx={{ m: 2, minWidth: 100 }} variant="contained" onClick={saveLocation}>Save</Button>
+
+            <Link href="TriangleFormRuleSet.json" target="blank" rel="noopener">Show ruleset</Link>
           </div>
         );
       }
