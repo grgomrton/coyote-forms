@@ -1,16 +1,13 @@
 package com.coyoteforms.example.validation;
 
 import com.coyoteforms.example.dto.LocationDto;
-import com.coyoteforms.example.dto.TriangleDto;
 import com.coyoteforms.validator.CoyoteFormValidator;
+import com.coyoteforms.validator.ValidationFailure;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class LocationDtoValidator implements ConstraintValidator<ValidLocation, LocationDto> {
 
@@ -21,20 +18,21 @@ public class LocationDtoValidator implements ConstraintValidator<ValidLocation, 
         this.validator = validator;
     }
 
+
     @Override
     public boolean isValid(LocationDto location, ConstraintValidatorContext context) {
-        Map<String, Set<String>> validationResult = validator.validate(location);
+        List<ValidationFailure> validationFailures = validator.validate(location);
+
         context.disableDefaultConstraintViolation();
-        validationResult.keySet().forEach(invalidInput -> addHelperTextOrDefaultValue(invalidInput, validationResult, context));
-        return validationResult.isEmpty();
+        validationFailures.forEach(failure ->
+                context.buildConstraintViolationWithTemplate(getHelperTextOrDefault(failure))
+                        .addPropertyNode(failure.getInputId())
+                        .addConstraintViolation());
+        return validationFailures.isEmpty();
     }
 
-    private void addHelperTextOrDefaultValue(String invalidInputId, Map<String, Set<String>> validationResult, ConstraintValidatorContext context) {
-        Set<String> helperTexts = validationResult.get(invalidInputId);
-        Set<String> responseTexts = helperTexts.isEmpty() ? Set.of("Invalid value") : helperTexts;
-        responseTexts.forEach(helperText -> context.buildConstraintViolationWithTemplate(helperText)
-                .addPropertyNode(invalidInputId)
-                .addConstraintViolation());
+    private String getHelperTextOrDefault(ValidationFailure failure) {
+        return failure.getHelperText() != null ? failure.getHelperText() : "Invalid value";
     }
 
 }

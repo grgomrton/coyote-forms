@@ -2,12 +2,12 @@ package com.coyoteforms.example.validation;
 
 import com.coyoteforms.example.dto.TriangleDto;
 import com.coyoteforms.validator.CoyoteFormValidator;
+import com.coyoteforms.validator.ValidationFailure;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.Map;
-import java.util.Set;
+import java.util.List;
 
 public class TriangleDtoValidator implements ConstraintValidator<ValidTriangle, TriangleDto> {
 
@@ -20,18 +20,18 @@ public class TriangleDtoValidator implements ConstraintValidator<ValidTriangle, 
 
     @Override
     public boolean isValid(TriangleDto triangle, ConstraintValidatorContext context) {
-        Map<String, Set<String>> validationResult = validator.validate(triangle);
+        List<ValidationFailure> validationFailures = validator.validate(triangle);
+
         context.disableDefaultConstraintViolation();
-        validationResult.keySet().forEach(invalidInput -> addHelperTextOrDefaultValue(invalidInput, validationResult, context));
-        return validationResult.isEmpty();
+        validationFailures.forEach(failure ->
+                context.buildConstraintViolationWithTemplate(getHelperTextOrDefault(failure))
+                    .addPropertyNode(failure.getInputId()) // we implicitly expect input id to match dto field id, which is bad. maybe a Map to resolve these?
+                    .addConstraintViolation());
+        return validationFailures.isEmpty();
     }
 
-    private void addHelperTextOrDefaultValue(String invalidInputId, Map<String, Set<String>> validationResult, ConstraintValidatorContext context) {
-        Set<String> helperTexts = validationResult.get(invalidInputId);
-        Set<String> responseTexts = helperTexts.isEmpty() ? Set.of("Invalid value") : helperTexts;
-        responseTexts.forEach(helperText -> context.buildConstraintViolationWithTemplate(helperText)
-                .addPropertyNode(invalidInputId)
-                .addConstraintViolation());
+    private String getHelperTextOrDefault(ValidationFailure failure) {
+        return failure.getHelperText() != null ? failure.getHelperText() : "Invalid value";
     }
 
 }
