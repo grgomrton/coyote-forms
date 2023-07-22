@@ -18,7 +18,6 @@ public class LocationDtoValidator implements ConstraintValidator<ValidLocation, 
         this.validator = validator;
     }
 
-
     @Override
     public boolean isValid(LocationDto location, ConstraintValidatorContext context) {
         List<ValidationFailure> validationFailures = validator.validate(location);
