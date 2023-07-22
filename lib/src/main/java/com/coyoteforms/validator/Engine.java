@@ -1,7 +1,6 @@
 package com.coyoteforms.validator;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 // note: the engine code is something we need to implement in javascript too,
@@ -31,14 +30,19 @@ class Engine {
                 .reduce(true, (prev, cur) -> prev && cur);
     }
 
-    Map<String, Set<String>> validateInput(Map<String, String> inputValues) {
+    List<ValidationFailure> validateInput(Map<String, String> inputValues) {
         return inputValues.entrySet()
                 .stream()
                 .filter(inputEntry ->
                         !queryAllowedValues(inputEntry.getKey(), inputValues).stream()
                                 .anyMatch(item -> inputEntry.getValue().matches(item)))
                 .map(Map.Entry::getKey)
-                .collect(Collectors.toMap(Function.identity(), this::collectHelperTexts));
+                .flatMap(inputId -> collectHelperTexts(inputId).stream()
+                        .map(helperText -> ValidationFailure.builder()
+                                .inputId(inputId)
+                                .helperText(helperText)
+                                .build()))
+                .collect(Collectors.toList());
     }
 
     private Set<String> collectHelperTexts(String inputId) {

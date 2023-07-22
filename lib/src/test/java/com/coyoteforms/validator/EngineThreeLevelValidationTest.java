@@ -7,9 +7,9 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Stream;
 
+import static com.coyoteforms.validator.TestUtilities.collectInputIds;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class EngineThreeLevelValidationTest {
@@ -86,10 +86,6 @@ public class EngineThreeLevelValidationTest {
                         Map.of("region", "EMEA", "country", "Netherlands"),
                         List.of("country"))
         );
-    }
-
-    private Set<String> collectInputIds(Map<String, Set<String>> invalidInputIds) {
-        return invalidInputIds.keySet();
     }
 
 }

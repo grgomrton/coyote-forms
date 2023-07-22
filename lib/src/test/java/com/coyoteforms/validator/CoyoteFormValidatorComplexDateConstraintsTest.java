@@ -7,9 +7,12 @@ import org.junit.jupiter.api.Test;
 
 import java.time.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.stream.Collectors;
 
+import static com.coyoteforms.validator.TestUtilities.collectHelperTexts;
+import static com.coyoteforms.validator.TestUtilities.collectInputIds;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CoyoteFormValidatorComplexDateConstraintsTest {
@@ -127,9 +130,9 @@ public class CoyoteFormValidatorComplexDateConstraintsTest {
         LocalDate endDate = LocalDate.parse("2023-07-31");
         Interval request = Interval.builder().startDate(startDate).endDate(endDate).build();
 
-        Map<String, Set<String>> validationResult = validator.validate(request);
+        List<ValidationFailure> validationFailures = validator.validate(request);
 
-        assertThat(validationResult).isEmpty();
+        assertThat(validationFailures).isEmpty();
     }
 
     @Test
@@ -138,11 +141,11 @@ public class CoyoteFormValidatorComplexDateConstraintsTest {
         LocalDate endDate = LocalDate.parse("2023-08-02");
         Interval request = Interval.builder().startDate(startDate).endDate(endDate).build();
 
-        Map<String, Set<String>> validationResult = validator.validate(request);
+        List<ValidationFailure> validationFailures = validator.validate(request);
 
-        assertThat(validationResult.keySet()).containsExactlyInAnyOrder("startDate", "endDate");
-        assertThatHelperTextContainsBothValueOnce("startDate", validationResult);
-        assertThatHelperTextContainsBothValueOnce("endDate", validationResult);
+        assertThat(collectInputIds(validationFailures)).containsExactlyInAnyOrder("startDate", "endDate");
+        assertThatHelperTextContainsBothValueOnce("startDate", validationFailures);
+        assertThatHelperTextContainsBothValueOnce("endDate", validationFailures);
     }
 
     @Test
@@ -151,7 +154,7 @@ public class CoyoteFormValidatorComplexDateConstraintsTest {
         LocalDate endDate = LocalDate.parse("2023-08-10");
         Interval request = Interval.builder().startDate(startDate).endDate(endDate).build();
 
-        Map<String, Set<String>> validationResult = validator.validate(request);
+        List<ValidationFailure> validationResult = validator.validate(request);
 
         assertThat(validationResult).isEmpty();
     }
@@ -162,16 +165,20 @@ public class CoyoteFormValidatorComplexDateConstraintsTest {
         LocalDate endDate = LocalDate.parse("2023-07-13");
         Interval request = Interval.builder().startDate(startDate).endDate(endDate).build();
 
-        Map<String, Set<String>> validationResult = validator.validate(request);
+        List<ValidationFailure> validationFailures = validator.validate(request);
 
-        assertThat(validationResult.keySet()).containsExactlyInAnyOrder("startDate", "endDate");
-        assertThatHelperTextContainsBothValueOnce("startDate", validationResult);
-        assertThatHelperTextContainsBothValueOnce("endDate", validationResult);
+        assertThat(collectInputIds(validationFailures)).containsExactlyInAnyOrder("startDate", "endDate");
+        assertThatHelperTextContainsBothValueOnce("startDate", validationFailures);
+        assertThatHelperTextContainsBothValueOnce("endDate", validationFailures);
     }
 
 
-    private static void assertThatHelperTextContainsBothValueOnce(String inputId, Map<String, Set<String>> validationResult) {
-        assertThat(validationResult.get(inputId))
+    private static void assertThatHelperTextContainsBothValueOnce(String inputId, List<ValidationFailure> validationResult) {
+        List<ValidationFailure> inputFailures = validationResult.stream()
+                .filter(item -> inputId.equals(item.getInputId()))
+                .collect(Collectors.toList());
+        assertThat(inputFailures.size()).isEqualTo(2);
+        assertThat(collectHelperTexts(inputId, inputFailures))
                 .containsExactlyInAnyOrder(
                         "Up to 3 days the notification period is one week",
                         "More than 3 days leave must be entered two weeks prior"
