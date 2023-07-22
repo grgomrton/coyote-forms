@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static com.coyoteforms.validator.TestUtilities.collectInputIds;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class EngineOneLevelValidationTest {
@@ -28,7 +29,7 @@ public class EngineOneLevelValidationTest {
     public void engineShouldAllowPermittedValueOfAlwaysConditionRule() {
         Map<String, String> validSelection = Map.of("country", "United Kingdom");
 
-        Map<String, Set<String>> invalidIds = engine.validateInput(validSelection);
+        List<ValidationFailure> invalidIds = engine.validateInput(validSelection);
 
         assertThat(invalidIds).isEmpty();
     }
@@ -37,9 +38,9 @@ public class EngineOneLevelValidationTest {
     public void engineShouldMarkNonPermittedValueOfAlwaysConditionRule() {
         Map<String, String> invalidSelection = Map.of("country", "France");
 
-        Map<String, Set<String>> invalidIds = engine.validateInput(invalidSelection);
+        List<ValidationFailure> invalidIds = engine.validateInput(invalidSelection);
 
-        assertThat(invalidIds.keySet()).containsExactlyInAnyOrder("country");
+        assertThat(collectInputIds(invalidIds)).containsExactlyInAnyOrder("country");
     }
 
 }

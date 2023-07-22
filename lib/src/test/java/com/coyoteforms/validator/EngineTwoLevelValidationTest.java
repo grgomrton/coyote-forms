@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
+import static com.coyoteforms.validator.TestUtilities.collectInputIds;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class EngineTwoLevelValidationTest {
@@ -38,7 +38,7 @@ public class EngineTwoLevelValidationTest {
     public void engineShouldValidateSubsetOfValuesDefinedByRules() {
         Map<String, String> validSelection = Map.of("country", "United Kingdom");
 
-        Map<String, Set<String>> validationResult = engine.validateInput(validSelection);
+        List<ValidationFailure> validationResult = engine.validateInput(validSelection);
 
         assertThat(validationResult).isEmpty();
     }
@@ -47,7 +47,7 @@ public class EngineTwoLevelValidationTest {
     public void engineShouldPermitValidSelection() {
         Map<String, String> validSelection = Map.of("country", "United Kingdom", "city", "London");
 
-        Map<String, Set<String>> validationResult = engine.validateInput(validSelection);
+        List<ValidationFailure> validationResult = engine.validateInput(validSelection);
 
         assertThat(validationResult).isEmpty();
     }
@@ -56,7 +56,7 @@ public class EngineTwoLevelValidationTest {
     public void engineShouldMarkBothLevelInvalidInCaseInvalidSelectionOnFirstLevel() {
         Map<String, String> validSelection = Map.of("country", "France", "city", "Paris");
 
-        Map<String, Set<String>> validationResult = engine.validateInput(validSelection);
+        List<ValidationFailure> validationResult = engine.validateInput(validSelection);
 
         assertThat(collectInputIds(validationResult)).containsExactlyInAnyOrder("country", "city");
     }
@@ -66,13 +66,9 @@ public class EngineTwoLevelValidationTest {
     public void engineShouldMarkSecondLevelInvalidInCaseInvalidSelectionOnSecondLevel() {
         Map<String, String> validSelection = Map.of("country", "United Kingdom", "city", "Paris");
 
-        Map<String, Set<String>> validationResult = engine.validateInput(validSelection);
+        List<ValidationFailure> validationResult = engine.validateInput(validSelection);
 
         assertThat(collectInputIds(validationResult)).containsExactlyInAnyOrder("city");
-    }
-
-    private static Set<String> collectInputIds(Map<String, Set<String>> validationResult) {
-        return validationResult.keySet();
     }
 
 }

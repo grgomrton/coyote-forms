@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import static com.coyoteforms.validator.TestUtilities.collectInputIds;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CoyoteFormValidatorValidateAdditiveRulesTest {
@@ -77,7 +78,7 @@ public class CoyoteFormValidatorValidateAdditiveRulesTest {
     @ParameterizedTest
     @MethodSource("invalidSelections")
     public void validatorShouldCatchInvalidInput(SelectedCountriesAndCityDto selection, List<String> invalidInputIds) {
-        assertThat(validator.validate(selection).keySet()).containsExactlyInAnyOrderElementsOf(invalidInputIds);
+        assertThat(collectInputIds(validator.validate(selection))).containsExactlyInAnyOrderElementsOf(invalidInputIds);
     }
 
     @ParameterizedTest

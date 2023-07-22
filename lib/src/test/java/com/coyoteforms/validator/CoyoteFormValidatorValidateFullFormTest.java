@@ -7,12 +7,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Stream;
 
+import static com.coyoteforms.validator.TestUtilities.collectInputIds;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CoyoteFormValidatorValidateFullFormTest {
@@ -76,9 +74,10 @@ public class CoyoteFormValidatorValidateFullFormTest {
     @ParameterizedTest
     @MethodSource("invalidSelections")
     public void validatorShouldCatchInvalidInput(LocationDto selectedLocation, List<String> invalidInputIds) {
-        Map<String, Set<String>> validationResult = validator.validate(selectedLocation);
-        assertThat(validationResult.keySet()).containsExactlyInAnyOrderElementsOf(invalidInputIds);
-        assertThat(validationResult.values().stream()).allMatch(Set::isEmpty);
+        List<ValidationFailure> validationFailures = validator.validate(selectedLocation);
+
+        assertThat(collectInputIds(validationFailures)).containsExactlyInAnyOrderElementsOf(invalidInputIds);
+        assertThat(validationFailures.stream().map(ValidationFailure::getHelperText)).allMatch(Objects::isNull);
     }
 
     private static Stream<Arguments> validSelections() {

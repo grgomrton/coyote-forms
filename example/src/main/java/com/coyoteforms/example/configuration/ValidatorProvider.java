@@ -18,15 +18,15 @@ import java.nio.file.Path;
 @Configuration
 public class ValidatorProvider {
 
-    @Value("classpath:LocationFormRuleSet.json")
-    private Resource ruleSetFile;
+    @Value("classpath:static/LocationFormRuleSet.json")
+    private Resource locationRuleSet;
 
-    @Value("classpath:TriangleFormRuleSet.json")
+    @Value("classpath:static/TriangleFormRuleSet.json")
     private Resource triangleRuleSet;
 
     @Bean
     public CoyoteFormValidator<LocationDto> getLocationValidator() throws IOException {
-        String ruleSet = Files.readString(Path.of(ruleSetFile.getURI()));
+        String ruleSet = Files.readString(Path.of(locationRuleSet.getURI()));
         Connector<LocationDto> connector = new LocationDtoConnector();
         return new CoyoteFormValidator<>(ruleSet, connector);
     }

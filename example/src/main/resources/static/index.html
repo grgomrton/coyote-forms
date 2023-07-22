@@ -27,7 +27,12 @@
         Select,
         MenuItem,
         Button,
-        Alert
+        Alert,
+        Link,
+        AppBar,
+        ToolBox,
+        Typography,
+        Box
       } = MaterialUI;
 
       const { useState, useEffect } = React;
@@ -94,6 +99,12 @@
 
         return (
           <div>
+            <Box sx={{ p: 2, border: '1px solid primary.dark' }}  variant="button">
+              Examples:
+              <Link sx={{ m: 1 }} variant="button" href="/">Location</Link>
+              <Link sx={{ m: 1 }} variant="button" href="/triangle-form.html">Triangle</Link>
+            </Box>
+
             <AlertBar {...alertConfiguration} />
             <FormControl sx={{ m: 1, minWidth: 150 }} error={!isValid("region")}>
               <InputLabel id="region-label">Region</InputLabel>
@@ -132,6 +143,7 @@
               </Select>
             </FormControl>
             <Button sx={{ m: 2, minWidth: 100 }} variant="contained" onClick={saveLocation}>Save</Button>
+            <Link href="LocationFormRuleSet.json" target="blank" rel="noopener">Show ruleset</Link>
           </div>
         );
       }

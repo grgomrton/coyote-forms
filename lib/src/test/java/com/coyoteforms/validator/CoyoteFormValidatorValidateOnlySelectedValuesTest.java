@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import static com.coyoteforms.validator.TestUtilities.collectInputIds;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CoyoteFormValidatorValidateOnlySelectedValuesTest {
@@ -59,12 +60,8 @@ public class CoyoteFormValidatorValidateOnlySelectedValuesTest {
         public Map<String, String> collectInputValues(LocationDto locationDto) {
             Map<String, String> result = new HashMap<>();
 
-            if (!locationDto.country.isEmpty()) { // we add the value of the input only if it is set
-                result.put("country", locationDto.country);
-            }
-            if (!locationDto.city.isEmpty()) {
-                result.put("city", locationDto.city);
-            }
+            result.put("country", locationDto.getCountry() != null ? locationDto.getCountry() : "");
+            result.put("city", locationDto.getCity() != null ? locationDto.getCity() : "");
 
             return result;
         }
@@ -79,17 +76,13 @@ public class CoyoteFormValidatorValidateOnlySelectedValuesTest {
     @ParameterizedTest
     @MethodSource("invalidSelections")
     public void validatorShouldCatchInvalidInput(LocationDto selectedLocation, List<String> invalidInputIds) {
-        assertThat(validator.validate(selectedLocation).keySet()).containsExactlyInAnyOrderElementsOf(invalidInputIds);
+        assertThat(collectInputIds(validator.validate(selectedLocation))).containsExactlyInAnyOrderElementsOf(invalidInputIds);
     }
 
     private static Stream<Arguments> validSelections() {
         return Stream.of(
                 Arguments.of(LocationDto.builder().country("Hungary").city("Budapest").build()),
-                Arguments.of(LocationDto.builder().country("United Kingdom").city("London").build()),
-                // we assume that the parser during an http call will set empty string into non-present input field
-                Arguments.of(LocationDto.builder().country("United Kingdom").city("").build()),
-                // we again expect emtpy string in case of missing input by dto parser
-                Arguments.of(LocationDto.builder().country("").city("").build())
+                Arguments.of(LocationDto.builder().country("United Kingdom").city("London").build())
         );
     }
 
@@ -97,8 +90,10 @@ public class CoyoteFormValidatorValidateOnlySelectedValuesTest {
         return Stream.of(
                 Arguments.of(LocationDto.builder().country("Hungary").city("Debrecen").build(), List.of("city")),
                 Arguments.of(LocationDto.builder().country("United Kingdom").city("Glasgow").build(), List.of("city")),
-                Arguments.of(LocationDto.builder().country("Abc").city("").build(), List.of("country")),
-                Arguments.of(LocationDto.builder().country("").city("Budapest").build(), List.of( "city"))
+                Arguments.of(LocationDto.builder().country("Abc").city("").build(), List.of("country", "city")),
+                Arguments.of(LocationDto.builder().country("").city("Budapest").build(), List.of( "country", "city")),
+                Arguments.of(LocationDto.builder().country("United Kingdom").city("").build(), List.of("city")),
+                Arguments.of(LocationDto.builder().country("").city("").build(), List.of("country", "city"))
         );
     }
 
