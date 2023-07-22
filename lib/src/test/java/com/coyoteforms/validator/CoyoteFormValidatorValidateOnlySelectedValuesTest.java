@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import static com.coyoteforms.validator.TestUtilities.collectInputIds;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CoyoteFormValidatorValidateOnlySelectedValuesTest {
@@ -79,16 +80,16 @@ public class CoyoteFormValidatorValidateOnlySelectedValuesTest {
     @ParameterizedTest
     @MethodSource("invalidSelections")
     public void validatorShouldCatchInvalidInput(LocationDto selectedLocation, List<String> invalidInputIds) {
-        assertThat(validator.validate(selectedLocation).keySet()).containsExactlyInAnyOrderElementsOf(invalidInputIds);
+        assertThat(collectInputIds(validator.validate(selectedLocation))).containsExactlyInAnyOrderElementsOf(invalidInputIds);
     }
 
     private static Stream<Arguments> validSelections() {
         return Stream.of(
                 Arguments.of(LocationDto.builder().country("Hungary").city("Budapest").build()),
                 Arguments.of(LocationDto.builder().country("United Kingdom").city("London").build()),
-                // we assume that the parser during an http call will set empty string into non-present input field
-                Arguments.of(LocationDto.builder().country("United Kingdom").city("").build()),
-                // we again expect emtpy string in case of missing input by dto parser
+                // we assume that the connector will set empty string into non-present input field
+                Arguments.of(LocationDto.builder().country("United Kingdom").city("").build()), // todo so why is this valid?
+                // we again expect empty string in case of missing input
                 Arguments.of(LocationDto.builder().country("").city("").build())
         );
     }

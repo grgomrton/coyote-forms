@@ -49,7 +49,6 @@ class Engine {
         return constraints.stream()
                 .filter(rule -> Optional.ofNullable(rule.getInputIds()).orElseGet(List::of).contains(inputId))
                 .map(Rule::getHelperText)
-                .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
     }
 

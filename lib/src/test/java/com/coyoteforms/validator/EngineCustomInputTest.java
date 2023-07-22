@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static com.coyoteforms.validator.TestUtilities.collectHelperTexts;
+import static com.coyoteforms.validator.TestUtilities.collectInputIds;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class EngineCustomInputTest {
@@ -88,11 +90,12 @@ public class EngineCustomInputTest {
         Engine engine = new Engine(ONLY_RELATIONSHIP_RULES.getConstraints());
         Map<String, String> inputValues = Map.of("sumOfAnglesIs180", "false", "angle1", "60", "angle2", "30", "angle3", "50");
 
-        Map<String, Set<String>> validationErrors = engine.validateInput(inputValues);
+        List<ValidationFailure> validationErrors = engine.validateInput(inputValues);
 
         assertThat(collectInputIds(validationErrors)).containsExactlyInAnyOrder("angle1", "angle2", "angle3");
-        assertThat(validationErrors.get("angle1")).containsExactlyInAnyOrder("The sum of the angles must be 180");
-        assertThat(validationErrors.get("sumOfAnglesIs180")).isNull();
+        assertThat(collectHelperTexts("angle1", validationErrors))
+                .containsExactlyInAnyOrder("The sum of the angles must be 180");
+        assertThat(collectInputIds(validationErrors)).doesNotContain("sumOfAnglesIs180");
     }
 
     @Test
@@ -100,7 +103,7 @@ public class EngineCustomInputTest {
         Engine engine = new Engine(ONLY_RELATIONSHIP_RULES.getConstraints());
         Map<String, String> inputValues = Map.of("sumOfAnglesIs180", "true", "angle1", "60", "angle2", "30", "angle3", "90");
 
-        Map<String, Set<String>> validationErrors = engine.validateInput(inputValues);
+        List<ValidationFailure> validationErrors = engine.validateInput(inputValues);
 
         assertThat(collectInputIds(validationErrors)).isEmpty();
     }
@@ -110,7 +113,7 @@ public class EngineCustomInputTest {
         Engine engine = new Engine(ONLY_RELATIONSHIP_RULES.getConstraints());
         Map<String, String> inputValues = Map.of("sumOfAnglesIs180", "true", "angle1", "130", "angle2", "60", "angle3", "-10");
 
-        Map<String, Set<String>> validationErrors = engine.validateInput(inputValues);
+        List<ValidationFailure> validationErrors = engine.validateInput(inputValues);
 
         assertThat(collectInputIds(validationErrors)).isEmpty();
     }
@@ -123,10 +126,11 @@ public class EngineCustomInputTest {
                 "angle1", "130", "angle2", "60", "angle3", "-10",
                 "angle1IsPositive", "true", "angle2IsPositive", "true", "angle3IsPositive", "false");
 
-        Map<String, Set<String>> validationErrors = engine.validateInput(inputValues);
+        List<ValidationFailure> validationErrors = engine.validateInput(inputValues);
 
         assertThat(collectInputIds(validationErrors)).containsExactlyInAnyOrder("angle3");
-        assertThat(validationErrors.get("angle3")).containsExactlyInAnyOrder("Angle must be positive and sum of the angles must be 180");
+        assertThat(collectHelperTexts("angle3", validationErrors))
+                .containsExactlyInAnyOrder("Angle must be positive and sum of the angles must be 180");
     }
 
     @Test
@@ -137,10 +141,11 @@ public class EngineCustomInputTest {
                 "angle1", "30", "angle2", "60", "angle3", "90",
                 "angle1IsPositive", "true", "angle2IsPositive", "true", "angle3IsPositive", "true");
 
-        Map<String, Set<String>> validationErrors = engine.validateInput(inputValues);
+        List<ValidationFailure> validationErrors = engine.validateInput(inputValues);
 
         assertThat(collectInputIds(validationErrors)).containsExactlyInAnyOrder("angle1", "angle2", "angle3");
-        assertThat(validationErrors.get("angle2")).containsExactlyInAnyOrder("Angle must be positive and sum of the angles must be 180");
+        assertThat(collectHelperTexts("angle2", validationErrors))
+                .containsExactlyInAnyOrder("Angle must be positive and sum of the angles must be 180");
     }
 
     @Test
@@ -154,10 +159,6 @@ public class EngineCustomInputTest {
         List<String> allowedValuesAngle1 = engine.queryAllowedValues("angle1", inputValues);
 
         assertThat(allowedValuesAngle1).containsExactlyInAnyOrder(".*"); // fine by me :)
-    }
-
-    private static Set<String> collectInputIds(Map<String, Set<String>> validationErrors) {
-        return validationErrors.keySet();
     }
 
 }
