@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode // todo do we need this?
+@EqualsAndHashCode
 @ToString
 public class ValidationFailure {
 
