@@ -57,7 +57,7 @@ public class ConditionEvaluatorIsConditionTest {
     }
 
     @Test
-    public void conditionWithoutOperandShouldThrow() {
+    public void conditionWithoutInputIdShouldThrow() {
         assertThatIllegalArgumentException().isThrownBy(() -> conditionEvaluator.shouldBeIncluded(" is c", Map.of()));
     }
 

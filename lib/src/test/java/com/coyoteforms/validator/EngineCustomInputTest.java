@@ -40,7 +40,7 @@ public class EngineCustomInputTest {
                     )
             ).build();
 
-    private static RuleSet RELATIONSHIP_AND_SINGLE_OPERAND_RULE_SET = RuleSet.builder()
+    private static RuleSet RELATIONSHIP_AND_SINGLE_FIELD_RULE_SET = RuleSet.builder()
             .constraints(
                     List.of(
                             Rule.builder()
@@ -119,7 +119,7 @@ public class EngineCustomInputTest {
 
     @Test
     public void engineShouldCatchInvalidFieldIfIndividualValidatorsArePresent() {
-        Engine engine = new Engine(RELATIONSHIP_AND_SINGLE_OPERAND_RULE_SET.getConstraints());
+        Engine engine = new Engine(RELATIONSHIP_AND_SINGLE_FIELD_RULE_SET.getConstraints());
         Map<String, String> inputValues = Map.of(
                 "sumOfAnglesIs180", "true",
                 "angle1", "130", "angle2", "60", "angle3", "-10",
@@ -134,7 +134,7 @@ public class EngineCustomInputTest {
 
     @Test
     public void ifRelevantCustomInputIsMissingValidationShouldNotPass() {
-        Engine engine = new Engine(RELATIONSHIP_AND_SINGLE_OPERAND_RULE_SET.getConstraints());
+        Engine engine = new Engine(RELATIONSHIP_AND_SINGLE_FIELD_RULE_SET.getConstraints());
         Map<String, String> inputValues = Map.of(
                 //"sumOfAnglesIs180", "true",
                 "angle1", "30", "angle2", "60", "angle3", "90",
@@ -149,7 +149,7 @@ public class EngineCustomInputTest {
 
     @Test
     public void forContinuousInputsQueryAllowedValuesShouldNotThrow() {
-        Engine engine = new Engine(RELATIONSHIP_AND_SINGLE_OPERAND_RULE_SET.getConstraints());
+        Engine engine = new Engine(RELATIONSHIP_AND_SINGLE_FIELD_RULE_SET.getConstraints());
         Map<String, String> inputValues = Map.of(
                 "sumOfAnglesIs180", "true",
                 "angle1", "30", "angle2", "60", "angle3", "90",

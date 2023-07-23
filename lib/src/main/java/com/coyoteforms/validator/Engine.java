@@ -26,7 +26,7 @@ class Engine {
     private boolean allConditionMatches(Rule rule, Map<String, String> inputValues) {
         return rule.getCondition()
                 .stream()
-                .map(operand -> conditionEvaluator.shouldBeIncluded(operand, inputValues))
+                .map(expression -> conditionEvaluator.shouldBeIncluded(expression, inputValues))
                 .reduce(true, (prev, cur) -> prev && cur);
     }
 
