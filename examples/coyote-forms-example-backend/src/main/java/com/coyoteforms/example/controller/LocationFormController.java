@@ -23,12 +23,12 @@ public class LocationFormController {
     }
 
     @PostMapping(path = "/inputs/{inputId}/permitted-values")
-    public List<String> queryValidValues(@PathVariable String inputId, @RequestBody LocationDto inputValues) { // here we don't validate the dto - the form is in an intermediate state
+    public List<String> queryValidValues(@PathVariable String inputId, @RequestBody LocationDto inputValues) {
         return validator.queryValidValues(inputId, inputValues);
     }
 
     @PostMapping
-    public ResponseEntity<?> save(@Valid @RequestBody LocationDto location) { // @Valid annotation activates the validator
+    public ResponseEntity<?> save(@Valid @RequestBody LocationDto location) {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

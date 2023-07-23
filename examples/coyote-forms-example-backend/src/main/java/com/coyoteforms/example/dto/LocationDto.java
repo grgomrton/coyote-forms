@@ -12,7 +12,6 @@ public class LocationDto {
 
     private String country;
 
-    //@Length(min = 5, max = 255) // validation rules can be mixed
     private String city;
 
 }

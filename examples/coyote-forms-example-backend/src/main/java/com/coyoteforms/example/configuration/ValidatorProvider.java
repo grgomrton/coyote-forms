@@ -1,7 +1,9 @@
 package com.coyoteforms.example.configuration;
 
+import com.coyoteforms.example.dto.DateIntervalDto;
 import com.coyoteforms.example.dto.LocationDto;
 import com.coyoteforms.example.dto.TriangleDto;
+import com.coyoteforms.example.validation.DateIntervalConnector;
 import com.coyoteforms.example.validation.LocationDtoConnector;
 import com.coyoteforms.example.validation.TriangletoConnector;
 import com.coyoteforms.validator.Connector;
@@ -24,6 +26,9 @@ public class ValidatorProvider {
     @Value("classpath:static/TriangleFormRuleSet.json")
     private Resource triangleRuleSet;
 
+    @Value("classpath:static/VacationFormRuleSet.json")
+    private Resource vacationRuleSet;
+
     @Bean
     public CoyoteFormsValidator<LocationDto> getLocationValidator() throws IOException {
         String ruleSet = Files.readString(Path.of(locationRuleSet.getURI()));
@@ -35,6 +40,13 @@ public class ValidatorProvider {
     public CoyoteFormsValidator<TriangleDto> getTriangleValidator() throws IOException {
         String ruleSet = Files.readString(Path.of(triangleRuleSet.getURI()));
         Connector<TriangleDto> connector = new TriangletoConnector();
+        return new CoyoteFormsValidator<>(ruleSet, connector);
+    }
+
+    @Bean
+    public CoyoteFormsValidator<DateIntervalDto> getDateIntervalValidator() throws IOException {
+        String ruleSet = Files.readString(Path.of(vacationRuleSet.getURI()));
+        Connector<DateIntervalDto> connector = new DateIntervalConnector();
         return new CoyoteFormsValidator<>(ruleSet, connector);
     }
 
