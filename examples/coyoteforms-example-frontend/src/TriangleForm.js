@@ -8,8 +8,7 @@ import Typography from '@mui/material/Typography';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Link from '@mui/material/Link';
-import AlertBar from './AlertBar.js';
-import Header from './Header.js';
+import AlertBar from './AlertBar';
 
 function TriangleForm() {
     const [alpha, setAlpha] = useState(0);

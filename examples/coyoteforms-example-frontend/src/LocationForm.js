@@ -6,8 +6,7 @@ import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Link from '@mui/material/Link';
-import AlertBar from './AlertBar.js';
-import Header from './Header.js';
+import AlertBar from './AlertBar';
 
 function LocationForm() {
     const [permittedRegions, setPermittedRegions] = useState([]);
