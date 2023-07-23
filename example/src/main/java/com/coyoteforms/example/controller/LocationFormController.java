@@ -22,9 +22,9 @@ public class LocationFormController {
         this.validator = validator;
     }
 
-    @PostMapping(path = "/inputs/{inputId}/allowed-values")
-    public List<String> queryAllowedValues(@PathVariable String inputId, @RequestBody LocationDto inputValues) {
-        return validator.queryAllowedValues(inputId, inputValues);
+    @PostMapping(path = "/inputs/{inputId}/permitted-values")
+    public List<String> queryValidValueSet(@PathVariable String inputId, @RequestBody LocationDto inputValues) {
+        return validator.queryValidValueSet(inputId, inputValues);
     }
 
     @PostMapping

@@ -96,7 +96,7 @@ public class CoyoteFormsValidatorValidateAdditiveRulesTest {
     @ParameterizedTest
     @MethodSource("validQueries")
     public void validatorShouldCollectValuesAdditiveRules(SelectedCountriesAndCityDto selection, List<String> validCities) {
-        assertThat(validator.queryAllowedValues("city", selection)).containsExactlyInAnyOrderElementsOf(validCities);
+        assertThat(validator.queryValidValueSet("city", selection)).containsExactlyInAnyOrderElementsOf(validCities);
     }
 
     private static Stream<Arguments> invalidSelections() {

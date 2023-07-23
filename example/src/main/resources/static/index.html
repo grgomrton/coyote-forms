@@ -29,9 +29,6 @@
         Button,
         Alert,
         Link,
-        AppBar,
-        ToolBox,
-        Typography,
         Box
       } = MaterialUI;
 
@@ -56,29 +53,29 @@
       }
 
       function App() {
-        const [allowedRegions, setAllowedRegions] = useState([]);
+        const [permittedRegions, setPermittedRegions] = useState([]);
         const [selectedRegion, setSelectedRegion] = useState("");
-        const [allowedCountries, setAllowedCountries] = useState([]);
+        const [permittedCountries, setPermittedCountries] = useState([]);
         const [selectedCountry, setSelectedCountry] = useState("");
-        const [allowedCities, setAllowedCities] = useState([]);
+        const [permittedCities, setPermittedCities] = useState([]);
         const [selectedCity, setSelectedCity] = useState("");
         const [alertConfiguration, setAlertConfiguration] = useState({ isOpen: false, success: false, errors: [] })
 
-        // using this connector (the next line of code) we bind the validator to the three state variables
+        // we bind the validator to the three state variables
         const collectInputValues = () => { return { "region": selectedRegion, "country": selectedCountry, "city": selectedCity } }
 
-        useEffect(() => { axios.post('http://localhost:8080/api/forms/location-form/inputs/region/allowed-values', collectInputValues())
-             .then((response) => setAllowedRegions(response.data))
+        useEffect(() => { axios.post('http://localhost:8080/api/forms/location-form/inputs/region/permitted-values', collectInputValues())
+             .then((response) => setPermittedRegions(response.data))
              .catch((error) => console.error(error))
           }, []);
 
-        useEffect(() => { axios.post('http://localhost:8080/api/forms/location-form/inputs/country/allowed-values', collectInputValues())
-             .then((response) => setAllowedCountries(response.data))
+        useEffect(() => { axios.post('http://localhost:8080/api/forms/location-form/inputs/country/permitted-values', collectInputValues())
+             .then((response) => setPermittedCountries(response.data))
              .catch((error) => console.error(error))
           }, [selectedRegion]);
 
-        useEffect(() => { axios.post('http://localhost:8080/api/forms/location-form/inputs/city/allowed-values', collectInputValues())
-             .then((response) => setAllowedCities(response.data))
+        useEffect(() => { axios.post('http://localhost:8080/api/forms/location-form/inputs/city/permitted-values', collectInputValues())
+             .then((response) => setPermittedCities(response.data))
              .catch((error) => console.error(error))
           }, [selectedRegion, selectedCountry]);
 
@@ -115,7 +112,7 @@
                 label="Region"
                 onChange={handleChangeOfRegion}
               >
-                { allowedRegions.map((region) => <MenuItem key={region} value={region}>{region}</MenuItem>) }
+                { permittedRegions.map((region) => <MenuItem key={region} value={region}>{region}</MenuItem>) }
               </Select>
             </FormControl>
             <FormControl sx={{ m: 1, minWidth: 150 }} error={!isValid("country")}>
@@ -127,7 +124,7 @@
                 label="Country"
                 onChange={handleChangeOfCountry}
               >
-                { allowedCountries.map((country) => <MenuItem key={country} value={country}>{country}</MenuItem>) }
+                { permittedCountries.map((country) => <MenuItem key={country} value={country}>{country}</MenuItem>) }
               </Select>
             </FormControl>
             <FormControl sx={{ m: 1, minWidth: 150 }} error={!isValid("city")}>
@@ -139,7 +136,7 @@
                 label="City"
                 onChange={handleChangeOfCity}
               >
-                { allowedCities.map((city) => <MenuItem key={city} value={city}>{city}</MenuItem>) }
+                { permittedCities.map((city) => <MenuItem key={city} value={city}>{city}</MenuItem>) }
               </Select>
             </FormControl>
             <Button sx={{ m: 2, minWidth: 100 }} variant="contained" onClick={saveLocation}>Save</Button>
@@ -151,7 +148,6 @@
       const root = ReactDOM.createRoot(document.getElementById('root'));
       root.render(
         <ThemeProvider theme={theme}>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
           <App />
         </ThemeProvider>,

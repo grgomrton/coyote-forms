@@ -27,14 +27,14 @@ public class CoyoteFormsValidator<T> {
         }
     }
 
-    public List<ValidationFailure> validate(T input) {
-        Map<String, String> inputKeyValuePairs = connector.collectInputValues(input);
+    public List<ValidationFailure> validate(T inputValues) {
+        Map<String, String> inputKeyValuePairs = connector.collectInputValues(inputValues);
         return engine.validateInput(inputKeyValuePairs);
     }
 
-    public List<String> queryAllowedValues(String inputId, T inputValues) {
+    public List<String> queryValidValueSet(String inputId, T inputValues) {
         Map<String, String> inputKeyValuePairs = connector.collectInputValues(inputValues);
-        return engine.queryAllowedValues(inputId, inputKeyValuePairs);
+        return engine.queryValidValueSet(inputId, inputKeyValuePairs);
     }
 
 }

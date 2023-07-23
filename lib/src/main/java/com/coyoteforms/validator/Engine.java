@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 // note: the engine code is something we need to implement in javascript too,
-// it is important to stick with language tools that exists in both Java and javascript.
+// it is important to stick with language constructs that exist both in java and javascript.
 class Engine {
 
     private List<Rule> constraints;
@@ -15,7 +15,7 @@ class Engine {
         this.conditionEvaluator = new ConditionEvaluator();
     }
 
-    List<String> queryAllowedValues(String inputId, Map<String, String> inputValues) {
+    List<String> queryValidValueSet(String inputId, Map<String, String> inputValues) {
         return constraints.stream()
                 .filter(rule -> Optional.ofNullable(rule.getInputIds()).orElseGet(List::of).contains(inputId))
                 .filter(rule -> allConditionMatches(rule, inputValues))
@@ -34,7 +34,7 @@ class Engine {
         return inputValues.entrySet()
                 .stream()
                 .filter(inputEntry ->
-                        !queryAllowedValues(inputEntry.getKey(), inputValues).stream()
+                        !queryValidValueSet(inputEntry.getKey(), inputValues).stream()
                                 .anyMatch(item -> inputEntry.getValue().matches(item)))
                 .map(Map.Entry::getKey)
                 .flatMap(inputId -> collectHelperTexts(inputId).stream()
