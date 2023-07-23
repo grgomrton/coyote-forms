@@ -63,7 +63,7 @@ function TriangleForm() {
 
         <Button sx={{ m: 2, minWidth: 100 }} variant="contained" onClick={saveLocation}>Save</Button>
 
-        <Link href="TriangleFormRuleSet.json" target="blank" rel="noopener">Show ruleset</Link> (*)
+        <Link href="http://localhost:8080/TriangleFormRuleSet.json" target="blank" rel="noopener">Show ruleset</Link> (*)
         <br />
         <Typography sx={{ m: 2 }} variant="subtitle1">
             * Part of the validation takes place using javax validation on the backend. See readme for details

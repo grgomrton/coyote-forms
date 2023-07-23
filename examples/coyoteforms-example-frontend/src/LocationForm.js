@@ -92,7 +92,7 @@ function LocationForm() {
         </FormControl>
 
         <Button sx={{ m: 2, minWidth: 100 }} variant="contained" onClick={saveLocation}>Save</Button>
-        <Link href="LocationFormRuleSet.json" target="blank" rel="noopener">Show ruleset</Link>
+        <Link href="http://localhost:8080/LocationFormRuleSet.json" target="blank" rel="noopener">Show ruleset</Link>
       </div>
     );
  }
