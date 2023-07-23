@@ -32,9 +32,9 @@ public class CoyoteFormsValidator<T> {
         return engine.validateInput(inputKeyValuePairs);
     }
 
-    public List<String> queryValidValueSet(String inputId, T inputValues) {
+    public List<String> queryValidValues(String inputId, T inputValues) {
         Map<String, String> inputKeyValuePairs = connector.collectInputValues(inputValues);
-        return engine.queryValidValueSet(inputId, inputKeyValuePairs);
+        return engine.queryValidValues(inputId, inputKeyValuePairs);
     }
 
 }

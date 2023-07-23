@@ -155,7 +155,7 @@ public class EngineCustomInputTest {
                 "angle1", "30", "angle2", "60", "angle3", "90",
                 "angle1IsPositive", "true", "angle2IsPositive", "true", "angle3IsPositive", "true");
 
-        List<String> allowedValuesAngle1 = engine.queryValidValueSet("angle1", inputValues);
+        List<String> allowedValuesAngle1 = engine.queryValidValues("angle1", inputValues);
 
         assertThat(allowedValuesAngle1).containsExactlyInAnyOrder(".+"); // fine by me :)
     }

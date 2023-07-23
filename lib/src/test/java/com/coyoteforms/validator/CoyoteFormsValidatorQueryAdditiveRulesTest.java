@@ -68,7 +68,7 @@ public class CoyoteFormsValidatorQueryAdditiveRulesTest {
     @ParameterizedTest
     @MethodSource("selectedCountries")
     public void validatorShouldCollectValidInput(SelectedCountriesDto selectedCountries, List<String> possibleDestinationCities) {
-        assertThat(validator.queryValidValueSet("city", selectedCountries)).containsExactlyInAnyOrderElementsOf(possibleDestinationCities);
+        assertThat(validator.queryValidValues("city", selectedCountries)).containsExactlyInAnyOrderElementsOf(possibleDestinationCities);
     }
 
     private static Stream<Arguments> selectedCountries() {
