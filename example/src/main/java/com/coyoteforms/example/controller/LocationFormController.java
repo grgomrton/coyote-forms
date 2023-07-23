@@ -23,7 +23,7 @@ public class LocationFormController {
     }
 
     @PostMapping(path = "/inputs/{inputId}/permitted-values")
-    public List<String> queryValidValueSet(@PathVariable String inputId, @RequestBody LocationDto inputValues) {
+    public List<String> queryValidValueSet(@PathVariable String inputId, @RequestBody LocationDto inputValues) { // here we don't validate - the form is in an intermediate state
         return validator.queryValidValueSet(inputId, inputValues);
     }
 
