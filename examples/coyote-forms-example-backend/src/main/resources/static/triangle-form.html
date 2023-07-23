@@ -50,73 +50,7 @@
         return (<div></div>);
       }
 
-      function App() {
-        const [alpha, setAlpha] = useState(0);
-        const [beta, setBeta] = useState(0);
-        const [gamma, setGamma] = useState(0);
-        const [alertConfiguration, setAlertConfiguration] = useState({ isOpen: false, success: false, errors: [] })
 
-        const collectInputValues = () => { return { "alpha": alpha, "beta": beta, "gamma": gamma } }
-
-        const isValid = (testedFieldId) =>
-            alertConfiguration.errors.filter((error) => error.fieldId === testedFieldId).length === 0;
-
-        const saveLocation = (event) => {
-          axios.post('http://localhost:8080/api/forms/triangle-form', collectInputValues())
-              .then((response) =>
-                  setAlertConfiguration({isOpen: true, success: true, errors: []}))
-              .catch((error) =>
-                  setAlertConfiguration({isOpen: false, success: false, errors: error.response.data.invalidFields }))
-        }
-
-        return (
-          <div>
-            <Box sx={{ p: 2, border: '1px solid primary.dark' }}  variant="button">
-              Examples:
-              <Link sx={{ m: 1 }} variant="button" href="/">Location</Link>
-              <Link sx={{ m: 1 }} variant="button" href="/triangle-form.html">Triangle</Link>
-            </Box>
-
-            <AlertBar {...alertConfiguration} />
-
-            <TextField
-                label="Alpha"
-                id="angle-alpha"
-                error={!isValid("alpha")}
-                value={alpha}
-                onChange={() => setAlpha(event.target.value)}
-                sx={{ m: 1, minWidth: 120 }}
-                inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-            />
-            <TextField
-                label="Beta"
-                id="angle-beta"
-                error={!isValid("beta")}
-                value={beta}
-                onChange={() => setBeta(event.target.value)}
-                sx={{ m: 1, minWidth: 120 }}
-                inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-            />
-            <TextField
-                label="Gamma"
-                id="angle-gamma"
-                error={!isValid("gamma")}
-                value={gamma}
-                onChange={() => setGamma(event.target.value)}
-                sx={{ m: 1, minWidth: 120 }}
-                inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-            />
-
-            <Button sx={{ m: 2, minWidth: 100 }} variant="contained" onClick={saveLocation}>Save</Button>
-
-            <Link href="TriangleFormRuleSet.json" target="blank" rel="noopener">Show ruleset</Link> (*)
-            <br />
-            <Typography sx={{ m: 2 }} variant="subtitle1">
-                * Part of the validation takes place using javax validation on the backend. See readme for details
-            </Typography>
-          </div>
-        );
-      }
 
       const root = ReactDOM.createRoot(document.getElementById('root'));
       root.render(
