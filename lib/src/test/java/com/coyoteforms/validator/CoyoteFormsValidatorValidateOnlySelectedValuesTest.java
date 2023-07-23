@@ -41,12 +41,12 @@ public class CoyoteFormsValidatorValidateOnlySelectedValuesTest {
 
     @BeforeAll
     public static void init() {
-        validator = new CoyoteFormsValidator<>(RULE_SET, new OnlySelectedValuesPassingConnector());
+        validator = new CoyoteFormsValidator<>(RULE_SET, new LocationConnector());
     }
 
     @Data
     @Builder
-    public static class LocationDto {
+    static class LocationDto {
 
         private String country;
 
@@ -54,7 +54,7 @@ public class CoyoteFormsValidatorValidateOnlySelectedValuesTest {
 
     }
 
-    public static class OnlySelectedValuesPassingConnector implements Connector<LocationDto> {
+    static class LocationConnector implements Connector<LocationDto> {
 
         @Override
         public Map<String, String> collectInputValues(LocationDto locationDto) {

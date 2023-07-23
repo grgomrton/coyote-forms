@@ -39,12 +39,12 @@ public class CoyoteFormValidatorValidateFullFormsTest {
 
     @BeforeAll
     public static void init() {
-        validator = new CoyoteFormsValidator<>(RULE_SET, new FullFormPassingConnector());
+        validator = new CoyoteFormsValidator<>(RULE_SET, new LocationConnector());
     }
 
     @Data
     @Builder
-    public static class LocationDto {
+    static class LocationDto {
 
         private String country;
 
@@ -52,14 +52,14 @@ public class CoyoteFormValidatorValidateFullFormsTest {
 
     }
 
-    public static class FullFormPassingConnector implements Connector<LocationDto> {
+    static class LocationConnector implements Connector<LocationDto> {
 
         @Override
         public Map<String, String> collectInputValues(LocationDto locationDto) {
             Map<String, String> result = new HashMap<>();
 
-            result.put("country", locationDto.country);
-            result.put("city", locationDto.city);
+            result.put("country", locationDto.getCountry() != null ? locationDto.getCountry() : "");
+            result.put("city", locationDto.getCity() != null ? locationDto.getCity() : "");
 
             return result;
         }
