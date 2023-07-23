@@ -29,13 +29,13 @@ public class CoyoteFormsValidatorCustomRelationshipTest {
             "    {" +
             "      \"inputIds\": [ \"startDate\" ]," +
             "      \"condition\": [ \"intervalBeginsEarliestTomorrow is true\", \"intervalLengthDays is 14\" ]," +
-            "      \"permittedValues\": [ \".*\" ]," +
+            "      \"permittedValues\": [ \".+\" ]," +
             "      \"helperText\": \"Interval must be two weeks long. Start date must be earliest tomorrow.\"" +
             "    }," +
             "    {" +
             "      \"inputIds\": [ \"endDate\" ]," +
             "      \"condition\": [ \"intervalLengthDays is 14\" ]," +
-            "      \"permittedValues\": [ \".*\" ]," +
+            "      \"permittedValues\": [ \".+\" ]," +
             "      \"helperText\": \"Interval must be two weeks long.\"" +
             "    }" +
             "  ]" +
@@ -126,6 +126,24 @@ public class CoyoteFormsValidatorCustomRelationshipTest {
                 .startDate(LocalDate.now().minusDays(3))
                 .endDate(LocalDate.now().plusDays(13))
                 .build();
+
+        List<ValidationFailure> validationFailures = validator.validate(interval);
+
+        assertThat(collectInputIds(validationFailures)).containsExactlyInAnyOrder("startDate", "endDate");
+        assertThat(collectHelperTexts("startDate", validationFailures))
+                .containsExactlyInAnyOrder("Interval must be two weeks long. Start date must be earliest tomorrow.");
+        assertThat(collectHelperTexts("endDate", validationFailures))
+                .containsExactlyInAnyOrder("Interval must be two weeks long.");
+    }
+
+    @Test
+    public void validatorShouldNotPermitValuesInCaseOfMissingInput() {
+        CoyoteFormValidator<Interval> validator = new CoyoteFormValidator<>(RULE_SET, new IntervalConnector());
+        Interval interval = Interval.builder()
+                .startDate(LocalDate.now().plusDays(15))
+                //.endDate(LocalDate.now().plusDays(13)) // connector will bind empty string to endDate
+                .build();
+        // intervalLengthDays will be left out
 
         List<ValidationFailure> validationFailures = validator.validate(interval);
 
