@@ -1,7 +1,7 @@
 package com.coyoteforms.example.controller;
 
 import com.coyoteforms.example.dto.LocationDto;
-import com.coyoteforms.validator.CoyoteFormValidator;
+import com.coyoteforms.validator.CoyoteFormsValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +15,10 @@ import java.util.List;
 @CrossOrigin(originPatterns = "http://localhost:[*]")
 public class LocationFormController {
 
-    private CoyoteFormValidator<LocationDto> validator;
+    private CoyoteFormsValidator<LocationDto> validator;
 
     @Autowired
-    public LocationFormController(CoyoteFormValidator<LocationDto> validator) {
+    public LocationFormController(CoyoteFormsValidator<LocationDto> validator) {
         this.validator = validator;
     }
 

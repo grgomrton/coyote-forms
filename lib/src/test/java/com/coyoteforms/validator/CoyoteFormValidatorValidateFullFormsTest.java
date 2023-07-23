@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 import static com.coyoteforms.validator.TestUtilities.collectInputIds;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CoyoteFormValidatorValidateFullFormTest {
+public class CoyoteFormValidatorValidateFullFormsTest {
 
     private static String RULE_SET = "  {" +
             "  \"constraints\": [" +
@@ -35,11 +35,11 @@ public class CoyoteFormValidatorValidateFullFormTest {
             "  ]" +
             "}";
 
-    private static CoyoteFormValidator<LocationDto> validator;
+    private static CoyoteFormsValidator<LocationDto> validator;
 
     @BeforeAll
     public static void init() {
-        validator = new CoyoteFormValidator<>(RULE_SET, new FullFormPassingConnector());
+        validator = new CoyoteFormsValidator<>(RULE_SET, new FullFormPassingConnector());
     }
 
     @Data

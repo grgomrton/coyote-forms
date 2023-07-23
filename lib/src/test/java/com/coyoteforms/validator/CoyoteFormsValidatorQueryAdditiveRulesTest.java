@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CoyoteFormValidatorQueryAdditiveRulesTest {
+public class CoyoteFormsValidatorQueryAdditiveRulesTest {
 
     private static String RULE_SET = "    {" +
             "      \"constraints\": [" +
@@ -36,11 +36,11 @@ public class CoyoteFormValidatorQueryAdditiveRulesTest {
             "      ]" +
             "    }";
 
-    private static CoyoteFormValidator<SelectedCountriesDto> validator;
+    private static CoyoteFormsValidator<SelectedCountriesDto> validator;
 
     @BeforeAll
     public static void init() {
-        validator = new CoyoteFormValidator<>(RULE_SET, new EveryValuePassingConnector());
+        validator = new CoyoteFormsValidator<>(RULE_SET, new EveryValuePassingConnector());
     }
 
     @Data

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 public class ConditionEvaluatorIsConditionTest {
 
@@ -50,5 +51,14 @@ public class ConditionEvaluatorIsConditionTest {
         assertThat(shouldBeIncluded).isTrue();
     }
 
+    @Test
+    public void conditionWithoutExpectedValueShouldThrow() {
+        assertThatIllegalArgumentException().isThrownBy(() -> conditionEvaluator.shouldBeIncluded("a is ", Map.of()));
+    }
+
+    @Test
+    public void conditionWithoutOperandShouldThrow() {
+        assertThatIllegalArgumentException().isThrownBy(() -> conditionEvaluator.shouldBeIncluded(" is c", Map.of()));
+    }
 
 }

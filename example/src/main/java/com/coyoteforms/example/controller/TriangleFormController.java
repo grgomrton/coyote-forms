@@ -1,8 +1,7 @@
 package com.coyoteforms.example.controller;
 
-import com.coyoteforms.example.dto.LocationDto;
 import com.coyoteforms.example.dto.TriangleDto;
-import com.coyoteforms.validator.CoyoteFormValidator;
+import com.coyoteforms.validator.CoyoteFormsValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +14,10 @@ import javax.validation.Valid;
 @CrossOrigin(originPatterns = "http://localhost:[*]")
 public class TriangleFormController {
 
-    private CoyoteFormValidator<TriangleDto> validator;
+    private CoyoteFormsValidator<TriangleDto> validator;
 
     @Autowired
-    public TriangleFormController(CoyoteFormValidator<TriangleDto> validator) {
+    public TriangleFormController(CoyoteFormsValidator<TriangleDto> validator) {
         this.validator = validator;
     }
 

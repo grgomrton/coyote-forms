@@ -15,7 +15,7 @@ import static com.coyoteforms.validator.TestUtilities.collectHelperTexts;
 import static com.coyoteforms.validator.TestUtilities.collectInputIds;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CoyoteFormValidatorComplexDateConstraintsTest {
+public class CoyoteFormsValidatorComplexDateConstraintsTest {
 
     private static String RULE_SET = "{" +
             "  \"constraints\": [" +
@@ -60,13 +60,13 @@ public class CoyoteFormValidatorComplexDateConstraintsTest {
 
     private static IntervalConnector connector;
 
-    private static CoyoteFormValidator<Interval> validator;
+    private static CoyoteFormsValidator<Interval> validator;
 
     @BeforeAll
     public static void init() {
         NOW = Clock.fixed(Instant.parse("2023-07-21T12:00:00.00Z"), ZoneId.of("UTC"));
         connector = new IntervalConnector(NOW);
-        validator = new CoyoteFormValidator<>(RULE_SET, connector);
+        validator = new CoyoteFormsValidator<>(RULE_SET, connector);
     }
 
     @Data

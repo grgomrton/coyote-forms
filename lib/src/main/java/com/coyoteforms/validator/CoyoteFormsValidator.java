@@ -5,15 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-public class CoyoteFormValidator<T> {
+public class CoyoteFormsValidator<T> {
 
     private Engine engine;
 
     private Connector<T> connector;
 
-    public CoyoteFormValidator(String ruleSet, Connector<T> connector) {
+    public CoyoteFormsValidator(String ruleSet, Connector<T> connector) {
         RuleSet deserializedRuleSet = parseRuleSet(ruleSet);
         this.engine = new Engine(deserializedRuleSet.getConstraints());
         this.connector = connector;

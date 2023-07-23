@@ -1,7 +1,7 @@
 package com.coyoteforms.example.validation;
 
 import com.coyoteforms.example.dto.TriangleDto;
-import com.coyoteforms.validator.CoyoteFormValidator;
+import com.coyoteforms.validator.CoyoteFormsValidator;
 import com.coyoteforms.validator.ValidationFailure;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -11,10 +11,10 @@ import java.util.List;
 
 public class TriangleDtoValidator implements ConstraintValidator<ValidTriangle, TriangleDto> {
 
-    private CoyoteFormValidator<TriangleDto> validator;
+    private CoyoteFormsValidator<TriangleDto> validator;
 
     @Autowired
-    public TriangleDtoValidator(CoyoteFormValidator<TriangleDto> validator) {
+    public TriangleDtoValidator(CoyoteFormsValidator<TriangleDto> validator) {
         this.validator = validator;
     }
 
