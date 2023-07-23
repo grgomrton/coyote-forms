@@ -1,7 +1,7 @@
 package com.coyoteforms.example.validation;
 
 import com.coyoteforms.example.dto.LocationDto;
-import com.coyoteforms.validator.CoyoteFormValidator;
+import com.coyoteforms.validator.CoyoteFormsValidator;
 import com.coyoteforms.validator.ValidationFailure;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -11,10 +11,10 @@ import java.util.List;
 
 public class LocationDtoValidator implements ConstraintValidator<ValidLocation, LocationDto> {
 
-    private CoyoteFormValidator<LocationDto> validator;
+    private CoyoteFormsValidator<LocationDto> validator;
 
     @Autowired
-    public LocationDtoValidator(CoyoteFormValidator<LocationDto> validator) {
+    public LocationDtoValidator(CoyoteFormsValidator<LocationDto> validator) {
         this.validator = validator;
     }
 

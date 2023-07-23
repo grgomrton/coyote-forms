@@ -15,7 +15,7 @@ import static com.coyoteforms.validator.TestUtilities.collectHelperTexts;
 import static com.coyoteforms.validator.TestUtilities.collectInputIds;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CoyoteFormValidatorComplexDateConstraintsTest {
+public class CoyoteFormsValidatorComplexDateConstraintsTest {
 
     private static String RULE_SET = "{" +
             "  \"constraints\": [" +
@@ -56,17 +56,17 @@ public class CoyoteFormValidatorComplexDateConstraintsTest {
             "  ]" +
             "}";
 
-    private static Clock NOW;
+    private static Clock now;
 
     private static IntervalConnector connector;
 
-    private static CoyoteFormValidator<Interval> validator;
+    private static CoyoteFormsValidator<Interval> validator;
 
     @BeforeAll
     public static void init() {
-        NOW = Clock.fixed(Instant.parse("2023-07-21T12:00:00.00Z"), ZoneId.of("UTC"));
-        connector = new IntervalConnector(NOW);
-        validator = new CoyoteFormValidator<>(RULE_SET, connector);
+        now = Clock.fixed(Instant.parse("2023-07-21T12:00:00.00Z"), ZoneId.of("UTC"));
+        connector = new IntervalConnector(now);
+        validator = new CoyoteFormsValidator<>(RULE_SET, connector);
     }
 
     @Data
@@ -174,11 +174,11 @@ public class CoyoteFormValidatorComplexDateConstraintsTest {
 
 
     private static void assertThatHelperTextContainsBothValueOnce(String inputId, List<ValidationFailure> validationResult) {
-        List<ValidationFailure> inputFailures = validationResult.stream()
+        List<ValidationFailure> failuresOfInput = validationResult.stream()
                 .filter(item -> inputId.equals(item.getInputId()))
                 .collect(Collectors.toList());
-        assertThat(inputFailures.size()).isEqualTo(2);
-        assertThat(collectHelperTexts(inputId, inputFailures))
+        assertThat(failuresOfInput.size()).isEqualTo(2);
+        assertThat(collectHelperTexts(inputId, failuresOfInput))
                 .containsExactlyInAnyOrder(
                         "Up to 3 days the notification period is one week",
                         "More than 3 days leave must be entered two weeks prior"

@@ -37,7 +37,7 @@ public class EngineTwoLevelQueryTests {
     public void engineShouldIncludeValuesOfAlwaysPermittedInput() {
         Map<String, String> noSelection = Map.of();
 
-        List<String> permittedValues = engine.queryAllowedValues("country", noSelection);
+        List<String> permittedValues = engine.queryValidValues("country", noSelection);
 
         assertThat(permittedValues).containsExactlyInAnyOrder("United Kingdom", "Hungary");
     }
@@ -46,7 +46,7 @@ public class EngineTwoLevelQueryTests {
     public void engineShouldIncludeValuesOfSelectedFirstLevelInput() {
         Map<String, String> hungarySelected = Map.of("country", "Hungary");
 
-        List<String> permittedValues = engine.queryAllowedValues("city", hungarySelected);
+        List<String> permittedValues = engine.queryValidValues("city", hungarySelected);
 
         assertThat(permittedValues).containsExactlyInAnyOrder("Budapest", "Sopron");
     }
@@ -55,7 +55,7 @@ public class EngineTwoLevelQueryTests {
     public void engineShouldNotIncludeSecondLevelValuesIfInvalidReceivedInFirstLevelInput() {
         Map<String, String> invalidCountryReceived = Map.of("country", "France");
 
-        List<String> permittedValues = engine.queryAllowedValues("city", invalidCountryReceived);
+        List<String> permittedValues = engine.queryValidValues("city", invalidCountryReceived);
 
         assertThat(permittedValues).isEmpty();
     }

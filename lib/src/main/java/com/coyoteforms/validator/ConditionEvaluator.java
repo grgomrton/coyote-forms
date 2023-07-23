@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 class ConditionEvaluator {
 
-    private static Pattern IS_CONDITION_PATTERN = Pattern.compile("^(?<inputId>[a-zA-Z][a-zA-Z0-9]*) is (?<expectedInputValue>.*)$");
+    private static Pattern IS_CONDITION_PATTERN = Pattern.compile("^(?<inputId>[a-zA-Z][a-zA-Z0-9]*) is (?<expectedInputValue>.+)$");
     private static Pattern ALWAYS_PATTERN = Pattern.compile("always");
 
     boolean shouldBeIncluded(String condition, Map<String, String> inputValues) {

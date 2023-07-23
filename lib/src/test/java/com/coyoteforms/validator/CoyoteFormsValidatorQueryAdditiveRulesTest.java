@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CoyoteFormValidatorQueryAdditiveRulesTest {
+public class CoyoteFormsValidatorQueryAdditiveRulesTest {
 
     private static String RULE_SET = "    {" +
             "      \"constraints\": [" +
@@ -36,16 +36,16 @@ public class CoyoteFormValidatorQueryAdditiveRulesTest {
             "      ]" +
             "    }";
 
-    private static CoyoteFormValidator<SelectedCountriesDto> validator;
+    private static CoyoteFormsValidator<SelectedCountriesDto> validator;
 
     @BeforeAll
     public static void init() {
-        validator = new CoyoteFormValidator<>(RULE_SET, new EveryValuePassingConnector());
+        validator = new CoyoteFormsValidator<>(RULE_SET, new EveryValuePassingConnector());
     }
 
     @Data
     @Builder
-    public static class SelectedCountriesDto {
+    static class SelectedCountriesDto {
 
         private List<String> selectedCountryNames;
 
@@ -68,7 +68,7 @@ public class CoyoteFormValidatorQueryAdditiveRulesTest {
     @ParameterizedTest
     @MethodSource("selectedCountries")
     public void validatorShouldCollectValidInput(SelectedCountriesDto selectedCountries, List<String> possibleDestinationCities) {
-        assertThat(validator.queryAllowedValues("city", selectedCountries)).containsExactlyInAnyOrderElementsOf(possibleDestinationCities);
+        assertThat(validator.queryValidValues("city", selectedCountries)).containsExactlyInAnyOrderElementsOf(possibleDestinationCities);
     }
 
     private static Stream<Arguments> selectedCountries() {

@@ -10,12 +10,12 @@ import javax.validation.constraints.Min;
 public class TriangleDto {
 
     @Min(1)
-    private Integer alpha;
+    private int alpha;
 
     @Min(1)
-    private Integer beta;
+    private int beta;
 
     @Min(1)
-    private Integer gamma;
+    private int gamma;
 
 }
