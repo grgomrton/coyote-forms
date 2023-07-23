@@ -8,8 +8,8 @@ import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Link from '@mui/material/Link';
-import Box from '@mui/material/Box';
 import AlertBar from './AlertBar.js';
+import Header from './Header.js';
 
 function App() {
     const [permittedRegions, setPermittedRegions] = useState([]);
@@ -55,13 +55,9 @@ function App() {
 
     return (
       <div>
-        <Box sx={{ p: 2, border: '1px solid primary.dark' }}  variant="button">
-          Examples:
-          <Link sx={{ m: 1 }} variant="button" href="/">Location</Link>
-          <Link sx={{ m: 1 }} variant="button" href="/triangle-form.html">Triangle</Link>
-        </Box>
-
+        <Header />
         <AlertBar {...alertConfiguration} />
+
         <FormControl sx={{ m: 1, minWidth: 150 }} error={!isValid("region")}>
           <InputLabel id="region-label">Region</InputLabel>
           <Select
