@@ -89,8 +89,14 @@ public class CoyoteFormsValidatorValidateAdditiveRulesTest {
 
     @ParameterizedTest
     @MethodSource("validSelections")
-    public void validatorShouldPassValidInput(SelectedCountriesAndCityDto selection) {
+    public void validatorShouldLetPassValidInput(SelectedCountriesAndCityDto selection) {
         assertThat(validator.validate(selection)).isEmpty();
+    }
+
+    @ParameterizedTest
+    @MethodSource("validQueries")
+    public void validatorShouldCollectValuesAdditiveRules(SelectedCountriesAndCityDto selection, List<String> validCities) {
+        assertThat(validator.queryAllowedValues("city", selection)).containsExactlyInAnyOrderElementsOf(validCities);
     }
 
     private static Stream<Arguments> invalidSelections() {
@@ -127,6 +133,23 @@ public class CoyoteFormsValidatorValidateAdditiveRulesTest {
                         .city("Berlin").build()
                 )
         );
+    }
+
+    private static Stream<Arguments> validQueries() {
+        return Stream.of(
+                Arguments.of(SelectedCountriesAndCityDto.builder()
+                        .selectedCountryNames(List.of("Germany"))
+                        .build(),
+                        List.of("Munich", "Berlin", "Hamburg")),
+                Arguments.of(SelectedCountriesAndCityDto.builder()
+                        .selectedCountryNames(List.of("France"))
+                        .build(),
+                        List.of("Paris", "Marseilles")),
+                Arguments.of(SelectedCountriesAndCityDto.builder()
+                                .selectedCountryNames(List.of("France", "Germany"))
+                                .build(),
+                        List.of("Paris", "Marseilles", "Munich", "Berlin", "Hamburg"))
+                );
     }
 
 }
