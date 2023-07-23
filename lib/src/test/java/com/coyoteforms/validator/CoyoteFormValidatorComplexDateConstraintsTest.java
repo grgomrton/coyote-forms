@@ -32,25 +32,25 @@ public class CoyoteFormValidatorComplexDateConstraintsTest {
             "    {" +
             "      \"inputIds\": [ \"startDate\", \"endDate\" ]," +
             "      \"condition\": [ \"intervalLength is 1\", \"daysInAdvanceAtLeastOneWeek is true\", \"endDateIsAfterStart is true\" ]," +
-            "      \"permittedValues\": [ \".*\" ]," +
+            "      \"permittedValues\": [ \".+\" ]," +
             "      \"helperText\": \"Up to 3 days the notification period is one week\"" +
             "    }," +
             "    {" +
             "      \"inputIds\": [ \"startDate\", \"endDate\" ]," +
             "      \"condition\": [ \"intervalLength is 2\", \"daysInAdvanceAtLeastOneWeek is true\", \"endDateIsAfterStart is true\" ]," +
-            "      \"permittedValues\": [ \".*\" ]," +
+            "      \"permittedValues\": [ \".+\" ]," +
             "      \"helperText\": \"Up to 3 days the notification period is one week\"" +
             "    }," +
             "  {" +
             "      \"inputIds\": [ \"startDate\", \"endDate\" ]," +
             "      \"condition\": [ \"intervalLength is 3\", \"daysInAdvanceAtLeastOneWeek is true\", \"endDateIsAfterStart is true\" ]," +
-            "      \"permittedValues\": [ \".*\" ]," +
+            "      \"permittedValues\": [ \".+\" ]," +
             "      \"helperText\": \"Up to 3 days the notification period is one week\"" +
             "    }," +
             "  {" +
             "      \"inputIds\": [ \"startDate\", \"endDate\" ]," +
             "      \"condition\": [ \"intervalLengthIsMoreThan3Days is true\", \"daysInAdvanceAtLeasTwoWeeks is true\", \"endDateIsAfterStart is true\" ]," +
-            "      \"permittedValues\": [ \".*\" ]," +
+            "      \"permittedValues\": [ \".+\" ]," +
             "      \"helperText\": \"More than 3 days leave must be entered two weeks prior\"" +
             "    }" +
             "  ]" +

@@ -8,17 +8,17 @@
     {
       "inputIds": [ "alpha" ],
       "condition": [ "sumOfAngles is 180" ],
-      "permittedValues": [ ".*" ]
+      "permittedValues": [ ".+" ]
     },
     {
       "inputIds": [ "beta" ],
       "condition": [ "sumOfAngles is 180" ],
-      "permittedValues": [ ".*" ]
+      "permittedValues": [ ".+" ]
     },
     {
       "inputIds": [ "gamma" ],
       "condition": [ "sumOfAngles is 180" ],
-      "permittedValues": [ ".*" ]
+      "permittedValues": [ ".+" ]
     }
   ]
 }

@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import static com.coyoteforms.validator.TestUtilities.collectHelperTexts;
 import static com.coyoteforms.validator.TestUtilities.collectInputIds;
@@ -23,19 +22,19 @@ public class EngineCustomInputTest {
                             Rule.builder()
                                     .inputIds(List.of("angle1"))
                                     .condition(List.of("sumOfAnglesIs180 is true"))
-                                    .permittedValues(List.of(".*"))
+                                    .permittedValues(List.of(".+"))
                                     .helperText("The sum of the angles must be 180")
                                     .build(),
                             Rule.builder()
                                     .inputIds(List.of("angle2"))
                                     .condition(List.of("sumOfAnglesIs180 is true"))
-                                    .permittedValues(List.of(".*"))
+                                    .permittedValues(List.of(".+"))
                                     .helperText("The sum of the angles must be 180")
                                     .build(),
                             Rule.builder()
                                     .inputIds(List.of("angle3"))
                                     .condition(List.of("sumOfAnglesIs180 is true"))
-                                    .permittedValues(List.of(".*"))
+                                    .permittedValues(List.of(".+"))
                                     .helperText("The sum of the angles must be 180")
                                     .build()
                     )
@@ -67,19 +66,19 @@ public class EngineCustomInputTest {
                             Rule.builder()
                                     .inputIds(List.of("angle1"))
                                     .condition(List.of("angle1IsPositive is true", "sumOfAnglesIs180 is true"))
-                                    .permittedValues(List.of(".*"))
+                                    .permittedValues(List.of(".+"))
                                     .helperText("Angle must be positive and sum of the angles must be 180")
                                     .build(),
                             Rule.builder()
                                     .inputIds(List.of("angle2"))
                                     .condition(List.of("angle2IsPositive is true", "sumOfAnglesIs180 is true"))
-                                    .permittedValues(List.of(".*"))
+                                    .permittedValues(List.of(".+"))
                                     .helperText("Angle must be positive and sum of the angles must be 180")
                                     .build(),
                             Rule.builder()
                                     .inputIds(List.of("angle3"))
                                     .condition(List.of("angle3IsPositive is true", "sumOfAnglesIs180 is true"))
-                                    .permittedValues(List.of(".*"))
+                                    .permittedValues(List.of(".+"))
                                     .helperText("Angle must be positive and sum of the angles must be 180")
                                     .build()
                     )
@@ -158,7 +157,7 @@ public class EngineCustomInputTest {
 
         List<String> allowedValuesAngle1 = engine.queryAllowedValues("angle1", inputValues);
 
-        assertThat(allowedValuesAngle1).containsExactlyInAnyOrder(".*"); // fine by me :)
+        assertThat(allowedValuesAngle1).containsExactlyInAnyOrder(".+"); // fine by me :)
     }
 
 }
