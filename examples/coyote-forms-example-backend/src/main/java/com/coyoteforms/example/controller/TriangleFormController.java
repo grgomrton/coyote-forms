@@ -14,13 +14,6 @@ import javax.validation.Valid;
 @CrossOrigin(originPatterns = "http://localhost:[*]")
 public class TriangleFormController {
 
-    private CoyoteFormsValidator<TriangleDto> validator;
-
-    @Autowired
-    public TriangleFormController(CoyoteFormsValidator<TriangleDto> validator) {
-        this.validator = validator;
-    }
-
     @PostMapping
     public ResponseEntity<?> save(@Valid @RequestBody TriangleDto triangle) {
         return ResponseEntity.status(HttpStatus.CREATED).build();
