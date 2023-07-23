@@ -41,7 +41,7 @@ public class CoyoteFormsValidatorCustomRelationshipTest {
             "  ]" +
             " }";
 
-    public static class IntervalConnector implements Connector<Interval> {
+    static class IntervalConnector implements Connector<Interval> {
 
         @Override
         public Map<String, String> collectInputValues(Interval interval) {
@@ -66,7 +66,7 @@ public class CoyoteFormsValidatorCustomRelationshipTest {
 
     @Builder
     @Data
-    public static class Interval {
+    static class Interval {
 
         LocalDate startDate;
 

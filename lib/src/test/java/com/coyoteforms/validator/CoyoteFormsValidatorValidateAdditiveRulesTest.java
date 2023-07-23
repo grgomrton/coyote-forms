@@ -10,6 +10,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import static com.coyoteforms.validator.TestUtilities.collectInputIds;
@@ -51,7 +52,7 @@ public class CoyoteFormsValidatorValidateAdditiveRulesTest {
 
     @Data
     @Builder
-    public static class SelectedCountriesAndCityDto {
+    static class SelectedCountriesAndCityDto {
 
         private List<String> selectedCountryNames;
 
@@ -59,17 +60,22 @@ public class CoyoteFormsValidatorValidateAdditiveRulesTest {
 
     }
 
-    public static class EveryValuePassingConnector implements Connector<SelectedCountriesAndCityDto> {
+    static class EveryValuePassingConnector implements Connector<SelectedCountriesAndCityDto> {
 
         @Override
         public Map<String, String> collectInputValues(SelectedCountriesAndCityDto selectedCountriesAndCityDto) {
             Map<String, String> result = new HashMap<>();
-            List<String> selectedCountryNames = selectedCountriesAndCityDto.getSelectedCountryNames();
 
-            result.put("franceCheckbox", selectedCountryNames.contains("France") ? "checked" : "unchecked");
-            result.put("germanyCheckbox", selectedCountryNames.contains("Germany") ? "checked" : "unchecked");
+            result.put("city", selectedCountriesAndCityDto.getCity() != null ? selectedCountriesAndCityDto.getCity() : "");
 
-            result.put("city", selectedCountriesAndCityDto.getCity());
+            result.put("franceCheckbox",
+                    Optional.ofNullable(selectedCountriesAndCityDto.getSelectedCountryNames())
+                            .orElseGet(List::of)
+                            .contains("France") ? "checked" : "unchecked");
+            result.put("germanyCheckbox",
+                    Optional.ofNullable(selectedCountriesAndCityDto.getSelectedCountryNames())
+                            .orElseGet(List::of)
+                            .contains("Germany") ? "checked" : "unchecked");
 
             return result;
         }

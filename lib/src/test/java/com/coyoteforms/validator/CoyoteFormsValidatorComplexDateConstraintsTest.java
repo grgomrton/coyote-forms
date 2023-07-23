@@ -56,7 +56,7 @@ public class CoyoteFormsValidatorComplexDateConstraintsTest {
             "  ]" +
             "}";
 
-    private static Clock NOW;
+    private static Clock now;
 
     private static IntervalConnector connector;
 
@@ -64,8 +64,8 @@ public class CoyoteFormsValidatorComplexDateConstraintsTest {
 
     @BeforeAll
     public static void init() {
-        NOW = Clock.fixed(Instant.parse("2023-07-21T12:00:00.00Z"), ZoneId.of("UTC"));
-        connector = new IntervalConnector(NOW);
+        now = Clock.fixed(Instant.parse("2023-07-21T12:00:00.00Z"), ZoneId.of("UTC"));
+        connector = new IntervalConnector(now);
         validator = new CoyoteFormsValidator<>(RULE_SET, connector);
     }
 
@@ -174,11 +174,11 @@ public class CoyoteFormsValidatorComplexDateConstraintsTest {
 
 
     private static void assertThatHelperTextContainsBothValueOnce(String inputId, List<ValidationFailure> validationResult) {
-        List<ValidationFailure> inputFailures = validationResult.stream()
+        List<ValidationFailure> failuresOfInput = validationResult.stream()
                 .filter(item -> inputId.equals(item.getInputId()))
                 .collect(Collectors.toList());
-        assertThat(inputFailures.size()).isEqualTo(2);
-        assertThat(collectHelperTexts(inputId, inputFailures))
+        assertThat(failuresOfInput.size()).isEqualTo(2);
+        assertThat(collectHelperTexts(inputId, failuresOfInput))
                 .containsExactlyInAnyOrder(
                         "Up to 3 days the notification period is one week",
                         "More than 3 days leave must be entered two weeks prior"

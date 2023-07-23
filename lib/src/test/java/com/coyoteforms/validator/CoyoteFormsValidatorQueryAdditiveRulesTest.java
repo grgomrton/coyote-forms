@@ -45,7 +45,7 @@ public class CoyoteFormsValidatorQueryAdditiveRulesTest {
 
     @Data
     @Builder
-    public static class SelectedCountriesDto {
+    static class SelectedCountriesDto {
 
         private List<String> selectedCountryNames;
 
