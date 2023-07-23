@@ -1,12 +1,8 @@
 import { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import axios from 'axios';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
 import Link from '@mui/material/Link';
 import AlertBar from './AlertBar';
 
@@ -19,14 +15,14 @@ function TriangleForm() {
     const collectInputValues = () => { return { "alpha": alpha, "beta": beta, "gamma": gamma } }
 
     const isValid = (testedFieldId) =>
-        alertConfiguration.errors.filter((error) => error.fieldId === testedFieldId).length === 0;
+        alertConfiguration?.errors?.filter((error) => error.fieldId === testedFieldId).length === 0;
 
     const saveLocation = (event) => {
       axios.post('http://localhost:8080/api/forms/triangle-form', collectInputValues())
           .then((response) =>
               setAlertConfiguration({isOpen: true, success: true, successMessage: "Triangle angles set", errors: []}))
           .catch((error) =>
-              setAlertConfiguration({isOpen: false, success: false, errors: error.response.data.invalidFields }))
+              setAlertConfiguration({isOpen: false, success: false, errors: error?.response?.data?.invalidFields }))
     }
 
     return (
