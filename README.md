@@ -10,7 +10,6 @@ Rules can be defined using similar syntax to:
 
 ```json
 {
-  ...
     {
       "inputIds": ["city"],
       "condition": [
@@ -19,7 +18,6 @@ Rules can be defined using similar syntax to:
       ],
       "permittedValues": [ "London" ]
     },
-  ...
 }
 ```
 
