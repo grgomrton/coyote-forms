@@ -1,6 +1,6 @@
 # Coyote Forms
 
-Coyote Forms is a cross-field input validator. It lets you create complex rule sets for your forms  using simple expressions and a couple of bindings.
+Coyote Forms is a cross-field input validator. It lets you create complex rule sets using simple expressions and a couple of bindings.
 
 ## Features
 
