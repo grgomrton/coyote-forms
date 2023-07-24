@@ -1,6 +1,6 @@
-# coyote-forms
+# Coyote Forms
 
-Coyote Forms cross-field input validator. It lets you create complex rule sets for your forms  using simple expressions and a couple of bindings.
+Coyote Forms is a cross-field input validator. It lets you create complex rule sets for your forms  using simple expressions and a couple of bindings.
 
 ## Features
 
@@ -58,7 +58,7 @@ For retrieving the values of a discrete value set input. And
 public List<ValidationFailure> validate(T inputValues)
 ```
 
-For validating the entire or part of the form.
+For validating the set of inputs.
 
 ## Examples
 
@@ -66,7 +66,7 @@ The project ships with three example project located in the examples folder. See
 
 ## Future
 
-First, I would like to make the 0.1 release. After that, the most beneficial next step would be to implement the validator 
+First, I would like to publish the 0.1 release. After that, the most beneficial next step would be to implement the validator 
 in javascript, and therefore make it possible to perform validation on the front-end using the same ruleset as used by the 
-backend. Faster response times, less load and less code duplication would be the benefit. And after that, we will see.
+backend. Faster response times, less load and less code duplication would be the benefit. After that, we will see.
 
