@@ -25,7 +25,7 @@ Which reads as `if region is EMEA and country is United Kingdom then city can be
 
 ### Easy integration
 
-Integration takes place by creating bindings from your pojo to the validator:
+Integration takes place by creating bindings between your pojo and the validator:
 
 ```java
 public class LocationDtoConnector implements Connector<LocationDto> {
@@ -50,13 +50,13 @@ The validator can be instantiated with a rule set and a connector. After instant
 public List<String> queryValidValues(String inputId, T inputValues)
 ```
 
-For retrieving the values of a discrete value set input. And
+For retrieving the possible values of a discrete value set input. And
 
 ```java
 public List<ValidationFailure> validate(T inputValues)
 ```
 
-For validating the set of inputs.
+For validating a set of inputs.
 
 ## Examples
 
@@ -64,7 +64,7 @@ The project ships with three example projects located in the examples folder. Se
 
 ## Future
 
-First, I would like to publish the 0.1 release. After that, the most beneficial next step would be to implement the validator 
+First, I would like to publish the 0.1 Release. After that, the most beneficial next step would be to implement the validator 
 in javascript, and therefore make it possible to perform validation on the frontend using the same ruleset as used by the 
 backend. Faster response times, less load and less code duplication would be the benefit. After that, we will see.
 
