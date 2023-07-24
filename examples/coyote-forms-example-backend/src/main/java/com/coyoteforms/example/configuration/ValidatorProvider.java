@@ -13,9 +13,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.InputStreamReader;
+import java.util.stream.Collectors;
 
 @Configuration
 public class ValidatorProvider {
@@ -31,21 +32,24 @@ public class ValidatorProvider {
 
     @Bean
     public CoyoteFormsValidator<LocationDto> getLocationValidator() throws IOException {
-        String ruleSet = Files.readString(Path.of(locationRuleSet.getURI()));
+        String ruleSet = new BufferedReader(new InputStreamReader(locationRuleSet.getInputStream())).lines()
+                .collect(Collectors.joining("\n"));
         Connector<LocationDto> connector = new LocationDtoConnector();
         return new CoyoteFormsValidator<>(ruleSet, connector);
     }
 
     @Bean
     public CoyoteFormsValidator<TriangleDto> getTriangleValidator() throws IOException {
-        String ruleSet = Files.readString(Path.of(triangleRuleSet.getURI()));
+        String ruleSet = new BufferedReader(new InputStreamReader(triangleRuleSet.getInputStream())).lines()
+                .collect(Collectors.joining("\n"));
         Connector<TriangleDto> connector = new TriangletoConnector();
         return new CoyoteFormsValidator<>(ruleSet, connector);
     }
 
     @Bean
     public CoyoteFormsValidator<DateIntervalDto> getDateIntervalValidator() throws IOException {
-        String ruleSet = Files.readString(Path.of(vacationRuleSet.getURI()));
+        String ruleSet = new BufferedReader(new InputStreamReader(vacationRuleSet.getInputStream())).lines()
+                .collect(Collectors.joining("\n"));
         Connector<DateIntervalDto> connector = new DateIntervalConnector();
         return new CoyoteFormsValidator<>(ruleSet, connector);
     }
