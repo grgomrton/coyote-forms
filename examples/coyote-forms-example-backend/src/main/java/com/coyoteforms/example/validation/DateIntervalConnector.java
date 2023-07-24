@@ -28,12 +28,16 @@ public class DateIntervalConnector implements Connector<DateIntervalDto> {
             }
         }
         if (interval.getStartDate() != null && interval.getEndDate() != null) {
-            long workDayCount = calculateWorkDaysCountBetween(interval.getStartDate(), interval.getEndDate());
-            inputValues.put("intervalLength", Long.toString(workDayCount));
-            if (workDayCount > 3) {
-                inputValues.put("intervalLengthIsMoreThan3Days", "true");
+            boolean endDateIsAfterStart = interval.getEndDate().isAfter(interval.getStartDate());
+            inputValues.put("endDateIsAfterStart", Boolean.toString(endDateIsAfterStart));
+
+            if (endDateIsAfterStart) {
+                long workDayCount = calculateWorkDaysCountBetween(interval.getStartDate(), interval.getEndDate());
+                inputValues.put("intervalLength", Long.toString(workDayCount));
+                if (workDayCount > 3) {
+                    inputValues.put("intervalLengthIsMoreThan3Days", "true");
+                }
             }
-            inputValues.put("endDateIsAfterStart", Boolean.toString(interval.getEndDate().isAfter(interval.getStartDate())));
         }
         return inputValues;
     }
