@@ -19,7 +19,7 @@ To build the frontend, execute from the project root:
 cd examples\coyote-forms-example-frontend
 npm install
 ```
-This will download necessary libraries and create a development build. To start the front-end, execute from the current folder:
+This will download necessary libraries and create a development build. To start the frontend, execute from the current folder:
 
 `npm start`
 
