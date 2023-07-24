@@ -3,12 +3,19 @@ package com.coyoteforms.example.validation;
 import com.coyoteforms.example.dto.DateIntervalDto;
 import com.coyoteforms.validator.Connector;
 
+import java.time.Clock;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
 public class DateIntervalConnector implements Connector<DateIntervalDto> {
+
+    private Clock clock;
+
+    public DateIntervalConnector() {
+        this.clock = Clock.systemUTC();
+    }
 
     @Override
     public Map<String, String> collectInputValues(DateIntervalDto interval) {
@@ -20,10 +27,10 @@ public class DateIntervalConnector implements Connector<DateIntervalDto> {
 
         // add the custom inputs to the map if it can be computed, otherwise leave it out
         if (interval.getStartDate() != null) {
-            if (LocalDate.now().plusDays(6).isBefore(interval.getStartDate())) {
+            if (LocalDate.now(clock).plusDays(6).isBefore(interval.getStartDate())) {
                 inputValues.put("daysInAdvanceAtLeastOneWeek", "true");
             }
-            if (LocalDate.now().plusDays(13).isBefore(interval.getStartDate())) {
+            if (LocalDate.now(clock).plusDays(13).isBefore(interval.getStartDate())) {
                 inputValues.put("daysInAdvanceAtLeasTwoWeeks", "true");
             }
         }
