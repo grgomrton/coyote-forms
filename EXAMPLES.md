@@ -30,8 +30,6 @@ The frontend server will listen on port 3000: [http://localhost:3000](http://loc
 The first example is a location selector, which performs the standard one selector defines the next one behavior.
 In this example it has a three-level depth.
 
-![image](https://github.com/grgomrton/coyote-forms/assets/5102071/7b789722-306c-46b6-bd2f-2e4273bde230)
-
 The listed values are defined only in the validator, the frontend acquires them through a rest endpoint.
 
 The most important thing is how the rules are defined.
