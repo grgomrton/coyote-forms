@@ -44,7 +44,6 @@ The most important thing is how the rules are defined.
             "condition": [ "always" ],
             "permittedValues": [ "Americas", "EMEA" ]
         },
-    ...
     ]
 }
 ```
@@ -56,13 +55,11 @@ The intermediate elements depend on the previous levels:
 ```json
 {
     "constraints": [
-    ...
         {
             "inputIds": ["country"],
             "condition": [ "region is Americas" ],
             "permittedValues": [ "U.S.A.", "Mexico" ]
         },
-    ...
     ]
 }
 ```
@@ -131,7 +128,6 @@ See the following rule definition:
       "condition": [ "always" ],
       "permittedValues": [ ".*" ]
     },
-   ...
   ]
 }
 ```
