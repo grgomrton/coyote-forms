@@ -201,7 +201,7 @@ public class TriangleDto {
 }
 ```
 
-This prevents entering negative values. In general, I think it is a good idea to use `javax` validation for single field validation.
+This prevents entering negative values.
 
 ## Example - Vacation
 
