@@ -65,6 +65,5 @@ The project ships with three example projects located in the examples folder. Se
 ## Future
 
 First, I would like to publish the 0.1 Release. After that, the most beneficial next step would be to implement the validator 
-in javascript, and therefore make it possible to perform validation on the frontend using the same ruleset as used by the 
-backend. Faster response times, less load and less code duplication would be the benefit. After that, we will see.
+in javascript, and therefore make it possible to perform validation on the frontend using the same ruleset. Faster response times, less load and less code duplication would be the benefit. After that, we will see.
 
