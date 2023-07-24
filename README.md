@@ -60,7 +60,7 @@ For validating the set of inputs.
 
 ## Examples
 
-The project ships with three example project located in the examples folder. See details in the [Examples](EXAMPLES.md) readme.
+The project ships with three example projects located in the examples folder. See details in the [Examples](EXAMPLES.md) readme.
 
 ## Future
 
