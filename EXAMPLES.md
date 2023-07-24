@@ -185,8 +185,8 @@ public class TriangletoConnector implements Connector<TriangleDto> {
 The custom input is filled with the result of the mathematical expression, which is evaluated by the java runtime.
 This way we can bind the results of complex expressions that are written in Java, and let the validator do the evaluation.
 
-Active listeners might notice that this validation can be hacked. Indeed if the user enters 100, 100, -20, that would also pass this evaluation.
-In this example, it is solved by using the very rich set of javax.validation on the pojo:
+Vigilant readers might notice that this validation can be hacked. Indeed if the user enters 100, 100, -20, that would also pass this evaluation.
+In this example, it is solved by using a javax.validation annotation on the pojo:
 
 ```java
 public class TriangleDto {
@@ -203,6 +203,121 @@ public class TriangleDto {
 }
 ```
 
-This prevents entering negative values. In general I think it could be a good idea to use javax validation
-for single variable validation, and keep the cross-field validation in CoyoteFormsValidator, but I let the end-user decide.
+This prevents entering negative values. In general, I think it is a good idea to use javax validation
+for single field validation, and keep the cross-field validation rules in coyote validator, but let the developer decide.
 
+## Example - Vacation
+
+
+The last example is the vacation form, where a vacation request is validated against the following rules:
+
+- Up to three days long vacation, the start date must be at least one week later
+- Over three days long vacation, the start date must be at least two week before
+
+This example is the most complex, but we already know everything needed. The rule set of the custom inputs is:
+
+```json
+    {
+      "inputIds": [
+        "intervalLength",
+        "intervalLengthIsMoreThan3Days",
+        "daysInAdvanceAtLeastOneWeek",
+        "daysInAdvanceAtLeasTwoWeeks",
+        "endDateIsAfterStart" ],
+      "condition": [ "always" ],
+      "permittedValues": [ ".*" ]
+    },
+```
+
+The only notable difference is that we can see how same constraint can be applied to multiple input ids - enumerate them in the inputIds field.
+
+The rest of the rule set is as follows:
+
+```json
+    {
+      "inputIds": [ "startDate", "endDate" ],
+      "condition": [ 
+          "intervalLength is 1", 
+          "daysInAdvanceAtLeastOneWeek is true", 
+          "endDateIsAfterStart is true" ],
+      "permittedValues": [ ".+" ],
+      "helperText": "INTERVAL_UP_TO_THREE_DAYS_RULE"
+    },
+    {
+      "inputIds": [ "startDate", "endDate" ],
+      "condition": [ 
+          "intervalLength is 2", 
+          "daysInAdvanceAtLeastOneWeek is true", 
+          "endDateIsAfterStart is true" ],
+      "permittedValues": [ ".+" ],
+      "helperText": "INTERVAL_UP_TO_THREE_DAYS_RULE"
+    },
+    {
+      "inputIds": [ "startDate", "endDate" ],
+      "condition": [ 
+          "intervalLength is 3", 
+          "daysInAdvanceAtLeastOneWeek is true", 
+          "endDateIsAfterStart is true" ],
+      "permittedValues": [ ".+" ],
+      "helperText": "INTERVAL_UP_TO_THREE_DAYS_RULE"
+    },
+    {
+      "inputIds": [ "startDate", "endDate" ],
+      "condition": [ 
+          "intervalLengthIsMoreThan3Days is true", 
+          "daysInAdvanceAtLeasTwoWeeks is true", 
+          "endDateIsAfterStart is true" ],
+      "permittedValues": [ ".+" ],
+      "helperText": "INTERVAL_MORE_THAN_THREE_DAYS_RULE"
+    }
+```
+
+Here, the `startDate` and `endDate` are also enumerated in the `inputIds` field.
+
+These rules read as follows: 
+
+`startDate is valid if intervalLength is 1 and daysInAdvanceAtLeastOneWeek is true and endDateIsAfterStart is true or if intervalLength is 2 and daysInAdvanceAtLeastOneWeek is true and endDateIsAfterStart is true or if ...`
+
+The validator will evaluate these possibilities and returns a list of validation failures if any.
+
+To make this work, of course the `Connector` must be implemented. Here is the extract of the `Connector<DateIntervalDto>`:
+
+```java
+    @Override
+    public Map<String, String> collectInputValues(DateIntervalDto interval) {
+        Map<String, String> inputValues = new HashMap<>();
+
+        // add field inputs to the map in order to be validated, use empty string if the value is not present
+        inputValues.put("startDate", interval.getStartDate() == null ? "" : interval.getStartDate().toString());
+        inputValues.put("endDate", interval.getEndDate() == null ? "" : interval.getEndDate().toString());
+
+        // add the custom inputs to the map if they can be computed, otherwise leave it out
+        if (interval.getStartDate() != null) {
+            if (LocalDate.now(clock).plusDays(6).isBefore(interval.getStartDate())) {
+                inputValues.put("daysInAdvanceAtLeastOneWeek", "true");
+            }
+            if (LocalDate.now(clock).plusDays(13).isBefore(interval.getStartDate())) {
+                inputValues.put("daysInAdvanceAtLeasTwoWeeks", "true");
+            }
+        }
+        if (interval.getStartDate() != null && interval.getEndDate() != null) {
+            boolean endDateIsAfterStart = interval.getEndDate().isAfter(interval.getStartDate());
+            inputValues.put("endDateIsAfterStart", Boolean.toString(endDateIsAfterStart));
+
+            if (endDateIsAfterStart) {
+                long workDayCount = calculateWorkDaysCountBetween(interval.getStartDate(), interval.getEndDate());
+                inputValues.put("intervalLength", Long.toString(workDayCount));
+                if (workDayCount > 3) {
+                    inputValues.put("intervalLengthIsMoreThan3Days", "true");
+                }
+            }
+        }
+        return inputValues;
+    }
+```
+
+Since this rule set has the most inputs, this connector will the biggest one.
+
+This sums up the examples in this project.
+
+Happy coding!
