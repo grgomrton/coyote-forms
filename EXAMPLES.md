@@ -111,7 +111,7 @@ Note: `@Valid` annotation to have this effect, needs additional plumbing which I
 
 # Example - Triangle
 
-The next example is about non-discrete field validation. The imagined form is intended to set angles of a triangle.
+The next example is about non-discrete field validation. The imagined form is intended to set the angles of a triangle.
 The angles must add up to 180.
 
 ## Custom inputs and regular expression matching
