@@ -23,17 +23,18 @@ This will download necessary libraries and create a development build. To start 
 
 `npm start`
 
-The front-end will listen on port 3000, open it at [http://localhost:3000](http://localhost:3000) .
+The frontend server will listen on port 3000: [http://localhost:3000](http://localhost:3000)
 
 ## First example - Location
 
-The first example is a location selector, which performs the standard one selector defines the next one behaviour. 
+The first example is a location selector, which performs the standard one selector defines the next one behavior.
 In this example it has a three-level depth.
 
-The field values are defined only in the validator, the frontend acquires them through a rest endpoint.
+![image](https://github.com/grgomrton/coyote-forms/assets/5102071/2ab8840b-a6ca-496d-ad83-6b54714a4cd2)
 
-The most important thing is the way the rules are defined. The first-level rule is defined with the "always" condition, meaning
-in all circumstances the following values are allowed.
+The listed values are defined only in the validator, the frontend acquires them through a rest endpoint.
+
+The most important thing is how the rules are defined.
 
 ```json
 {
@@ -48,7 +49,9 @@ in all circumstances the following values are allowed.
 }
 ```
 
-The intermediate elements always depend on the previous level:
+The first-level rule is defined with the "always" condition, meaning
+under all circumstances.
+The intermediate elements depend on the previous levels:
 
 ```json
 {
@@ -81,9 +84,9 @@ public class LocationDtoConnector implements Connector<LocationDto> {
 }
 ```
 
-It maps every input field to the corresponding input, if missing, then fills with empty string.
+It maps every input field to the corresponding input, if missing, it fills with empty string.
 
-This configuration is enough to instantiate a validator with the command
+This configuration is enough to instantiate a validator:
 
 ```java
 new CoyoteFormsValidator<>(ruleSet, connector);
@@ -106,6 +109,8 @@ public ResponseEntity<?> save(@Valid @RequestBody LocationDto location) {
 ```
 
 The save endpoint simply sends a `CREATED` status back, if the dto passes validation - see the `@Valid` annotation.
+
+Note: `@Valid` annotation to have this effect, needs additional plumbing which I don't explain in details, but working examples can be found in the example backend project.
 
 # Example - Triangle
 
