@@ -30,7 +30,7 @@ The frontend server will listen on port 3000: [http://localhost:3000](http://loc
 The first example is a location selector, which performs the standard one selector defines the next one behavior.
 In this example it has a three-level depth.
 
-![image](https://github.com/grgomrton/coyote-forms/assets/5102071/2ab8840b-a6ca-496d-ad83-6b54714a4cd2)
+![image](https://github.com/grgomrton/coyote-forms/assets/5102071/7b789722-306c-46b6-bd2f-2e4273bde230)
 
 The listed values are defined only in the validator, the frontend acquires them through a rest endpoint.
 
@@ -114,13 +114,13 @@ Note: `@Valid` annotation to have this effect, needs additional plumbing which I
 
 # Example - Triangle
 
-The next example is about non-discrete value field validation. The imagined form is intended to receive angles of a triangle.
+The next example is about non-discrete field validation. The imagined form is intended to set angles of a triangle.
 The angles must add up to 180.
 
 ## Custom inputs and regular expression matching
 
-The rule to be tested is whether the value of the three input fields add up to 180 degrees. In order to validate that, 
-we will define a custom input - an input that is not connected to any fields. 
+The rule to be tested is whether the sum of the three input fields equals 180. In order to validate that, 
+we will define a custom input - an input that is not connected directly to any fields. 
 See the following rule definition:
 
 ```json
@@ -136,13 +136,11 @@ See the following rule definition:
 }
 ```
 
-Also one might note the strange value in the permittedValues field. Although in the previous example it looked like simply 
+One might notice the strange value in the permittedValues field. Although in the previous example it looked like 
 text values are matched against each-other, in reality the values are matched with a regular expression matcher. For simple 
 texts it is the same, but there are a couple of special characters, that has special meaning. 
 This combination, dot star means any text, including empty text.
-Any characters of any amount.
-
-So this input is totally unbound always can be anything.
+Any amount of any characters.
 
 The use of this input becomes clear, once we see the rest of the rule set.
 
@@ -164,12 +162,12 @@ The use of this input becomes clear, once we see the rest of the rule set.
     }
 ```
 
-These lines mean `if sumOfAngles is 180 then alpha can be any at least one character long text`.
+These lines mean `if sumOfAngles is 180 then alpha can be any, at least one character long text`.
 Yes, the special characters dot plus means at least one character long text.
 
 This rule might be strange since we are talking about numbers, but for the validator everything is a text.
 
-The last element of the validation solution is the `Connector<TriangleDto>`:
+The last element of the solution is the `Connector<TriangleDto>`:
 
 ```java
 public class TriangletoConnector implements Connector<TriangleDto> {
@@ -187,11 +185,10 @@ public class TriangletoConnector implements Connector<TriangleDto> {
     }
 ```
 
-The custom input is filled with the result of the mathematical expression, which is evaluated by the java runtime.
-This way we can bind the results of complex expressions that are written in Java, and let the validator do the evaluation.
+The custom input is filled with the result of the mathematical expression. Using the `Connector`s we can bind the results of complex expressions to inputs, and let the validator evaluate them.
 
 Vigilant readers might notice that this validation can be hacked. Indeed if the user enters 100, 100, -20, that would also pass this evaluation.
-In this example, it is solved by using a javax.validation annotation on the pojo:
+In this example, it is solved by using a javax.validation annotation on the data transfer object:
 
 ```java
 public class TriangleDto {
@@ -208,18 +205,16 @@ public class TriangleDto {
 }
 ```
 
-This prevents entering negative values. In general, I think it is a good idea to use javax validation
-for single field validation, and keep the cross-field validation rules in coyote validator, but let the developer decide.
+This prevents entering negative values. In general, I think it is a good idea to use `javax` validation for single field validation.
 
 ## Example - Vacation
-
 
 The last example is the vacation form, where a vacation request is validated against the following rules:
 
 - Up to three days long vacation, the start date must be at least one week later
 - Over three days long vacation, the start date must be at least two week before
 
-This example is the most complex, but we already know everything needed. The rule set of the custom inputs is:
+This example is the most complex one. Let's start with the rule set. The set of the custom inputs is:
 
 ```json
     {
@@ -234,7 +229,7 @@ This example is the most complex, but we already know everything needed. The rul
     },
 ```
 
-The only notable difference is that we can see how same constraint can be applied to multiple input ids - enumerate them in the inputIds field.
+The only notable difference here is that we can see the same constraint applied to multiple inputs.
 
 The rest of the rule set is as follows:
 
@@ -276,8 +271,6 @@ The rest of the rule set is as follows:
       "helperText": "INTERVAL_MORE_THAN_THREE_DAYS_RULE"
     }
 ```
-
-Here, the `startDate` and `endDate` are also enumerated in the `inputIds` field.
 
 These rules read as follows: 
 
@@ -321,8 +314,8 @@ To make this work, of course the `Connector` must be implemented. Here is the ex
     }
 ```
 
-Since this rule set has the most inputs, this connector will the biggest one.
+Since this rule set has the most inputs, this connector will the longest one.
 
 This sums up the examples in this project.
 
-Happy coding!
+Thank you for reading, and happy coding!
