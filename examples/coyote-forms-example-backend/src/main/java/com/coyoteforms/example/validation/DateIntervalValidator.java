@@ -5,8 +5,8 @@ import com.coyoteforms.validator.CoyoteFormsValidator;
 import com.coyoteforms.validator.ValidationFailure;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import java.util.List;
 
 public class DateIntervalValidator implements ConstraintValidator<ValidInterval, DateIntervalDto> {
