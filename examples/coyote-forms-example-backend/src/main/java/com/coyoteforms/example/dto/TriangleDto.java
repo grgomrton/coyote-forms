@@ -3,7 +3,7 @@ package com.coyoteforms.example.dto;
 import com.coyoteforms.example.validation.ValidTriangle;
 import lombok.Data;
 
-import javax.validation.constraints.Min;
+import jakarta.validation.constraints.Min;
 
 @Data
 @ValidTriangle
