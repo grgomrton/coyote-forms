@@ -4,12 +4,13 @@
 
     <groupId>com.coyoteforms</groupId>
     <artifactId>coyote-forms</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.1.0</version>
     <packaging>pom</packaging>
 
     <scm>
         <developerConnection>scm:git:https://github.com/grgomrton/coyote-forms.git</developerConnection>
-    </scm>
+      <tag>coyote-forms-0.1.0</tag>
+  </scm>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
