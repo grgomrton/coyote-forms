@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    tags:
+      - 'create-release-*'
+
+jobs:
+  create_release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+        with:
+          ref: 'main'
+
+      - name: Install Java
+        uses: actions/setup-java@v5
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Set up git credentials
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create release commit and increment minor version
+        run: mvn --batch-mode release:prepare -f pom.xml
