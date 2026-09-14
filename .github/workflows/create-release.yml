@@ -9,14 +9,14 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Prepare environment - check out the repository
+      - name: Check out the repository
         uses: actions/checkout@v6
 
-      - name: Prepare environment - install Java
+      - name: Install Java
         uses: actions/setup-java@v5
         with:
           java-version: '11'
           distribution: 'temurin'
 
-      - name: Increment patch version
+      - name: Create release commit and increment minor version
         run: mvn --batch-mode release:prepare
