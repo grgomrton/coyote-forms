@@ -1,0 +1,22 @@
+on:
+  push:
+    tags:
+      - create-release-*
+
+jobs:
+  create_release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Prepare environment - check out the repository
+        uses: actions/checkout@v6
+
+      - name: Prepare environment - install Java
+        uses: actions/setup-java@v5
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+
+      - name: Increment patch version
+        run: mvn --batch-mode release:prepare
