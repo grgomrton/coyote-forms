@@ -20,5 +20,10 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Set up git credentials
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Create release commit and increment minor version
         run: mvn --batch-mode release:prepare -f pom.xml
